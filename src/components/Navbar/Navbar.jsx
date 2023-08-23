@@ -1,6 +1,6 @@
 import React from "react";
 import { NavbarLink } from "./Navbar.styles";
-import { SearchBar } from "../index";
+import { SearchBar, CurrencyToggle, ThemeToggle } from "../index";
 
 
 export default class Navbar extends React.Component {
@@ -10,6 +10,8 @@ export default class Navbar extends React.Component {
       <NavbarLink to="/">Coins</NavbarLink>
       <NavbarLink to="/portfolio">Portfolio</NavbarLink>
       <SearchBar />
+      <CurrencyToggle />
+      <ThemeToggle />
       </div>
     );
   }
