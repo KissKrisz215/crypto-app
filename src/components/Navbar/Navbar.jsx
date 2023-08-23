@@ -1,10 +1,15 @@
 import React from "react";
+import { NavbarLink } from "./Navbar.styles";
+import { SearchBar } from "../index";
+
 
 export default class Navbar extends React.Component {
   render() {
     return (
       <div>
-      <h1>Navbar</h1>
+      <NavbarLink to="/">Coins</NavbarLink>
+      <NavbarLink to="/portfolio">Portfolio</NavbarLink>
+      <SearchBar />
       </div>
     );
   }
