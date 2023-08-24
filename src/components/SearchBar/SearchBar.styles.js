@@ -6,8 +6,8 @@ export const SearchInput = styled.input`
   border-radius: 0.5rem;
   width: 100%;
   height: 50px;
-  min-width: 350px;
-  padding: 0 2.3rem;
+  min-width: 320px;
+  padding: 0.1rem 2.3rem;
   font-size: 17px;
   color: ${(props) => props.theme.defaultTextColor};
   &::placeholder {

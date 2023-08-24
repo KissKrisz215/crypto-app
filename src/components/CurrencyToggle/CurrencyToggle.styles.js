@@ -15,7 +15,7 @@ export const DropdownContainer = styled.div`
 export const DropdownMenu = styled.div`
   position: absolute;
   background-color: ${(props) => props.theme.navbarBrand};
-  padding: 0.3rem;
+  padding: 0.4rem;
   border-radius: 0.4rem;
   display: flex;
   flex-direction: column;
@@ -24,13 +24,14 @@ export const DropdownMenu = styled.div`
   left: 50%;
   transform: translateX(-50%);
   top: calc(100% + 0.7rem);
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px;
 `;
 
 export const DropdownItem = styled.div`
   transition: background 0.1s linear;
   display: flex;
   align-items: center;
-  padding: 0 1rem;
+  padding: 0 0.7rem;
   border-radius: 0.4rem;
   gap: 0.6rem;
   &:hover {
@@ -53,10 +54,13 @@ export const DropdownIcon = styled.div`
 `;
 
 export const DropdownHeader = styled.p`
-  font-size: 17px;
+  font-size: 16px;
   display: inline-flex;
   gap: 0.2rem;
   align-items: center;
+  span {
+    font-size: 14px;
+  }
 `;
 
 export const ActiveDropdown = styled.div`

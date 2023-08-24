@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ToggleContainer = styled.div`
   background-color: ${(props) => props.theme.navbarBrand};
-  padding: 0.6rem;
+  padding: 0.5rem;
   border-radius: 0.4rem;
   display: flex;
   align-items: center;

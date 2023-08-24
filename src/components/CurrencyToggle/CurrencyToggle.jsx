@@ -29,6 +29,11 @@ const currencies = [
   },
 ];
 export default class CurrencyToggle extends React.Component {
+  constructor(props) {
+    super(props);
+    this.dropdown = React.createRef();
+  }
+
   state = {
     isOpen: false,
     activeCurrency: currencies[0],
@@ -42,10 +47,20 @@ export default class CurrencyToggle extends React.Component {
     this.setState({ activeCurrency: currency });
   };
 
+  componentDidMount() {
+    document.addEventListener("click", this.handleClickOutside);
+  }
+
+  handleClickOutside = (event) => {
+    if (this.dropdown && !this.dropdown.current.contains(event.target)) {
+      this.setState({ isOpen: false });
+    }
+  };
+
   render() {
     return (
       <CurrencyToggleContainer onClick={this.handleToggle}>
-        <DropdownContainer>
+        <DropdownContainer ref={this.dropdown}>
           <ActiveDropdown>
             <DropdownIcon>{this.state.activeCurrency.symbol}</DropdownIcon>
             <DropdownHeader>
