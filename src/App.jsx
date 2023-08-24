@@ -13,6 +13,7 @@ const darkTheme = {
   navbarBrand: "#2C2F36",
   defaultTextColor: "#FFFFFF",
   icons: "invert(0%)",
+  themeIcon: "invert(100%)",
 };
 
 const lightTheme = {
@@ -22,6 +23,7 @@ const lightTheme = {
   navbarBrand: "rgb(247, 247, 247)",
   defaultTextColor: "#2C2F36",
   icons: "invert(100%)",
+  themeIcon: "invert(0%)",
 };
 
 class App extends React.Component {
