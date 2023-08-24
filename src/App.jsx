@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
-import { Home ,Coin, Portfolio } from "./pages/index";
+import { Home, Coin, Portfolio } from "./pages/index";
 import { GlobalStyle } from "./styles/GlobalStyle";
 import { Navbar } from "./components";
 import "./App.css";
@@ -11,21 +11,23 @@ const darkTheme = {
   secondary: "#1F2128",
   primary: "#FAFBFB",
   navbarBrand: "#2C2F36",
-  defaultTextColor: '#FFFFFF',
+  defaultTextColor: "#FFFFFF",
+  icons: "invert(0%)",
 };
 
 const lightTheme = {
   main: "#FFFFFF",
   secondary: "#FCFCFC",
   primary: "#2C2F36",
-  navbarBrand: "#FCFCFC",
-  defaultTextColor: "#2C2F36"
+  navbarBrand: "rgb(247, 247, 247)",
+  defaultTextColor: "#2C2F36",
+  icons: "invert(100%)",
 };
 
 class App extends React.Component {
   state = {
     theme: false,
-    active: 'home'
+    active: "home",
   };
 
   handleChangeTheme = () => {
@@ -33,8 +35,8 @@ class App extends React.Component {
   };
 
   handleChangeActive = (active) => {
-    this.setState({active})
-  }
+    this.setState({ active });
+  };
 
   render() {
     return (
@@ -43,11 +45,38 @@ class App extends React.Component {
           theme={this.state.theme === false ? darkTheme : lightTheme}
         >
           <GlobalStyle />
-          <Navbar active={this.state.active} handleChangeTheme={this.handleChangeTheme} />
+          <Navbar
+            active={this.state.active}
+            handleChangeTheme={this.handleChangeTheme}
+          />
           <Routes>
-            <Route path="/" element={<Home active={this.state.active} handleChangeActive={this.handleChangeActive} />} />
-            <Route path="/coins/:coinId" element={<Coin active={this.state.active} handleChangeActive={this.handleChangeActive} />} />
-            <Route path="/portfolio" element={<Portfolio active={this.state.active} handleChangeActive={this.handleChangeActive} />} />
+            <Route
+              path="/"
+              element={
+                <Home
+                  active={this.state.active}
+                  handleChangeActive={this.handleChangeActive}
+                />
+              }
+            />
+            <Route
+              path="/coins/:coinId"
+              element={
+                <Coin
+                  active={this.state.active}
+                  handleChangeActive={this.handleChangeActive}
+                />
+              }
+            />
+            <Route
+              path="/portfolio"
+              element={
+                <Portfolio
+                  active={this.state.active}
+                  handleChangeActive={this.handleChangeActive}
+                />
+              }
+            />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </ThemeProvider>
