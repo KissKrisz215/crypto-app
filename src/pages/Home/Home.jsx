@@ -1,17 +1,15 @@
 import React from "react";
 
 export default class Home extends React.Component {
-
-  componentDidMount(){
-    this.props.handleChangeActive('home');
-    console.log(this.props.active);
+  componentDidMount() {
+    this.props.handleChangeActive("home");
   }
 
   render() {
-      return (
-        <div>
+    return (
+      <div>
         <h1>CoinsList</h1>
-        </div>
-      )
-      }
-    }
+      </div>
+    );
+  }
+}

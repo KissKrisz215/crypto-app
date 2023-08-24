@@ -21,4 +21,5 @@ export const Wrapper = styled.div`
 
 export const Container = styled.div`
   display: flex;
+  gap: ${(props) => props.gap};
 `;
