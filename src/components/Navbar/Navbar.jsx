@@ -8,11 +8,36 @@ import {
 import { SearchBar, CurrencyToggle, ThemeToggle } from "../index";
 import SubHeader from "../SubHeader/SubHeader";
 
+const currencies = [
+  {
+    name: "usd",
+    symbol: "$",
+    isActive: true,
+  },
+  {
+    name: "eur",
+    symbol: "€",
+    isActive: false,
+  },
+  {
+    name: "gbp",
+    symbol: "£",
+    isActive: false,
+  },
+];
 export default class Navbar extends React.Component {
+  state = {
+    activeCurrency: currencies[0],
+  };
+
+  handleActiveCurrency = (currency) => {
+    this.setState({ activeCurrency: currency });
+  };
+
   render() {
     return (
       <Wrapper>
-        <SubHeader />
+        <SubHeader activeCurrency={this.state.activeCurrency} />
         <NavbarContainer>
           <Container>
             <NavbarLink page="home" active={this.props.active} to="/">
@@ -28,7 +53,11 @@ export default class Navbar extends React.Component {
           </Container>
           <Container gap="1rem">
             <SearchBar />
-            <CurrencyToggle />
+            <CurrencyToggle
+              activeCurrency={this.state.activeCurrency}
+              handleActiveCurrency={this.handleActiveCurrency}
+              currencies={currencies}
+            />
             <ThemeToggle handleChangeTheme={this.props.handleChangeTheme} />
           </Container>
         </NavbarContainer>

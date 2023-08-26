@@ -73,5 +73,5 @@ export const DropdownArrow = styled.img`
   filter: invert(70%) sepia(65%) saturate(4561%) hue-rotate(88deg)
     brightness(121%) contrast(120%);
   width: 12px;
-  transform: ${(props) => (props.isOpen ? "rotate(180deg)" : "rotate(0deg)")};
+  transform: ${(props) => (props.isopen ? "rotate(180deg)" : "rotate(0deg)")};
 `;

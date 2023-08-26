@@ -14,6 +14,7 @@ const darkTheme = {
   defaultTextColor: "#FFFFFF",
   icons: "invert(0%)",
   themeIcon: "invert(100%)",
+  general: "#ffffff",
 };
 
 const lightTheme = {
@@ -24,6 +25,7 @@ const lightTheme = {
   defaultTextColor: "#2C2F36",
   icons: "invert(100%)",
   themeIcon: "invert(0%)",
+  general: "#2c2f36",
 };
 
 class App extends React.Component {

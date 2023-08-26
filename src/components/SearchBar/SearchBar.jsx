@@ -6,7 +6,6 @@ import Icons from "../../assets/index";
 const getData = async () => {
   const response = await axios(`https://api.coingecko.com/api/v3/coins/list`);
   const filteredArray = response.data.filter((item) => item.name.includes("b"));
-  console.log(filteredArray);
 };
 console.log(getData());
 export default class SearchBar extends React.Component {
