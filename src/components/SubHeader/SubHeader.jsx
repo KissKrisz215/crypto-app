@@ -3,9 +3,11 @@ import axios from "axios";
 import {
   Container,
   Col,
+  Row,
   Circle,
   CoinLogo,
   ArrowLogo,
+  SubNavItem,
 } from "./SubHeader.styles";
 import {
   formatPercentage,
@@ -70,25 +72,31 @@ export default class SubHeader extends React.Component {
         <Col>Exchanges {this.state.exchanges}</Col>
         <Col>
           <Circle />
-          {this.state.totalMarketCap}
-          <ArrowLogo
-            totalmarkettrend={this.state.totalMarketTrend}
-            src={Icons.ArrowIcon}
-          />
+          <Row>
+            <SubNavItem>{this.state.totalMarketCap}</SubNavItem>
+            <ArrowLogo
+              totalmarkettrend={this.state.totalMarketTrend}
+              src={Icons.ArrowIcon}
+            />
+          </Row>
         </Col>
         <Col>
           <Circle />
-          {this.state.totalVolume}
+          <SubNavItem>{this.state.totalVolume}</SubNavItem>
           <PercentageBar percentage={this.state.marketCapPercentage} />
         </Col>
         <Col>
-          <CoinLogo src={Icons.BitcoinIcon} />
-          {this.state.bitcoinPercentage + "%"}
+          <Row>
+            <CoinLogo src={Icons.BitcoinIcon} />
+            <SubNavItem>{this.state.bitcoinPercentage + "%"}</SubNavItem>
+          </Row>
           <PercentageBar percentage={this.state.bitcoinPercentage} />
         </Col>
         <Col>
-          <CoinLogo src={Icons.EthereumIcon} />
-          {this.state.ethPercentage + "%"}
+          <Row>
+            <CoinLogo src={Icons.EthereumIcon} />
+            <SubNavItem> {this.state.ethPercentage + "%"}</SubNavItem>
+          </Row>
           <PercentageBar percentage={this.state.ethPercentage} />
         </Col>
       </Container>

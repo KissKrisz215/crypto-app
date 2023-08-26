@@ -6,16 +6,21 @@ export const Container = styled.div`
   background-color: ${(props) => props.theme.main};
   display: flex;
   gap: 1.5rem;
-  padding: 0.9rem 2rem;
+  padding: 0.3rem 2rem;
   border-radius: 0 0 0.5rem 0.5rem;
 `;
 
 export const Col = styled.div`
-  font-size: 17px;
   font-weight: 500;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-size: 17px;
+`;
+
+export const Row = styled.div`
+  display: flex;
+  gap: 0.3rem;
 `;
 
 export const Circle = styled.div`
@@ -23,6 +28,10 @@ export const Circle = styled.div`
   width: 8px;
   background-color: ${(props) => props.theme.general};
   border-radius: 50%;
+`;
+
+export const SubNavItem = styled.p`
+  font-size: 17px;
 `;
 
 export const CoinLogo = styled.img``;
