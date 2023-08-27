@@ -6,7 +6,7 @@ export const formatPercentage = (percentage) => {
 };
 
 export const formatCurrency = (currency) => {
-  const number = numeral(currency).format("0.00a");
+  const number = numeral(currency).format("0,0.000a");
   return number;
 };
 

@@ -27,8 +27,22 @@ export const ChartsContainer = styled.div`
 
 export const ChartWrapper = styled.div`
   max-width: 700px;
-  width: 100%;
+  width: 90%;
   height: 400px;
   background-color: ${(props) => props.theme.main};
   border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  position: relative;
 `;
+
+export const ErrorContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ErrorMessage = styled.p``;

@@ -15,6 +15,8 @@ const darkTheme = {
   icons: "invert(0%)",
   themeIcon: "invert(100%)",
   general: "#ffffff",
+  chart1: "#0CF864",
+  chart2: "#2172E5",
 };
 
 const lightTheme = {
@@ -26,12 +28,33 @@ const lightTheme = {
   icons: "invert(100%)",
   themeIcon: "invert(0%)",
   general: "#2c2f36",
+  chart1: "#2172E5",
+  chart2: "#0CF864",
 };
+
+const currencies = [
+  {
+    name: "usd",
+    symbol: "$",
+    isActive: true,
+  },
+  {
+    name: "eur",
+    symbol: "€",
+    isActive: false,
+  },
+  {
+    name: "gbp",
+    symbol: "£",
+    isActive: false,
+  },
+];
 
 class App extends React.Component {
   state = {
     theme: false,
     active: "home",
+    activeCurrency: currencies[0],
   };
 
   handleChangeTheme = () => {
@@ -41,6 +64,12 @@ class App extends React.Component {
   handleChangeActive = (active) => {
     this.setState({ active });
   };
+
+  handleActiveCurrency = (currency) => {
+    this.setState({ activeCurrency: currency });
+  };
+
+  componentDidUpdate() {}
 
   render() {
     return (
@@ -52,6 +81,9 @@ class App extends React.Component {
           <Navbar
             active={this.state.active}
             handleChangeTheme={this.handleChangeTheme}
+            handleActiveCurrency={this.handleActiveCurrency}
+            activeCurrency={this.state.activeCurrency}
+            currencies={currencies}
           />
           <Routes>
             <Route
@@ -60,6 +92,7 @@ class App extends React.Component {
                 <Home
                   active={this.state.active}
                   handleChangeActive={this.handleChangeActive}
+                  activeCurrency={this.state.activeCurrency}
                 />
               }
             />

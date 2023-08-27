@@ -53,6 +53,7 @@ export default class CurrencyToggle extends React.Component {
             <DropdownMenu>
               {this.props.currencies.map((currency) => (
                 <DropdownItem
+                  key={currency.name}
                   onClick={() => this.props.handleActiveCurrency(currency)}
                 >
                   <DropdownIcon>{currency.symbol}</DropdownIcon>
