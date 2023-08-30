@@ -9,9 +9,12 @@ import {
   ChartWrapper,
   ErrorContainer,
   ErrorMessage,
+  CoinTableWrapper,
+  CoinTableContainer,
 } from "./Home.styles";
 import ChartItem from "../../components/Chart/Chart";
 import { formatCurrency } from "../../utils";
+import CoinTable from "../../components/CoinTable/";
 export default class Home extends React.Component {
   state = {
     pricesData: null,
@@ -122,6 +125,12 @@ export default class Home extends React.Component {
                     )}
                   </ChartWrapper>
                 </ChartsContainer>
+                <CoinTableWrapper>
+                  <Header>Your overview</Header>
+                  <CoinTableContainer>
+                    <CoinTable />
+                  </CoinTableContainer>
+                </CoinTableWrapper>
               </Container>
             </Wrapper>
           );

@@ -30,6 +30,10 @@ export default class SubHeader extends React.Component {
   };
 
   async handleData() {
+    const {
+      activeCurrency: { name },
+    } = this.props;
+
     try {
       const {
         data: { data },
@@ -39,15 +43,11 @@ export default class SubHeader extends React.Component {
         exchanges: data.markets,
         bitcoinPercentage: formatPercentage(data.market_cap_percentage.btc),
         ethPercentage: formatPercentage(data.market_cap_percentage.eth),
-        totalMarketCap: formatCurrency(
-          data.total_market_cap[this.props.activeCurrency.name]
-        ),
-        totalVolume: formatCurrency(
-          data.total_volume[this.props.activeCurrency.name]
-        ),
+        totalMarketCap: formatCurrency(data.total_market_cap[name]),
+        totalVolume: formatCurrency(data.total_volume[name]),
         marketCapPercentage: calculatePercentage(
-          data.total_market_cap[this.props.activeCurrency.name],
-          data.total_volume[this.props.activeCurrency.name]
+          data.total_market_cap[name],
+          data.total_volume[name]
         ),
         totalMarketTrend:
           data.market_cap_change_percentage_24h_usd > 0 ? true : false,
@@ -66,38 +66,48 @@ export default class SubHeader extends React.Component {
   }
 
   render() {
+    const {
+      currencies,
+      exchanges,
+      totalMarketCap,
+      totalMarketTrend,
+      totalVolume,
+      bitcoinPercentage,
+      ethPercentage,
+    } = this.state;
+
     return (
       <Container>
-        <Col>Coins {this.state.currencies}</Col>
-        <Col>Exchanges {this.state.exchanges}</Col>
+        <Col>Coins {currencies}</Col>
+        <Col>Exchanges {exchanges}</Col>
         <Col>
           <Circle />
           <Row>
-            <SubNavItem>{this.state.totalMarketCap}</SubNavItem>
+            <SubNavItem>{totalMarketCap}</SubNavItem>
             <ArrowLogo
-              totalmarkettrend={this.state.totalMarketTrend}
+              totalmarkettrend={totalMarketTrend}
               src={Icons.ArrowIcon}
             />
           </Row>
         </Col>
         <Col>
           <Circle />
-          <SubNavItem>{this.state.totalVolume}</SubNavItem>
+          <SubNavItem>{totalVolume}</SubNavItem>
           <PercentageBar percentage={this.state.marketCapPercentage} />
         </Col>
         <Col>
           <Row>
             <CoinLogo src={Icons.BitcoinIcon} />
-            <SubNavItem>{this.state.bitcoinPercentage + "%"}</SubNavItem>
+            <SubNavItem>{bitcoinPercentage + "%"}</SubNavItem>
           </Row>
-          <PercentageBar percentage={this.state.bitcoinPercentage} />
+          <PercentageBar percentage={bitcoinPercentage} />
         </Col>
         <Col>
           <Row>
             <CoinLogo src={Icons.EthereumIcon} />
-            <SubNavItem> {this.state.ethPercentage + "%"}</SubNavItem>
+            <SubNavItem> {ethPercentage + "%"}</SubNavItem>
           </Row>
-          <PercentageBar percentage={this.state.ethPercentage} />
+          <PercentageBar percentage={ethPercentage} />
         </Col>
       </Container>
     );

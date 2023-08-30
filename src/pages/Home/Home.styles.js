@@ -28,7 +28,7 @@ export const ChartsContainer = styled.div`
 export const ChartWrapper = styled.div`
   max-width: 700px;
   width: 90%;
-  height: 400px;
+  height: 350px;
   background-color: ${(props) => props.theme.main};
   border-radius: 0.5rem;
   display: flex;
@@ -46,3 +46,15 @@ export const ErrorContainer = styled.div`
 `;
 
 export const ErrorMessage = styled.p``;
+
+export const CoinTableWrapper = styled.div`
+  margin-top: 2rem;
+  height: 600px;
+`;
+
+export const CoinTableContainer = styled.div`
+  background: ${(props) => props.theme.main};
+  max-height: 800px;
+  border-radius: 0.6rem;
+  overflow: scroll;
+`;

@@ -42,6 +42,6 @@ export const ArrowLogo = styled.img`
       ? "invert(70%) sepia(65%) saturate(4561%) hue-rotate(88deg) brightness(121%) contrast(120%)"
       : "invert(14%) sepia(91%) saturate(4581%) hue-rotate(341deg) brightness(106%) contrast(99%)"};
   transform: ${(props) =>
-    props.totalMarketTrend ? "rotate(0deg)" : "rotate(180deg)"};
+    props.totalMarketTrend ? "rotate(180deg)" : "rotate(0deg)"};
   width: 12px;
 `;

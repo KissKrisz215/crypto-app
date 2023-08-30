@@ -123,20 +123,22 @@ export default class ChartItem extends React.Component {
   }
 
   render() {
+    const { title, info, type } = this.props;
+    const { data } = this.state;
     return (
       <>
         <ChartHeader>
-          <HeaderTitle>{this.props.title}</HeaderTitle>
-          <SubTitle>{this.props.currency.symbol + this.props.info}</SubTitle>
+          <HeaderTitle>{title}</HeaderTitle>
+          <SubTitle>{this.props.currency.symbol + info}</SubTitle>
           <HeaderParagraph>{getTodayDate()}</HeaderParagraph>
         </ChartHeader>
         <ChartContainer>
-          {this.state.data && (
+          {data && (
             <>
-              {this.props.type === "line" ? (
-                <Line data={this.state.data} options={options} />
+              {type === "line" ? (
+                <Line data={data} options={options} />
               ) : (
-                <Bar data={this.state.data} options={options} />
+                <Bar data={data} options={options} />
               )}
             </>
           )}
