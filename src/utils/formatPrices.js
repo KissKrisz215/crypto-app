@@ -11,7 +11,7 @@ export const formatCurrency = (currency) => {
 };
 
 export const calculatePercentage = (baseNumber, percentage) => {
-  const number = numeral(percentage / (baseNumber / 100)).format("0");
+  const number = numeral((percentage / baseNumber) * 100).format("0");
   return number;
 };
 

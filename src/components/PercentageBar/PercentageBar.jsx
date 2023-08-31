@@ -3,9 +3,10 @@ import { Container, Percentage } from "./PercentageBar.styles";
 
 export default class PercentageBar extends React.Component {
   render() {
+    const { percentage } = this.props;
     return (
       <Container>
-        <Percentage percentage={this.props.percentage} />
+        <Percentage percentage={percentage} />
       </Container>
     );
   }
