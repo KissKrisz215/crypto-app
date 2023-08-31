@@ -17,6 +17,7 @@ const darkTheme = {
   general: "#ffffff",
   chart1: "#0CF864",
   chart2: "#2172E5",
+  lines: "#464749",
 };
 
 const lightTheme = {
@@ -30,6 +31,7 @@ const lightTheme = {
   general: "#2c2f36",
   chart1: "#2172E5",
   chart2: "#0CF864",
+  lines: "#EEEEEE",
 };
 
 const currencies = [

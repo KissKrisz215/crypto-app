@@ -30,7 +30,7 @@ export const ProgressBarContainer = styled.div`
 export const ProgressBar = styled.div`
   position: absolute;
   background-color: ${(props) => props.colors[0]};
-  width: 30%;
+  width: ${(props) => props.percentage};
   height: 100%;
 `;
 
@@ -38,5 +38,5 @@ export const CircleIcon = styled.div`
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background-color: ${(props) => props.color};
+  background-color: ${(props) => props.colors};
 `;

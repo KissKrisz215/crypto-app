@@ -1,5 +1,10 @@
 import React from "react";
-import { TableRowContainer, CoinData, CoinIcon } from "./TableRow.styles";
+import {
+  TableRowContainer,
+  CoinData,
+  CoinIcon,
+  CoinHeader,
+} from "./TableRow.styles";
 import CoinPercentage from "../CoinPercentage/";
 import CoinProgressBar from "../CoinProgressBar/";
 import {
@@ -7,6 +12,8 @@ import {
   calculatePercentage,
   formatPercentage,
 } from "../../utils/formatPrices";
+
+import SparkLine from "../SparkLine/";
 
 export default class TableRow extends React.Component {
   state = {
@@ -16,6 +23,8 @@ export default class TableRow extends React.Component {
     totalSupply: null,
     volumePercentage: null,
     supplyPercentage: null,
+    priceData: null,
+    priceChangePercentage: null,
   };
 
   componentDidMount() {
@@ -26,11 +35,28 @@ export default class TableRow extends React.Component {
       const circulatingSupply = formatCurrency(
         this.props.coin.circulating_supply
       );
+      const priceData = this.props.coin.sparkline_in_7d.price;
+      const priceChangePercentage =
+        this.props.coin.price_change_percentage_7d_in_currency;
+      const volumePercentage =
+        formatPercentage(
+          this.props.coin.total_volume / (this.props.coin.market_cap / 100)
+        ) + "%";
+      const supplyPercentage =
+        formatPercentage(
+          this.props.coin.circulating_supply /
+            (this.props.coin.total_supply / 100)
+        ) + "%";
+      console.log("SupplyPercentage", supplyPercentage);
       this.setState({
         marketCap,
         totalVolume,
         totalSupply,
         circulatingSupply,
+        priceData,
+        priceChangePercentage,
+        volumePercentage,
+        supplyPercentage,
       });
     }
   }
@@ -55,14 +81,19 @@ export default class TableRow extends React.Component {
       totalSupply,
       volumePercentage,
       supplyPercentage,
+      priceData,
+      priceChangePercentage,
     } = this.state;
     const { colors } = this.props;
+    console.log(volumePercentage, supplyPercentage);
     return (
       <TableRowContainer>
         <CoinData>{index + 1}</CoinData>
         <CoinData>
-          <CoinIcon src={image} />
-          {name}({symbol.toUpperCase()})
+          <CoinHeader>
+            <CoinIcon src={image} />
+            {name}({symbol.toUpperCase()})
+          </CoinHeader>
         </CoinData>
         <CoinData>${current_price}</CoinData>
         <CoinPercentage data={price_change_percentage_1h_in_currency} />
@@ -80,6 +111,9 @@ export default class TableRow extends React.Component {
           current={totalSupply}
           colors={colors}
         />
+        {priceData && (
+          <SparkLine data={priceData} priceChange={priceChangePercentage} />
+        )}
       </TableRowContainer>
     );
   }

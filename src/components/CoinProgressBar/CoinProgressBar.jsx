@@ -12,7 +12,7 @@ export default class CoinProgressBar extends React.Component {
   render() {
     const baseColor = this.props.colors[0];
     const currentColor = this.props.colors[1];
-    const { colors, base, current } = this.props;
+    const { colors, base, current, percentage } = this.props;
     return (
       <Container>
         <TitleContainer>
@@ -26,7 +26,7 @@ export default class CoinProgressBar extends React.Component {
           </Title>
         </TitleContainer>
         <ProgressBarContainer colors={colors}>
-          <ProgressBar colors={colors} />
+          <ProgressBar colors={colors} percentage={percentage} />
         </ProgressBarContainer>
       </Container>
     );

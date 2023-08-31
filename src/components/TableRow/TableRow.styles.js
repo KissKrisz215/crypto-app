@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 
 export const TableRowContainer = styled.tr`
-  border-bottom: 2px solid rgb(31, 33, 40);
+  border-bottom: 1px solid ${(props) => props.theme.lines};
 `;
 
 export const CoinData = styled.td`
@@ -11,5 +11,12 @@ export const CoinData = styled.td`
 `;
 
 export const CoinIcon = styled.img`
-  width: 33px;
+  width: 31px;
+`;
+
+export const CoinHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
 `;

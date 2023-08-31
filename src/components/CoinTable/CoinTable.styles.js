@@ -21,3 +21,17 @@ export const Title = styled.td`
   font-size: 0.8rem;
   padding: 1rem;
 `;
+
+export const CircleIcon = styled.div`
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background-color: #00fc2a;
+`;
+
+export const CircleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  gap: 0.5rem;
+`;
