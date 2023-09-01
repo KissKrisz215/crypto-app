@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const SearchInput = styled.input`
   background-color: ${(props) => props.theme.navbarBrand};
@@ -28,4 +29,30 @@ export const InputIcon = styled.img`
   filter: ${(props) => props.theme.icons};
   height: 18px;
   padding: 0 0.9rem;
+`;
+
+export const DropDownContainer = styled.div`
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  max-height: 250px;
+  background-color: ${(props) => props.theme.navbarBrand};
+  border-radius: 0.5rem;
+  z-index: 5;
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const DropDownItem = styled(Link)`
+  border-radius: 0.3rem;
+  font-size: 0.8rem;
+  text-decoration: none;
+  width: 90%;
+  display: block;
+  padding: 0.3rem;
+  &:hover {
+    background-color: ${(props) => props.theme.main};
+  }
 `;

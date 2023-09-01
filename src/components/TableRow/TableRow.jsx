@@ -47,7 +47,7 @@ export default class TableRow extends React.Component {
           this.props.coin.circulating_supply /
             (this.props.coin.total_supply / 100)
         ) + "%";
-      console.log("SupplyPercentage", supplyPercentage);
+
       this.setState({
         marketCap,
         totalVolume,
@@ -85,7 +85,7 @@ export default class TableRow extends React.Component {
       priceChangePercentage,
     } = this.state;
     const { colors } = this.props;
-    console.log(volumePercentage, supplyPercentage);
+
     return (
       <TableRowContainer>
         <CoinData>{index + 1}</CoinData>
