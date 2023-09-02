@@ -88,11 +88,11 @@ export default class TableRow extends React.Component {
 
     return (
       <TableRowContainer>
-        <CoinData>{index + 1}</CoinData>
+        <CoinData>{index}</CoinData>
         <CoinData>
           <CoinHeader>
             <CoinIcon src={image} />
-            {name}({symbol.toUpperCase()})
+            {name} ({symbol.toUpperCase()})
           </CoinHeader>
         </CoinData>
         <CoinData>${current_price}</CoinData>

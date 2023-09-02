@@ -8,7 +8,9 @@ import {
   TableBody,
   CircleIcon,
   CircleContainer,
+  ArrowIcon,
 } from "./CoinTable.styles";
+import CoinButton from "../CoinButton/CoinButton";
 import TableRow from "../TableRow/TableRow";
 import percentageBarColors from "../../utils/PercentageBarColors";
 
@@ -4672,11 +4674,87 @@ const data = [
     price_change_percentage_7d_in_currency: -14.169582281894458,
   },
 ];
+
+const buttonsArray = ["#", "Name", "Price", "1h%", "24h%", "7d%"];
 export default class CoinTable extends React.Component {
   state = {
     data: [],
     errorMessage: null,
   };
+
+  sortByName() {
+    const dataArray = JSON.parse(JSON.stringify(this.state.data));
+    let data1;
+
+    if (this.props.sortType === true) {
+      data1 = dataArray.sort((a, b) => b.name.localeCompare(a.name));
+    } else {
+      data1 = dataArray.sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    this.setState({ data: data1 });
+  }
+
+  sortByPrice() {
+    const dataArray = JSON.parse(JSON.stringify(this.state.data));
+    let data1;
+
+    if (this.props.sortType === true) {
+      data1 = dataArray.sort((a, b) => b.current_price - a.current_price);
+    } else {
+      data1 = dataArray.sort((a, b) => a.current_price - b.current_price);
+    }
+
+    this.setState({ data: data1 });
+  }
+
+  sortByHour(time) {
+    const timeValue = time.replace(/%/g, "");
+    const dataArray = JSON.parse(JSON.stringify(this.state.data));
+    let data1;
+    if (this.props.sortType === true) {
+      data1 = dataArray.sort(
+        (a, b) =>
+          b[`price_change_percentage_${timeValue}_in_currency`] -
+          a[`price_change_percentage_${timeValue}_in_currency`]
+      );
+    } else {
+      data1 = dataArray.sort(
+        (a, b) =>
+          a[`price_change_percentage_${timeValue}_in_currency`] -
+          b[`price_change_percentage_${timeValue}_in_currency`]
+      );
+    }
+
+    this.setState({ data: data1 });
+  }
+
+  defaultSort() {
+    const dataArray = JSON.parse(JSON.stringify(this.state.data));
+    let data1;
+    if (this.props.sortType === true) {
+      data1 = dataArray.sort((a, b) => b.market_cap_rank - a.market_cap_rank);
+    } else {
+      data1 = dataArray.sort((a, b) => a.market_cap_rank - b.market_cap_rank);
+    }
+    this.setState({ data: data1 });
+  }
+
+  handleSort() {
+    if (this.props.sortBy === "Name") {
+      this.sortByName();
+    } else if (this.props.sortBy === "Price") {
+      this.sortByPrice();
+    } else if (
+      this.props.sortBy === "1h%" ||
+      this.props.sortBy === "24h%" ||
+      this.props.sortBy === "7d%"
+    ) {
+      this.sortByHour(this.props.sortBy);
+    } else {
+      this.defaultSort();
+    }
+  }
 
   async getCoins() {
     try {
@@ -4691,20 +4769,34 @@ export default class CoinTable extends React.Component {
   }
 
   componentDidMount() {
-    this.getCoins();
+    this.setState({ data: data });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.sortBy !== prevProps.sortBy ||
+      this.props.sortType !== prevProps.sortType
+    ) {
+      this.handleSort();
+    }
   }
 
   render() {
+    const { data } = this.state;
+    const { sortCoins, sortBy, sortType } = this.props;
     return (
       <Container>
         <TableHead>
           <TableRowHeader>
-            <Title>#</Title>
-            <Title>Name</Title>
-            <Title>Price</Title>
-            <Title>1h%</Title>
-            <Title>24h%</Title>
-            <Title>7d%</Title>
+            {buttonsArray &&
+              buttonsArray.map((button) => (
+                <CoinButton
+                  sortCoins={sortCoins}
+                  sortBy={sortBy}
+                  sortType={sortType}
+                  title={button}
+                />
+              ))}
             <Title>24h Volume/Market Cap</Title>
             <Title>Circulating/Total Supply</Title>
             <Title>
@@ -4716,12 +4808,12 @@ export default class CoinTable extends React.Component {
           </TableRowHeader>
         </TableHead>
         <TableBody>
-          {data &&
-            data.map((coin, index) => (
+          {this.state.data &&
+            this.state.data.map((coin) => (
               <TableRow
                 coin={coin}
-                index={index}
-                colors={percentageBarColors[index % 10]}
+                index={coin.market_cap_rank}
+                colors={percentageBarColors[coin.market_cap_rank % 10]}
               />
             ))}
         </TableBody>

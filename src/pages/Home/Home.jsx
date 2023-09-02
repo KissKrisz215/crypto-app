@@ -19,7 +19,7 @@ import CoinTable from "../../components/CoinTable/";
 class Home extends Component {
   constructor(props) {
     super(props);
-
+    this.sortCoins = this.sortCoins.bind(this);
     this.state = {
       pricesData: null,
       marketData: null,
@@ -35,7 +35,13 @@ class Home extends Component {
         name: "1d",
         days: 1,
       },
+      sortBy: null,
+      sortType: false,
     };
+  }
+
+  sortCoins(value) {
+    this.setState({ sortBy: value, sortType: !this.state.sortType });
   }
 
   changePricesDate = (value) => {
@@ -161,6 +167,8 @@ class Home extends Component {
       marketData,
       currencyVolume,
       marketDate,
+      sortBy,
+      sortType,
     } = this.state;
     return (
       <ThemeContext.Consumer>
@@ -211,7 +219,11 @@ class Home extends Component {
               <CoinTableWrapper>
                 <Header>Your overview</Header>
                 <CoinTableContainer>
-                  <CoinTable />
+                  <CoinTable
+                    sortCoins={this.sortCoins}
+                    sortBy={sortBy}
+                    sortType={sortType}
+                  />
                 </CoinTableContainer>
               </CoinTableWrapper>
             </Container>

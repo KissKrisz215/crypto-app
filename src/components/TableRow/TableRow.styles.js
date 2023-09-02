@@ -5,9 +5,8 @@ export const TableRowContainer = styled.tr`
 `;
 
 export const CoinData = styled.td`
-  padding: 0.6rem;
   font-size: 0.9rem;
-  padding: 0 0.7rem;
+  padding: 0 0.6rem 0 0.9rem;
 `;
 
 export const CoinIcon = styled.img`
@@ -18,5 +17,5 @@ export const CoinHeader = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 `;

@@ -7,6 +7,7 @@ export const Container = styled.td`
 export const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: 0.5rem;
 `;
 
 export const Title = styled.p`
@@ -38,5 +39,5 @@ export const CircleIcon = styled.div`
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background-color: ${(props) => props.colors};
+  background-color: ${(props) => props.color};
 `;

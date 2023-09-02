@@ -5,6 +5,7 @@ export const Container = styled.td``;
 export const Wrapper = styled.div`
   display: flex;
   gap: 0.3rem;
+  justify-content: center;
 `;
 
 export const CoinData = styled.p`
