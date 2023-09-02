@@ -40,7 +40,6 @@ export default class SearchBar extends React.Component {
   }
 
   handleSearch = (e) => {
-    console.log("Search term in handleSearch:", this.state.searchValue);
     const { value } = e.target;
     this.setState({ searchValue: value });
     if (value.length === 0) {
@@ -52,7 +51,10 @@ export default class SearchBar extends React.Component {
   };
 
   handleClickOutside = (event) => {
-    if (this.dropdown && !this.dropdown.current.contains(event.target)) {
+    if (
+      this.dropdown.current &&
+      !this.dropdown.current.contains(event.target)
+    ) {
       this.closeDropdown();
     }
   };
@@ -103,7 +105,9 @@ export default class SearchBar extends React.Component {
           </DropDownContainer>
         )}
         {errorMessage && isOpen && (
-          <DropDownContainer>Not Items Found</DropDownContainer>
+          <DropDownContainer ref={this.dropdown}>
+            Not Items Found
+          </DropDownContainer>
         )}
         <InputIcon src={SearchIcon} alt="" />
       </SearchContainer>

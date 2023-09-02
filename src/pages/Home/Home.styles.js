@@ -28,7 +28,7 @@ export const ChartsContainer = styled.div`
 export const ChartWrapper = styled.div`
   max-width: 700px;
   width: 90%;
-  height: 350px;
+  height: 380px;
   background-color: ${(props) => props.theme.main};
   border-radius: 0.5rem;
   display: flex;

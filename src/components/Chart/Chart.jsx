@@ -1,5 +1,4 @@
-import axios from "axios";
-import React from "react";
+import React, { Component } from "react";
 import { Line, Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 Chart.register(...registerables);
@@ -9,8 +8,10 @@ import {
   HeaderTitle,
   HeaderParagraph,
   SubTitle,
+  ChartWrapper,
 } from "./Chart.styles";
 import { getTodayDate } from "../../utils";
+import DatePicker from "../DatePicker/DatePicker";
 
 const options = {
   plugins: {
@@ -19,6 +20,8 @@ const options = {
     },
   },
   maintainAspectRatio: false,
+  responsive: true,
+  spanGaps: true,
   interaction: {
     mode: "index",
     intersect: false,
@@ -51,99 +54,114 @@ const options = {
       ticks: {
         display: false,
         beginAtZero: true,
-        maxTicksLimit: 2,
+        maxTicksLimit: 4,
       },
     },
   },
 };
 
-export default class ChartItem extends React.Component {
-  state = {
-    data: null,
-    errorMessage: null,
-    color: null,
-    currency: {
-      name: "",
-    },
-  };
+class ChartItem extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: null,
+      errorMessage: null,
+      color: null,
+      currency: { name: "" },
+    };
+  }
 
-  loadData() {
-    if (this.props.data) {
-      const labels = this.props.data.map((item) =>
+  loadData = async () => {
+    const { data, color, type } = this.props;
+
+    if (data) {
+      const labels = data.map((item) =>
         new Date(item[0]).toLocaleString(undefined, {
           month: "short",
           day: "numeric",
         })
       );
-      const datasets = this.props.data.map((item) => item[1]);
-      const data = {
+      const datasets = data.map((item) => item[1]);
+      const chartData = {
         labels,
         datasets: [
           {
             label: "",
             data: datasets,
-            borderColor: this.props.color,
-            borderRadius: 4,
+            borderColor: color,
+            borderRadius: 5,
             backgroundColor: (context) => {
               const ctx = context.chart.ctx;
               const gradient = ctx.createLinearGradient(0, 0, 0, 420);
-              gradient.addColorStop(0, this.props.color);
+              gradient.addColorStop(0, color);
               gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
               return gradient;
             },
+            lineTension: 0.5,
             pointRadius: 0,
-            borderWidth: this.props.type === "line" ? 4 : 12,
+            borderWidth: type === "line" ? 4 : 5,
             fill: true,
           },
         ],
       };
-      this.setState({ data: data });
+      this.setState({ data: chartData });
     } else {
       this.setState({ errorMessage: "There was an error loading chart data" });
     }
-  }
+  };
 
   componentDidMount() {
-    this.setState({
-      color: this.props.color,
-      currency: this.props.currency,
-    });
+    const { color, currency } = this.props;
+    this.setState({ color: color, currency });
     this.loadData();
   }
-  componentDidUpdate() {
-    if (this.props.currency.name !== this.state.currency.name) {
-      this.setState({ currency: this.props.currency });
+
+  componentDidUpdate(prevProps) {
+    const { color, currency, data } = this.props;
+
+    if (currency.name !== this.state.currency.name) {
+      this.setState({ currency });
       this.loadData();
     }
 
-    if (this.state.color !== this.props.color) {
-      this.setState({ color: this.props.color });
+    if (color !== this.state.color) {
+      this.setState({ color: color });
+      this.loadData();
+    }
+
+    if (data !== prevProps.data) {
       this.loadData();
     }
   }
 
   render() {
-    const { title, info, type } = this.props;
-    const { data } = this.state;
+    const { title, info, type, date, changeDate } = this.props;
+    const { data, currency } = this.state;
+
     return (
       <>
         <ChartHeader>
           <HeaderTitle>{title}</HeaderTitle>
-          <SubTitle>{this.props.currency.symbol + info}</SubTitle>
+          {currency && <SubTitle>{currency.symbol + info}</SubTitle>}
           <HeaderParagraph>{getTodayDate()}</HeaderParagraph>
         </ChartHeader>
         <ChartContainer>
-          {data && (
-            <>
-              {type === "line" ? (
-                <Line data={data} options={options} />
-              ) : (
-                <Bar data={data} options={options} />
-              )}
-            </>
-          )}
+          <DatePicker date={date} changeDate={changeDate} />
+          <ChartWrapper>
+            {data && (
+              <>
+                {type === "line" ? (
+                  <Line data={data} options={options} />
+                ) : (
+                  <Bar data={data} options={options} />
+                )}
+              </>
+            )}
+          </ChartWrapper>
         </ChartContainer>
       </>
     );
   }
 }
+
+export default ChartItem;
