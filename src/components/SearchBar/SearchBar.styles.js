@@ -56,3 +56,8 @@ export const DropDownItem = styled(Link)`
     background-color: ${(props) => props.theme.main};
   }
 `;
+
+export const DropDownHeader = styled.div`
+  padding: 0.4rem;
+  font-size: 0.8rem;
+`;

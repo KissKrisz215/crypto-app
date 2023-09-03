@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Line, Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
+import { ThemeContext } from "styled-components";
 Chart.register(...registerables);
 import {
   ChartContainer,
@@ -144,29 +145,41 @@ class ChartItem extends Component {
 
     return (
       <>
-        <ChartHeader>
-          <HeaderTitle>{title}</HeaderTitle>
-          {currency && <SubTitle>{currency.symbol + info}</SubTitle>}
-          <HeaderParagraph>{getTodayDate()}</HeaderParagraph>
-        </ChartHeader>
-        <ChartContainer>
-          <DatePicker date={date} changeDate={changeDate} />
-          <ChartWrapper>
-            {isLoading ? (
-              <LoadingSpinner />
-            ) : (
-              data && (
-                <>
-                  {type === "line" ? (
-                    <Line data={data} options={options} />
+        <ThemeContext.Consumer>
+          {(theme) => (
+            <>
+              <ChartHeader>
+                <HeaderTitle>{title}</HeaderTitle>
+                {currency && <SubTitle>{currency.symbol + info}</SubTitle>}
+                <HeaderParagraph>{getTodayDate()}</HeaderParagraph>
+              </ChartHeader>
+              <ChartContainer>
+                <DatePicker date={date} changeDate={changeDate} />
+                <ChartWrapper>
+                  {isLoading ? (
+                    <LoadingSpinner
+                      width="100px"
+                      height="100px"
+                      border="12px"
+                      color="#06d554"
+                      borderColor={theme.navbarBrand}
+                    />
                   ) : (
-                    <Bar data={data} options={options} />
+                    data && (
+                      <>
+                        {type === "line" ? (
+                          <Line data={data} options={options} />
+                        ) : (
+                          <Bar data={data} options={options} />
+                        )}
+                      </>
+                    )
                   )}
-                </>
-              )
-            )}
-          </ChartWrapper>
-        </ChartContainer>
+                </ChartWrapper>
+              </ChartContainer>
+            </>
+          )}
+        </ThemeContext.Consumer>
       </>
     );
   }
