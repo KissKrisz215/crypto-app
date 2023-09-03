@@ -10,8 +10,8 @@ export const GlobalStyle = createGlobalStyle`
     }
     *{
         color: ${(props) => props.theme.primary};
-        font-family: "Poppins";
-        font-size: 23px;
+        font-family: Poppins, sans-serif;
+        font-size: 22px;
         font-weight: 500;
         font-style: normal;
     }

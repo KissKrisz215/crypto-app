@@ -59,6 +59,7 @@ export default class DatePicker extends React.Component {
         {durations &&
           durations.map((time) => (
             <Date
+              key={time.name}
               date={date}
               name={time.name}
               days={time.days}

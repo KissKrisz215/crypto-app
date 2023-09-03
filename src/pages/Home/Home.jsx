@@ -20,6 +20,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.sortCoins = this.sortCoins.bind(this);
+    this.changeActiveCategory = this.changeActiveCategory.bind(this);
     this.state = {
       pricesData: null,
       marketData: null,
@@ -37,7 +38,25 @@ class Home extends Component {
       },
       sortBy: null,
       sortType: false,
+      activeCategory: { name: "Cryptocurrency", category: null },
+      showRows: 50,
+      currentPage: 1,
     };
+  }
+
+  handleShowRowsChange = (value) => {
+    console.log("Changed Value");
+    this.setState({ showRows: value });
+  };
+
+  changeCurrentPage = (value) => {
+    if (value > 0) {
+      this.setState({ currentPage: value });
+    }
+  };
+
+  changeActiveCategory(value) {
+    this.setState({ activeCategory: value });
   }
 
   sortCoins(value) {
@@ -169,6 +188,9 @@ class Home extends Component {
       marketDate,
       sortBy,
       sortType,
+      activeCategory,
+      showRows,
+      currentPage,
     } = this.state;
     return (
       <ThemeContext.Consumer>
@@ -223,6 +245,12 @@ class Home extends Component {
                     sortCoins={this.sortCoins}
                     sortBy={sortBy}
                     sortType={sortType}
+                    activeCategory={activeCategory}
+                    changeActiveCategory={this.changeActiveCategory}
+                    showRows={showRows}
+                    handleShowRowsChange={this.handleShowRowsChange}
+                    changeCurrentPage={this.changeCurrentPage}
+                    currentPage={currentPage}
                   />
                 </CoinTableContainer>
               </CoinTableWrapper>

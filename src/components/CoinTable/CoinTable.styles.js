@@ -1,10 +1,15 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export const Container = styled.table`
+export const Container = styled.div`
+  padding: 0rem;
+`;
+
+export const TableWrapper = styled.table`
   width: 100%;
   padding: 0rem;
   border-collapse: collapse;
+  min-height: 100vh;
 `;
 
 export const TableHead = styled.thead`
@@ -38,4 +43,69 @@ export const CircleContainer = styled.div`
   font-size: 0.8rem;
   gap: 0.5rem;
   padding: 0 0.8rem;
+`;
+
+export const Buttons = styled.button`
+  background-color: ${(props) =>
+    props.activeCategory.name === props.category.name
+      ? "#06d555"
+      : props.theme.navbarBrand};
+  cursor: pointer;
+  border: 0;
+  font-size: 0.7rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: 0.5rem;
+`;
+
+export const NavigationContainer = styled.div`
+  width: 100%;
+  border-bottom: 1px solid ${(props) => props.theme.primary};
+`;
+
+export const Navigation = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 0.9rem;
+`;
+
+export const NavigationTitle = styled.p`
+  font-size: 0.8rem;
+  padding: 0;
+  margin: 0;
+`;
+
+export const NavigationWrapper = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const NavigationText = styled.p`
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+`;
+
+export const SelectPageContainer = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+`;
+
+export const ArrowContainer = styled.div`
+  cursor: pointer;
+  padding: 0.5rem 0.2rem 0.5rem 0.2rem;
+  display: flex;
+  algin-items: center;
+`;
+
+export const ArrowLogo = styled.img`
+  width: 0.5rem;
+  filter: ${(props) => props.theme.themeIcon};
+  transform: ${(props) => `rotate(${props.rotate})`};
+  cursor: pointer;
 `;

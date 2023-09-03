@@ -85,7 +85,6 @@ export default class TableRow extends React.Component {
       priceChangePercentage,
     } = this.state;
     const { colors } = this.props;
-
     return (
       <TableRowContainer>
         <CoinData>{index}</CoinData>
@@ -112,7 +111,10 @@ export default class TableRow extends React.Component {
           colors={colors}
         />
         {priceData && (
-          <SparkLine data={priceData} priceChange={priceChangePercentage} />
+          <SparkLine
+            data={priceData}
+            priceChangePercentage={priceChangePercentage}
+          />
         )}
       </TableRowContainer>
     );

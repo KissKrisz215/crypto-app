@@ -35,7 +35,7 @@ export default class SparkLine extends React.Component {
         {
           label: "",
           data: data,
-          tension: 0.1,
+          tension: 0.5,
           borderColor: priceChangePercentage > 0 ? "#00FC2A" : "#FE1040",
           fill: false,
           pointBackgroundColor: "transparent",
