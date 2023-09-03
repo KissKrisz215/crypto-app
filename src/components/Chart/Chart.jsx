@@ -12,6 +12,7 @@ import {
 } from "./Chart.styles";
 import { getTodayDate } from "../../utils";
 import DatePicker from "../DatePicker/DatePicker";
+import LoadingSpinner from "../LoadingAnimations/";
 
 const options = {
   plugins: {
@@ -68,6 +69,7 @@ class ChartItem extends Component {
       errorMessage: null,
       color: null,
       currency: { name: "" },
+      isLoading: true,
     };
   }
 
@@ -104,7 +106,9 @@ class ChartItem extends Component {
           },
         ],
       };
-      this.setState({ data: chartData });
+      setTimeout(() => {
+        this.setState({ data: chartData, isLoading: false });
+      }, 100);
     } else {
       this.setState({ errorMessage: "There was an error loading chart data" });
     }
@@ -136,7 +140,7 @@ class ChartItem extends Component {
 
   render() {
     const { title, info, type, date, changeDate } = this.props;
-    const { data, currency } = this.state;
+    const { data, currency, isLoading } = this.state;
 
     return (
       <>
@@ -148,14 +152,18 @@ class ChartItem extends Component {
         <ChartContainer>
           <DatePicker date={date} changeDate={changeDate} />
           <ChartWrapper>
-            {data && (
-              <>
-                {type === "line" ? (
-                  <Line data={data} options={options} />
-                ) : (
-                  <Bar data={data} options={options} />
-                )}
-              </>
+            {isLoading ? (
+              <LoadingSpinner />
+            ) : (
+              data && (
+                <>
+                  {type === "line" ? (
+                    <Line data={data} options={options} />
+                  ) : (
+                    <Bar data={data} options={options} />
+                  )}
+                </>
+              )
             )}
           </ChartWrapper>
         </ChartContainer>
