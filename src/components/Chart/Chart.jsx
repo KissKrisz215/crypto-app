@@ -13,7 +13,7 @@ import {
 } from "./Chart.styles";
 import { getTodayDate } from "../../utils";
 import DatePicker from "../DatePicker/DatePicker";
-import LoadingSpinner from "../LoadingAnimations/";
+import { LoadingSpinner } from "../LoadingAnimations/";
 
 const options = {
   plugins: {

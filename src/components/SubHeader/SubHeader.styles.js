@@ -16,6 +16,8 @@ export const Col = styled.div`
   align-items: center;
   gap: 0.5rem;
   font-size: 17px;
+  min-width: 120px;
+  min-height: 50px;
 `;
 
 export const Row = styled.div`

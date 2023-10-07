@@ -16,6 +16,7 @@ import {
 } from "../../utils/index";
 import Icons from "../../assets/index";
 import PercentageBar from "../PercentageBar/index";
+import { LoadingBar } from "../LoadingAnimations";
 export default class SubHeader extends React.Component {
   state = {
     currencies: null,
@@ -27,6 +28,7 @@ export default class SubHeader extends React.Component {
     marketCapPercentage: null,
     totalMarketTrend: null,
     errorMessage: null,
+    isLoading: true,
   };
 
   async handleData() {
@@ -52,6 +54,10 @@ export default class SubHeader extends React.Component {
         totalMarketTrend:
           data.market_cap_change_percentage_24h_usd > 0 ? true : false,
       });
+
+      setTimeout(() => {
+        this.setState({ isLoading: false });
+      }, 5000);
     } catch (err) {
       console.log(err);
       this.setState({
@@ -75,6 +81,31 @@ export default class SubHeader extends React.Component {
       bitcoinPercentage,
       ethPercentage,
     } = this.state;
+
+    if (this.state.isLoading) {
+      return (
+        <Container>
+          <Col>
+            <LoadingBar />
+          </Col>
+          <Col>
+            <LoadingBar />
+          </Col>
+          <Col>
+            <LoadingBar />
+          </Col>
+          <Col>
+            <LoadingBar />
+          </Col>
+          <Col>
+            <LoadingBar />
+          </Col>
+          <Col>
+            <LoadingBar />
+          </Col>
+        </Container>
+      );
+    }
 
     return (
       <Container>

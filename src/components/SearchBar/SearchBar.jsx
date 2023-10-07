@@ -10,7 +10,7 @@ import {
   DropDownHeader,
 } from "./SearchBar.styles";
 import Icons from "../../assets/index";
-import LoadingSpinner from "../LoadingAnimations/";
+import { LoadingSpinner } from "../LoadingAnimations/";
 
 export default class SearchBar extends React.Component {
   constructor(props) {
@@ -50,8 +50,8 @@ export default class SearchBar extends React.Component {
     } catch (err) {
       console.log(err);
       this.setState({
-        errorMessage: "There was an error retrieving the data.",
         isLoading: true,
+        data: [],
       });
     }
   }
