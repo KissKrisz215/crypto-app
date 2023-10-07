@@ -53,16 +53,14 @@ export default class SubHeader extends React.Component {
         ),
         totalMarketTrend:
           data.market_cap_change_percentage_24h_usd > 0 ? true : false,
+        isLoading: false,
       });
-
-      setTimeout(() => {
-        this.setState({ isLoading: false });
-      }, 5000);
     } catch (err) {
       console.log(err);
       this.setState({
         errorMessage:
           "An error occurred while fetching data. Please try again later.",
+        isLoading: true,
       });
     }
   }
