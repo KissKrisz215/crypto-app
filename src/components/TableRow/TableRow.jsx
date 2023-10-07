@@ -12,19 +12,22 @@ import {
   calculatePercentage,
   formatPercentage,
 } from "../../utils/formatPrices";
-
+import { LoadingBar } from "../LoadingAnimations";
 import SparkLine from "../SparkLine/";
 
 export default class TableRow extends React.Component {
   state = {
-    marketCap: null,
-    totalVolume: null,
-    circulatingSupply: null,
-    totalSupply: null,
-    volumePercentage: null,
-    supplyPercentage: null,
-    priceData: null,
-    priceChangePercentage: null,
+    coinData: {
+      marketCap: null,
+      totalVolume: null,
+      circulatingSupply: null,
+      totalSupply: null,
+      volumePercentage: null,
+      supplyPercentage: null,
+      priceData: null,
+      priceChangePercentage: null,
+    },
+    isLoading: true,
   };
 
   componentDidMount() {
@@ -49,19 +52,58 @@ export default class TableRow extends React.Component {
         ) + "%";
 
       this.setState({
-        marketCap,
-        totalVolume,
-        totalSupply,
-        circulatingSupply,
-        priceData,
-        priceChangePercentage,
-        volumePercentage,
-        supplyPercentage,
+        coinData: {
+          marketCap,
+          totalVolume,
+          totalSupply,
+          circulatingSupply,
+          priceData,
+          priceChangePercentage,
+          volumePercentage,
+          supplyPercentage,
+        },
+        isLoading: this.props.isLoading,
       });
     }
   }
 
   render() {
+    if (this.state.isLoading) {
+      return (
+        <TableRowContainer>
+          <CoinData>
+            <CoinHeader>
+              <LoadingBar />
+            </CoinHeader>
+          </CoinData>
+          <CoinData>
+            <LoadingBar />
+          </CoinData>
+          <CoinData>
+            <LoadingBar />
+          </CoinData>
+          <CoinData>
+            <LoadingBar />
+          </CoinData>
+          <CoinData>
+            <LoadingBar />
+          </CoinData>
+          <CoinData>
+            <LoadingBar />
+          </CoinData>
+          <CoinData>
+            <LoadingBar />
+          </CoinData>
+          <CoinData>
+            <LoadingBar />
+          </CoinData>
+          <CoinData>
+            <LoadingBar />
+          </CoinData>
+        </TableRowContainer>
+      );
+    }
+
     const {
       index,
       coin: {
@@ -74,6 +116,7 @@ export default class TableRow extends React.Component {
         price_change_percentage_7d_in_currency,
       },
     } = this.props;
+
     const {
       marketCap,
       totalVolume,
@@ -83,8 +126,9 @@ export default class TableRow extends React.Component {
       supplyPercentage,
       priceData,
       priceChangePercentage,
-    } = this.state;
+    } = this.state.coinData;
     const { colors } = this.props;
+
     return (
       <TableRowContainer>
         <CoinData>{index}</CoinData>

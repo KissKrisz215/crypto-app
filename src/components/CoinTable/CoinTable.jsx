@@ -4698,6 +4698,7 @@ export default class CoinTable extends React.Component {
   state = {
     data: data,
     errorMessage: null,
+    isLoading: true,
   };
 
   sortByName() {
@@ -4775,6 +4776,10 @@ export default class CoinTable extends React.Component {
   }
 
   async getCoins() {
+    this.setState({
+      isLoading: true,
+      data: Array.from({ length: this.props.showRows }),
+    });
     try {
       const { activeCategory, showRows, currentPage } = this.props;
       let category;
@@ -4787,10 +4792,13 @@ export default class CoinTable extends React.Component {
           category ? `&category=${category}&` : "&"
         }order=market_cap_desc&per_page=${showRows}&page=${currentPage}&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
       );
-      this.setState({ data });
+      this.setState({ data, isLoading: false });
     } catch (err) {
       console.log(err);
-      this.setState({ errorMessage: "There was an error loading the data." });
+      this.setState({
+        errorMessage: "There was an error loading the data.",
+        isLoading: true,
+      });
     }
   }
   componentDidMount() {
@@ -4818,7 +4826,7 @@ export default class CoinTable extends React.Component {
   }
 
   render() {
-    const { data } = this.state;
+    const { data, isLoading } = this.state;
     const {
       sortCoins,
       sortBy,
@@ -4897,15 +4905,18 @@ export default class CoinTable extends React.Component {
             </TableRowHeader>
           </TableHead>
           <TableBody>
-            {this.state.data &&
-              this.state.data.map((coin) => (
-                <TableRow
-                  key={coin.id}
-                  coin={coin}
-                  index={coin.market_cap_rank}
-                  colors={percentageBarColors[coin.market_cap_rank % 10]}
-                />
-              ))}
+            {this.state.isLoading
+              ? this.state.data.map((coin) => (
+                  <TableRow isLoading={isLoading} />
+                ))
+              : this.state.data.map((coin) => (
+                  <TableRow
+                    key={coin.id}
+                    coin={coin}
+                    index={coin.market_cap_rank}
+                    colors={percentageBarColors[coin.market_cap_rank % 10]}
+                  />
+                ))}
           </TableBody>
         </TableWrapper>
       </Container>
