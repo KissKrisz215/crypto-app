@@ -15,7 +15,7 @@ export const ChartHeader = styled.div`
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.3rem;
 `;
 
 export const HeaderTitle = styled.h4`

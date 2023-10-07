@@ -12,8 +12,8 @@ const slide = keyframes`
 export const Wrapper = styled.div`
   background: ${(props) => props.theme.main};
   border-radius: 10px;
-  width: 100%;
-  height: 100%;
+  width: ${(props) => (props.width ? props.width : `100%`)};
+  height: ${(props) => (props.height ? props.height : `100%`)};
   display: flex;
   align-items: center;
 `;

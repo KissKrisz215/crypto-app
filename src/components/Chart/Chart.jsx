@@ -14,6 +14,7 @@ import {
 import { getTodayDate } from "../../utils";
 import DatePicker from "../DatePicker/DatePicker";
 import { LoadingSpinner } from "../LoadingAnimations/";
+import { LoadingBar } from "../LoadingAnimations/";
 
 const options = {
   plugins: {
@@ -148,11 +149,19 @@ class ChartItem extends Component {
         <ThemeContext.Consumer>
           {(theme) => (
             <>
-              <ChartHeader>
-                <HeaderTitle>{title}</HeaderTitle>
-                {currency && <SubTitle>{currency.symbol + info}</SubTitle>}
-                <HeaderParagraph>{getTodayDate()}</HeaderParagraph>
-              </ChartHeader>
+              {this.state.isLoading ? (
+                <ChartHeader>
+                  <LoadingBar width={"60px"} height={"30px"} />
+                  <LoadingBar width={"150px"} height={"30px"} />
+                  <LoadingBar width={"180px"} height={"30px"} />
+                </ChartHeader>
+              ) : (
+                <ChartHeader>
+                  <HeaderTitle>{title}</HeaderTitle>
+                  {currency && <SubTitle>{currency.symbol + info}</SubTitle>}
+                  <HeaderParagraph>{getTodayDate()}</HeaderParagraph>
+                </ChartHeader>
+              )}
               <ChartContainer>
                 <DatePicker date={date} changeDate={changeDate} />
                 <ChartWrapper>
