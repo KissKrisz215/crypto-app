@@ -183,7 +183,7 @@ export default class AddAssetButton extends React.Component {
       const existingPortfolio = localStorage.getItem("portfolio");
 
       const coins = {
-        currency: "USD",
+        currency: this.props.activeCurrency,
         purchasePrice: amount,
         purchaseDate: date,
         data: coin,

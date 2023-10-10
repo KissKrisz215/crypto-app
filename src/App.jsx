@@ -121,6 +121,7 @@ class App extends React.Component {
                 <Portfolio
                   active={this.state.active}
                   handleChangeActive={this.handleChangeActive}
+                  activeCurrency={this.state.activeCurrency}
                 />
               }
             />
