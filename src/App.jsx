@@ -20,6 +20,8 @@ const darkTheme = {
   lines: "#464749",
   shine1: "#1F2128",
   shine2: "#2C2F36",
+  modal1: "#06d554",
+  modal2: "ffffff",
 };
 
 const lightTheme = {
@@ -36,6 +38,8 @@ const lightTheme = {
   lines: "#EEEEEE",
   shine1: "#E0DED7",
   shine2: "#F7F7F7",
+  modal1: "#1f2128",
+  modal2: "#1f2128",
 };
 
 const currencies = [

@@ -1,16 +1,5 @@
 import styled from "styled-components";
-
-export const Container = styled.div`
-  margin-top: 3.5rem;
-  padding: 0.6rem 0;
-  max-width: 1350px;
-  width: 90%;
-`;
-
-export const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
+import { Link } from "react-router-dom";
 
 export const ButtonContainer = styled.div`
   display: flex;
@@ -38,7 +27,7 @@ export const ModalWrapper = styled.div`
   width: 100%;
   max-width: 700px;
   height: 100%;
-  max-height: 400px;
+  max-height: 380px;
   border-radius: 0.4rem;
   position: absolute;
   top: 50%;
@@ -48,6 +37,7 @@ export const ModalWrapper = styled.div`
   display: ${(props) => (props.isOpen ? "block" : "none")};
   flex-direction: column;
   align-items: center;
+  z-index: 10;
 `;
 
 export const ModalContainer = styled.div`
@@ -61,10 +51,9 @@ export const ModalHeader = styled.h2``;
 
 export const ModalBody = styled.div`
   display: flex;
-  gap: 0.7rem;
+  gap: 1.3rem;
   width: 100%;
-  height: 100%;
-  justify-content: space-around;
+  justify-content: center;
   margin-top: 0.8rem;
 `;
 
@@ -73,8 +62,7 @@ export const IconWrapper = styled.div`
   border-radius: 0.4rem;
   width: 100%;
   height: 100%;
-  max-width: 130px;
-  max-height: 140px;
+  max-width: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -95,6 +83,7 @@ export const IconContainer = styled.div`
 export const IconTitle = styled.p`
   margin: 0;
   font-size: 0.7rem;
+  text-align: center;
 `;
 
 export const Icon = styled.img`
@@ -109,4 +98,77 @@ export const ModalCloseButton = styled.img`
   top: 5%;
   width: 1.5rem;
   cursor: pointer;
+`;
+
+export const InputWrapper = styled.div`
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+export const ModalButton = styled.button`
+  width: 240px;
+  height: 50px;
+  border-radius: 0.4rem;
+  font-size: 0.7rem;
+  cursor: pointer;
+  background-color: ${(props) => props.bgColor};
+  color: ${(props) => props.color};
+  border: 0;
+  opacity: ${(props) => (props.isComplete ? "1" : "0.6")};
+`;
+
+export const ModalButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1.7rem;
+  gap: 0.6rem;
+  width: 100%;
+`;
+
+export const DropDownContainer = styled.div`
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  height: 200px;
+  max-height: 250px;
+  left: 0%;
+  background-color: ${(props) => props.theme.main};
+  border-radius: 0.5rem;
+  z-index: 5;
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const DropDownItem = styled(Link)`
+  border-radius: 0.3rem;
+  font-size: 0.8rem;
+  text-decoration: none;
+  width: 90%;
+  display: block;
+  padding: 0.3rem;
+  &:hover {
+    background-color: ${(props) => props.theme.main};
+  }
+`;
+
+export const DropDownHeader = styled.div`
+  padding: 0.4rem;
+  font-size: 0.8rem;
+`;
+
+export const ModalBackDrop = styled.div`
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(2px);
+  background-color: rgba(25, 27, 31, 0.1);
+  z-index: 5;
 `;

@@ -18,6 +18,7 @@ export default class SearchBar extends React.Component {
     this.dropdown = React.createRef();
     this.prevInputRef = React.createRef();
     this.prevInput = this.prevInputRef.current;
+    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
   state = {
@@ -81,7 +82,7 @@ export default class SearchBar extends React.Component {
   }
 
   componentDidMount() {
-    document.addEventListener("click", this.handleClickOutside);
+    document.addEventListener("click", this.handleClickOutside, true);
   }
 
   componentDidUpdate() {
@@ -95,7 +96,7 @@ export default class SearchBar extends React.Component {
   }
 
   componentWillUnmount() {
-    document.removeEventListener("click", this.handleClickOutside);
+    document.removeEventListener("click", this.handleClickOutside, true);
   }
 
   render() {
@@ -104,14 +105,14 @@ export default class SearchBar extends React.Component {
     return (
       <ThemeContext.Consumer>
         {(theme) => (
-          <SearchContainer>
+          <SearchContainer ref={this.dropdown}>
             <SearchInput
               onChange={this.handleSearch}
               placeholder="Search..."
               value={searchValue}
             ></SearchInput>
             {!errorMessage && isOpen && (
-              <DropDownContainer ref={this.dropdown}>
+              <DropDownContainer>
                 {data &&
                   data.map((coin) => (
                     <DropDownItem
@@ -124,12 +125,12 @@ export default class SearchBar extends React.Component {
               </DropDownContainer>
             )}
             {errorMessage && isOpen && (
-              <DropDownContainer ref={this.dropdown}>
+              <DropDownContainer>
                 <DropDownHeader> No Results</DropDownHeader>
               </DropDownContainer>
             )}
             {isLoading && isOpen && (
-              <DropDownContainer ref={this.dropdown}>
+              <DropDownContainer>
                 <DropDownHeader>
                   {" "}
                   <LoadingSpinner
