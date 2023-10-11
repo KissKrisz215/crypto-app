@@ -1,34 +1,29 @@
-import React from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { ThemeContext } from "styled-components";
 import { Container, Wrapper } from "./Portfolio.styles";
 import Icons from "../../assets/index";
 import AddAssetButton from "../../components/AddAssetButton/";
 import AssetsList from "../../components/AssetsList/AssetsList";
 
-export default class Portfolio extends React.Component {
-  state = {
-    data: [],
-  };
+const Portfolio = ({ handleChangeActive, activeCurrency }) => {
+  const [data, setData] = useState([]);
 
-  componentDidMount() {
-    this.props.handleChangeActive("portfolio");
-    const data = JSON.parse(localStorage.getItem("portfolio"));
-    this.setState({ data });
-  }
+  useEffect(() => {
+    handleChangeActive("portfolio");
+    const storedData = JSON.parse(localStorage.getItem("portfolio"));
+    setData(storedData || []);
+  }, [handleChangeActive]);
 
-  render() {
-    const { activeCurrency } = this.props;
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => (
-          <Wrapper>
-            <Container>
-              <AddAssetButton activeCurrency={activeCurrency} />
-              <AssetsList data={this.state.data} />
-            </Container>
-          </Wrapper>
-        )}
-      </ThemeContext.Consumer>
-    );
-  }
-}
+  const theme = useContext(ThemeContext);
+
+  return (
+    <Wrapper>
+      <Container>
+        <AddAssetButton activeCurrency={activeCurrency} />
+        <AssetsList data={data} />
+      </Container>
+    </Wrapper>
+  );
+};
+
+export default Portfolio;
