@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
 import { ThemeContext } from "styled-components";
 import {
@@ -16,85 +16,61 @@ import ChartItem from "../../components/Chart/Chart";
 import { formatCurrency, addCommas } from "../../utils";
 import CoinTable from "../../components/CoinTable/";
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.sortCoins = this.sortCoins.bind(this);
-    this.changeActiveCategory = this.changeActiveCategory.bind(this);
-    this.state = {
-      pricesData: null,
-      marketData: null,
-      errorMessage: null,
-      currency: null,
-      currencyPrice: null,
-      currencyVolume: null,
-      pricesDate: {
-        name: "1d",
-        days: 1,
-      },
-      marketDate: {
-        name: "1d",
-        days: 1,
-      },
-      sortBy: null,
-      sortType: false,
-      activeCategory: { name: "Cryptocurrency", category: null },
-      showRows: 50,
-      currentPage: 1,
-    };
-  }
+const Home = ({ activeCurrency, handleChangeActive }) => {
+  const [pricesData, setPricesData] = useState(null);
+  const [marketData, setMarketData] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [currency, setCurrency] = useState(null);
+  const [currencyPrice, setCurrencyPrice] = useState(null);
+  const [currencyVolume, setCurrencyVolume] = useState(null);
+  const [pricesDate, setPricesDate] = useState({ name: "1d", days: 1 });
+  const [marketDate, setMarketDate] = useState({ name: "1d", days: 1 });
+  const [sortBy, setSortBy] = useState(null);
+  const [sortType, setSortType] = useState(false);
+  const [activeCategory, setActiveCategory] = useState({
+    name: "Cryptocurrency",
+    category: null,
+  });
+  const [showRows, setShowRows] = useState(50);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  handleShowRowsChange = (value) => {
-    console.log("Changed Value");
-    this.setState({ showRows: value });
-  };
-
-  changeCurrentPage = (value) => {
+  const changeCurrentPage = (value) => {
     if (value > 0) {
-      this.setState({ currentPage: value });
+      setCurrentPage(value);
     }
   };
 
-  changeActiveCategory(value) {
-    this.setState({ activeCategory: value });
-  }
-
-  sortCoins(value) {
-    this.setState({ sortBy: value, sortType: !this.state.sortType });
-  }
-
-  changePricesDate = (value) => {
-    this.setState({
-      pricesDate: value,
-    });
+  const handleShowRowsChange = (value) => {
+    setShowRows(value);
   };
 
-  changeMarketDate = (value) => {
-    this.setState({
-      marketDate: value,
-    });
+  const changeActiveCategory = (value) => {
+    setActiveCategory(value);
   };
 
-  getData = async (days, interval) => {
+  const sortCoins = (value) => {
+    setSortBy(value);
+    setSortType(!sortType);
+  };
+
+  const getData = async (days, interval) => {
     try {
       const { data } = await axios(
         `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=${
-          this.props.activeCurrency.name
-        }&days=${days}${interval ? `&interval=${interval}` : null}`
+          activeCurrency.name
+        }&days=${days}${interval ? `&interval=${interval}` : ""}`
       );
       return data;
     } catch (err) {
       console.log(err);
-      this.setState({
-        errorMessage: "There was an error retrieving the data.",
-      });
+      setErrorMessage("There was an error retrieving the data.");
     }
   };
 
-  getPricesData = async () => {
-    const days = this.state.pricesDate.days;
+  const getPricesData = async () => {
+    const days = pricesDate.days;
     let interval = "daily";
-    switch (this.state.pricesDate.name) {
+    switch (pricesDate.name) {
       case "1d":
         interval = null;
         break;
@@ -105,161 +81,133 @@ class Home extends Component {
         interval = null;
         break;
     }
-    const data = await this.getData(days, interval);
+    const data = await getData(days, interval);
     const pricesData = data.prices;
 
-    this.setState({ pricesData, errorMessage: null });
+    setPricesData(pricesData);
+    setErrorMessage(null);
   };
 
-  getMarketData = async () => {
-    const days = this.state.marketDate.days;
+  const getMarketData = async () => {
+    const days = marketDate.days;
     let interval = "daily";
-    switch (this.state.marketDate.name) {
+    switch (marketDate.name) {
       case "1d":
         interval = null;
         break;
     }
-    const data = await this.getData(days, interval);
+    const data = await getData(days, interval);
     const marketData12 = data.total_volumes;
 
-    this.setState({
-      marketData: marketData12,
-      errorMessage: null,
-    });
+    setMarketData(marketData12);
+    setErrorMessage(null);
   };
 
-  getPriceAndVolume = async () => {
+  const getPriceAndVolume = async () => {
     try {
       const { data } = await axios(
         "https://api.coingecko.com/api/v3/coins/bitcoin?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false"
       );
 
       const currencyPrice = addCommas(
-        data.market_data.current_price[this.props.activeCurrency.name]
+        data.market_data.current_price[activeCurrency.name]
       );
 
       const currencyVolume = formatCurrency(
-        data.market_data.total_volume[this.props.activeCurrency.name]
+        data.market_data.total_volume[activeCurrency.name]
       );
 
-      this.setState({ currencyPrice, currencyVolume });
+      setCurrencyPrice(currencyPrice);
+      setCurrencyVolume(currencyVolume);
     } catch (err) {
       console.log(err);
-      this.setState({
-        errorMessage: "There was an error retrieving the data.",
-      });
+      setErrorMessage("There was an error retrieving the data.");
     }
   };
 
-  componentDidMount() {
-    this.setState({ currency: this.props.activeCurrency });
-    this.getMarketData();
-    this.getPricesData();
-    this.getPriceAndVolume();
-    this.props.handleChangeActive("home");
-  }
+  useEffect(() => {
+    setCurrency(activeCurrency);
+    getMarketData();
+    getPricesData();
+    getPriceAndVolume();
+    handleChangeActive("home");
+  }, [activeCurrency, handleChangeActive]);
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.activeCurrency !== this.props.activeCurrency) {
-      this.setState({ currency: this.props.activeCurrency });
-      this.getMarketData();
-      this.getPricesData();
-      this.getPriceAndVolume();
-    }
+  useEffect(() => {
+    getMarketData();
+  }, [marketDate]);
 
-    if (prevState.marketDate.name !== this.state.marketDate.name) {
-      this.getMarketData();
-    }
+  useEffect(() => {
+    getPricesData();
+  }, [pricesDate]);
 
-    if (prevState.pricesDate.name !== this.state.pricesDate.name) {
-      this.getPricesData();
-    }
-  }
-
-  render() {
-    const {
-      errorMessage,
-      currency,
-      pricesData,
-      currencyPrice,
-      pricesDate,
-      marketData,
-      currencyVolume,
-      marketDate,
-      sortBy,
-      sortType,
-      activeCategory,
-      showRows,
-      currentPage,
-    } = this.state;
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => (
-          <Wrapper>
-            <Container>
-              <Header>Your overview</Header>
-              <ChartsContainer>
-                <ChartWrapper>
-                  {errorMessage && (
-                    <ErrorContainer>
-                      <ErrorMessage>{errorMessage}</ErrorMessage>
-                    </ErrorContainer>
-                  )}
-                  {this.state.pricesData && (
-                    <ChartItem
-                      currency={currency}
-                      data={pricesData}
-                      type="line"
-                      color={theme.chart1}
-                      title="BTC"
-                      info={currencyPrice}
-                      date={pricesDate.name}
-                      changeDate={this.changePricesDate}
-                    />
-                  )}
-                </ChartWrapper>
-                <ChartWrapper>
-                  {errorMessage && (
-                    <ErrorContainer>
-                      <ErrorMessage>{errorMessage}</ErrorMessage>
-                    </ErrorContainer>
-                  )}
-                  {this.state.marketData && (
-                    <ChartItem
-                      currency={currency}
-                      data={marketData}
-                      type="bar"
-                      color={theme.chart2}
-                      title="BTC Volume"
-                      info={currencyVolume}
-                      date={marketDate.name}
-                      changeDate={this.changeMarketDate}
-                    />
-                  )}
-                </ChartWrapper>
-              </ChartsContainer>
-              <CoinTableWrapper>
-                <Header>Your overview</Header>
-                <CoinTableContainer>
-                  <CoinTable
-                    sortCoins={this.sortCoins}
-                    sortBy={sortBy}
-                    sortType={sortType}
-                    activeCategory={activeCategory}
-                    changeActiveCategory={this.changeActiveCategory}
-                    showRows={showRows}
-                    handleShowRowsChange={this.handleShowRowsChange}
-                    changeCurrentPage={this.changeCurrentPage}
-                    currentPage={currentPage}
+  return (
+    <ThemeContext.Consumer>
+      {(theme) => (
+        <Wrapper>
+          <Container>
+            <Header>Your overview</Header>
+            <ChartsContainer>
+              <ChartWrapper>
+                {errorMessage && (
+                  <ErrorContainer>
+                    <ErrorMessage>{errorMessage}</ErrorMessage>
+                  </ErrorContainer>
+                )}
+                {pricesData && (
+                  <ChartItem
+                    currency={currency}
+                    data={pricesData}
+                    type="line"
+                    color={theme.chart1}
+                    title="BTC"
+                    info={currencyPrice}
+                    date={pricesDate.name}
+                    changeDate={setPricesDate}
                   />
-                </CoinTableContainer>
-              </CoinTableWrapper>
-            </Container>
-          </Wrapper>
-        )}
-      </ThemeContext.Consumer>
-    );
-  }
-}
+                )}
+              </ChartWrapper>
+              <ChartWrapper>
+                {errorMessage && (
+                  <ErrorContainer>
+                    <ErrorMessage>{errorMessage}</ErrorMessage>
+                  </ErrorContainer>
+                )}
+                {marketData && (
+                  <ChartItem
+                    currency={currency}
+                    data={marketData}
+                    type="bar"
+                    color={theme.chart2}
+                    title="BTC Volume"
+                    info={currencyVolume}
+                    date={marketDate.name}
+                    changeDate={setMarketDate}
+                  />
+                )}
+              </ChartWrapper>
+            </ChartsContainer>
+            <CoinTableWrapper>
+              <Header>Your overview</Header>
+              <CoinTableContainer>
+                <CoinTable
+                  sortCoins={sortCoins}
+                  sortBy={sortBy}
+                  sortType={sortType}
+                  activeCategory={activeCategory}
+                  changeActiveCategory={changeActiveCategory}
+                  showRows={showRows}
+                  handleShowRowsChange={handleShowRowsChange}
+                  changeCurrentPage={changeCurrentPage}
+                  currentPage={currentPage}
+                />
+              </CoinTableContainer>
+            </CoinTableWrapper>
+          </Container>
+        </Wrapper>
+      )}
+    </ThemeContext.Consumer>
+  );
+};
 
 export default Home;
