@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   SelectWrapper,
   SelectButton,
@@ -13,57 +13,54 @@ import Icons from "../../assets/index";
 
 const RowsArray = [10, 25, 50, 100];
 
-export default class SelectRows extends React.Component {
-  constructor(props) {
-    super(props);
-    this.dropdown = React.createRef();
-  }
-  state = {
-    isOpen: false,
+const SelectRows = ({ showRows, handleShowRowsChange }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
   };
 
-  handleToggle = () => {
-    this.setState({ isOpen: !this.state.isOpen });
-  };
-
-  componentDidMount() {
-    document.addEventListener("click", this.handleClickOutside);
-  }
-
-  handleClickOutside = (event) => {
-    if (this.dropdown && !this.dropdown.current.contains(event.target)) {
-      this.setState({ isOpen: false });
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsOpen(false);
     }
   };
 
-  render() {
-    const { showRows, handleShowRowsChange } = this.props;
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
-    return (
-      <SelectWrapper onClick={this.handleToggle} ref={this.dropdown}>
-        <NavigationText>Show:</NavigationText>
-        <SelectContainer>
-          <SelectHeader>
-            {showRows && showRows}
-            <ArrowLogo src={Icons.ArrowIcon} />
-          </SelectHeader>
-          {this.state.isOpen && (
-            <SelectDropdown>
-              <SelectButton>
-                {RowsArray &&
-                  RowsArray.map((item) => (
-                    <SelectOption
-                      onClick={() => handleShowRowsChange(item)}
-                      value={item}
-                    >
-                      {item}
-                    </SelectOption>
-                  ))}
-              </SelectButton>
-            </SelectDropdown>
-          )}
-        </SelectContainer>
-      </SelectWrapper>
-    );
-  }
-}
+  return (
+    <SelectWrapper onClick={handleToggle} ref={dropdownRef}>
+      <NavigationText>Show:</NavigationText>
+      <SelectContainer>
+        <SelectHeader>
+          {showRows && showRows}
+          <ArrowLogo src={Icons.ArrowIcon} />
+        </SelectHeader>
+        {isOpen && (
+          <SelectDropdown>
+            <SelectButton>
+              {RowsArray &&
+                RowsArray.map((item) => (
+                  <SelectOption
+                    key={item}
+                    onClick={() => handleShowRowsChange(item)}
+                    value={item}
+                  >
+                    {item}
+                  </SelectOption>
+                ))}
+            </SelectButton>
+          </SelectDropdown>
+        )}
+      </SelectContainer>
+    </SelectWrapper>
+  );
+};
+
+export default SelectRows;
