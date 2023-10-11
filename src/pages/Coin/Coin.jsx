@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-export default class Coin extends React.Component {
-  componentDidMount() {
-    this.props.handleChangeActive("portfolio");
-    console.log(this.props.active);
-  }
+const Coin = ({ handleChangeActive, active }) => {
+  useEffect(() => {
+    handleChangeActive("portfolio");
+    console.log(active);
+  }, [handleChangeActive, active]);
 
-  render() {
-    return <div></div>;
-  }
-}
+  return <div></div>;
+};
+
+export default Coin;
