@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { ThemeContext } from "styled-components";
 import {
@@ -12,141 +12,117 @@ import {
 import Icons from "../../assets/index";
 import { LoadingSpinner } from "../LoadingAnimations/";
 
-export default class SearchBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.dropdown = React.createRef();
-    this.prevInputRef = React.createRef();
-    this.prevInput = this.prevInputRef.current;
-    this.handleClickOutside = this.handleClickOutside.bind(this);
-  }
+const SearchBar = () => {
+  const [searchValue, setSearchValue] = useState("");
+  const [data, setData] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const dropdownRef = useRef(null);
+  const prevInputRef = useRef("");
 
-  state = {
-    searchValue: "",
-    data: null,
-    errorMessage: null,
-    isOpen: false,
-    isLoading: true,
-  };
-
-  async getData() {
-    try {
-      const { data } = await axios(
-        `https://api.coingecko.com/api/v3/search?query=${this.state.searchValue}`
-      );
-      if (data.coins.length === 0) {
-        this.setState({
-          data: [],
-          errorMessage: "There was an error retrieving the data.",
-          isLoading: false,
-        });
-      } else {
-        const slicedData = data.coins.slice(0, 25);
-        this.setState({
-          data: slicedData,
-          errorMessage: null,
-          isLoading: false,
-        });
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const { data } = await axios(
+          `https://api.coingecko.com/api/v3/search?query=${searchValue}`
+        );
+        if (data.coins.length === 0) {
+          setData([]);
+          setErrorMessage("There was an error retrieving the data.");
+          setIsLoading(false);
+        } else {
+          const slicedData = data.coins.slice(0, 25);
+          setData(slicedData);
+          setErrorMessage(null);
+          setIsLoading(false);
+        }
+      } catch (err) {
+        console.log(err);
+        setIsLoading(true);
+        setData([]);
       }
-    } catch (err) {
-      console.log(err);
-      this.setState({
-        isLoading: true,
-        data: [],
-      });
-    }
-  }
+    };
 
-  handleSearch = (e) => {
+    if (searchValue.length > 0 && prevInputRef.current !== searchValue) {
+      getData();
+      prevInputRef.current = searchValue;
+    }
+  }, [searchValue]);
+
+  const handleSearch = (e) => {
     const { value } = e.target;
-    this.setState({ searchValue: value, isLoading: true, errorMessage: null });
-    if (value.length === 0) {
-      this.setState({ data: null, isOpen: false });
-    } else {
-      this.getData();
-      this.setState({ isOpen: true });
+    setSearchValue(value);
+    setIsLoading(true);
+    setErrorMessage(null);
+    setIsOpen(value.length > 0);
+  };
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      closeDropdown();
     }
   };
 
-  handleClickOutside = (event) => {
-    if (
-      this.dropdown.current &&
-      !this.dropdown.current.contains(event.target)
-    ) {
-      this.closeDropdown();
-    }
+  const closeDropdown = () => {
+    setIsOpen(false);
+    setSearchValue("");
   };
 
-  closeDropdown() {
-    this.setState({ isOpen: false, searchValue: "" });
-  }
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, true);
 
-  componentDidMount() {
-    document.addEventListener("click", this.handleClickOutside, true);
-  }
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, []);
 
-  componentDidUpdate() {
-    if (
-      this.state.searchValue.length > 0 &&
-      this.prevInputRef.current !== this.state.searchValue
-    ) {
-      this.getData();
-      this.prevInputRef.current = this.state.searchValue;
-    }
-  }
+  return (
+    <ThemeContext.Consumer>
+      {(theme) => (
+        <SearchContainer ref={dropdownRef}>
+          <SearchInput
+            onChange={handleSearch}
+            placeholder="Search..."
+            value={searchValue}
+          ></SearchInput>
+          {!errorMessage && isOpen && (
+            <DropDownContainer>
+              {data &&
+                data.map((coin) => (
+                  <DropDownItem
+                    key={coin.name}
+                    onClick={closeDropdown}
+                    to={`/coins/${coin.name}`}
+                  >
+                    {coin.name}
+                  </DropDownItem>
+                ))}
+            </DropDownContainer>
+          )}
+          {errorMessage && isOpen && (
+            <DropDownContainer>
+              <DropDownHeader> No Results</DropDownHeader>
+            </DropDownContainer>
+          )}
+          {isLoading && isOpen && (
+            <DropDownContainer>
+              <DropDownHeader>
+                <LoadingSpinner
+                  width="25px"
+                  height="25px"
+                  border="4px"
+                  color={theme.primary}
+                  borderColor={theme.main}
+                />
+              </DropDownHeader>
+            </DropDownContainer>
+          )}
+          <InputIcon src={Icons.SearchIcon} alt="" />
+        </SearchContainer>
+      )}
+    </ThemeContext.Consumer>
+  );
+};
 
-  componentWillUnmount() {
-    document.removeEventListener("click", this.handleClickOutside, true);
-  }
-
-  render() {
-    const { SearchIcon } = Icons;
-    const { data, searchValue, isOpen, errorMessage, isLoading } = this.state;
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => (
-          <SearchContainer ref={this.dropdown}>
-            <SearchInput
-              onChange={this.handleSearch}
-              placeholder="Search..."
-              value={searchValue}
-            ></SearchInput>
-            {!errorMessage && isOpen && (
-              <DropDownContainer>
-                {data &&
-                  data.map((coin) => (
-                    <DropDownItem
-                      onClick={() => closeDropdown()}
-                      to={`/coins/${coin.name}`}
-                    >
-                      {coin.name}
-                    </DropDownItem>
-                  ))}
-              </DropDownContainer>
-            )}
-            {errorMessage && isOpen && (
-              <DropDownContainer>
-                <DropDownHeader> No Results</DropDownHeader>
-              </DropDownContainer>
-            )}
-            {isLoading && isOpen && (
-              <DropDownContainer>
-                <DropDownHeader>
-                  {" "}
-                  <LoadingSpinner
-                    width="25px"
-                    height="25px"
-                    border="4px"
-                    color={theme.primary}
-                    borderColor={theme.main}
-                  />
-                </DropDownHeader>
-              </DropDownContainer>
-            )}
-            <InputIcon src={SearchIcon} alt="" />
-          </SearchContainer>
-        )}
-      </ThemeContext.Consumer>
-    );
-  }
-}
+export default SearchBar;
