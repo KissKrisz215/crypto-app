@@ -2,22 +2,18 @@ import React from "react";
 import { InputContainer, Input, ArrowLogo } from "./ModalInput.styles";
 import Icons from "../../assets/index";
 
-export default class ModalInput extends React.Component {
-  render() {
-    const { title, value, change, children, name, type } = this.props;
+const ModalInput = ({ title, value, change, children, name, type }) => (
+  <InputContainer>
+    <Input
+      type={type}
+      name={name}
+      onChange={change}
+      value={value}
+      placeholder={title}
+    />
+    <ArrowLogo src={Icons.ArrowIcon} />
+    {children}
+  </InputContainer>
+);
 
-    return (
-      <InputContainer>
-        <Input
-          type={type}
-          name={name}
-          onChange={change}
-          value={value}
-          placeholder={title}
-        ></Input>
-        <ArrowLogo src={Icons.ArrowIcon} />
-        {children}
-      </InputContainer>
-    );
-  }
-}
+export default ModalInput;
