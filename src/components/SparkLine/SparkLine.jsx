@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { Container } from "./SparkLine.styles";
 
@@ -21,14 +21,11 @@ const options = {
   },
 };
 
-export default class SparkLine extends React.Component {
-  state = {
-    data: null,
-  };
+const SparkLine = ({ data, priceChangePercentage }) => {
+  const [chartData, setChartData] = useState(null);
 
-  componentDidMount() {
-    const labelsArray = Array(this.props.data.length).join(" ").split(" ");
-    const { data, priceChangePercentage } = this.props;
+  useEffect(() => {
+    const labelsArray = Array(data.length).join(" ").split(" ");
     const chartData = {
       labels: labelsArray,
       datasets: [
@@ -43,21 +40,16 @@ export default class SparkLine extends React.Component {
         },
       ],
     };
-    this.setState({ data: chartData });
-  }
+    setChartData(chartData);
+  }, [data, priceChangePercentage]);
 
-  render() {
-    return (
-      <Container>
-        {this.state.data && (
-          <Line
-            width="140px"
-            height="70px"
-            data={this.state.data}
-            options={options}
-          />
-        )}
-      </Container>
-    );
-  }
-}
+  return (
+    <Container>
+      {chartData && (
+        <Line width="140px" height="70px" data={chartData} options={options} />
+      )}
+    </Container>
+  );
+};
+
+export default SparkLine;
