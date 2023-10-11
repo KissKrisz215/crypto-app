@@ -8,18 +8,17 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDownWideShort } from "@fortawesome/free-solid-svg-icons";
 
-export default class CoinButton extends React.Component {
-  render() {
-    const { title, sortType, sortBy, sortCoins } = this.props;
-    return (
-      <Container onClick={() => sortCoins(title)}>
-        <TitleWrapper>
-          <Title>{title}</Title>
-          <IconWrapper title={title} sortType={sortType} sortBy={sortBy}>
-            <FontAwesomeIcon size="xs" icon={faArrowDownWideShort} />
-          </IconWrapper>
-        </TitleWrapper>
-      </Container>
-    );
-  }
-}
+const CoinButton = ({ title, sortType, sortBy, sortCoins }) => {
+  return (
+    <Container onClick={() => sortCoins(title)}>
+      <TitleWrapper>
+        <Title>{title}</Title>
+        <IconWrapper title={title} sortType={sortType} sortBy={sortBy}>
+          <FontAwesomeIcon size="xs" icon={faArrowDownWideShort} />
+        </IconWrapper>
+      </TitleWrapper>
+    </Container>
+  );
+};
+
+export default CoinButton;
