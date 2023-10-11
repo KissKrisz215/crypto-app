@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-
 import { ThemeContext } from "styled-components";
 import {
   ButtonContainer,
@@ -26,164 +25,145 @@ import Icons from "../../assets/index";
 import ModalInput from "../ModalInput";
 import { LoadingSpinner } from "../LoadingAnimations/";
 
-export default class AddAssetButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.modalRef = React.createRef();
-    this.handleClickOutside = this.handleClickOutside.bind(this);
-  }
-
-  state = {
-    isOpen: false,
-    isComplete: false,
-    formData: {
-      coin: {
-        name: "Bitcoin",
-        symbol: "BTC",
-        thumb: Icons.BitcoinIcon,
-      },
-      amount: null,
-      date: null,
+const AddAssetButton = ({ activeCurrency }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+  const [formData, setFormData] = useState({
+    coin: {
+      name: "Bitcoin",
+      symbol: "BTC",
+      thumb: Icons.BitcoinIcon,
     },
-    selectedCoin: null,
-    searchValue: "",
-    errorMessage: null,
-    isSearchOpen: false,
-    isLoading: true,
-    data: null,
-  };
+    amount: null,
+    date: null,
+  });
+  const [selectedCoin, setSelectedCoin] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState(null);
+  const modalRef = useRef(null);
 
-  componentDidMount() {
-    document.addEventListener("click", this.handleClickOutside, true);
-    this.handleSave();
-  }
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, true);
+    handleSave();
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, []);
 
-  componentWillUnmount() {
-    document.removeEventListener("click", this.handleClickOutside, true);
-  }
-
-  componentDidUpdate() {
-    const { isComplete, amount, date, selectedCoin } = this.state;
+  useEffect(() => {
+    const { amount, date } = formData;
     if (!isComplete && amount && date && selectedCoin) {
       const selectedDate = new Date(date);
       const currentDate = new Date();
       if (amount > 0 && selectedDate <= currentDate) {
-        this.setState({ isComplete: true });
+        setIsComplete(true);
       }
     }
 
     if (isComplete && amount === "") {
-      this.setState({ isComplete: false });
+      setIsComplete(false);
     }
 
     if (isComplete && date) {
       const selectedDate = new Date(date);
       const currentDate = new Date();
       if (selectedDate > currentDate) {
-        this.setState({ isComplete: false });
+        setIsComplete(false);
       }
     }
-  }
+  }, [formData]);
 
-  async getData() {
+  const getData = async () => {
     try {
       const { data } = await axios(
-        `https://api.coingecko.com/api/v3/search?query=${this.state.searchValue}`
+        `https://api.coingecko.com/api/v3/search?query=${searchValue}`
       );
       if (data.coins.length === 0) {
-        this.setState({
-          data: [],
-          errorMessage: "There was an error retrieving the data.",
-          isLoading: false,
-        });
+        setData([]);
+        setErrorMessage("There was an error retrieving the data.");
+        setIsLoading(false);
       } else {
         const slicedData = data.coins.slice(0, 25);
-        this.setState({
-          data: slicedData,
-          errorMessage: null,
-          isLoading: false,
-        });
+        setData(slicedData);
+        setErrorMessage(null);
+        setIsLoading(false);
       }
     } catch (err) {
       console.log(err);
-      this.setState({
-        isLoading: true,
-        data: [],
-      });
-    }
-  }
-
-  handleClickOutside = (event) => {
-    if (
-      this.modalRef.current &&
-      !this.modalRef.current.contains(event.target)
-    ) {
-      this.closeDropdown();
+      setIsLoading(true);
+      setData([]);
     }
   };
 
-  closeDropdown() {
-    this.setState({ isSearchOpen: false, searchValue: this.state.data.name });
-  }
+  const handleClickOutside = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      closeDropdown();
+    }
+  };
 
-  handleSearch = (e) => {
+  const closeDropdown = () => {
+    setIsSearchOpen(false);
+    setSearchValue("");
+  };
+
+  const handleSearch = (e) => {
     const { value } = e.target;
-    this.setState({ searchValue: value, isLoading: true, errorMessage: null });
+    setSearchValue(value);
+    setIsLoading(true);
+    setErrorMessage(null);
     if (value.length === 0) {
-      this.setState({ data: null, isSearchOpen: false });
+      setData(null);
+      setIsSearchOpen(false);
     } else {
-      this.getData();
-      this.setState({ isSearchOpen: true });
+      getData();
+      setIsSearchOpen(true);
     }
   };
 
-  handleModalToggle = () => {
-    this.setState({
-      isComplete: false,
+  const handleModalToggle = () => {
+    setIsComplete(false);
+    setFormData({
+      coin: {
+        name: "Bitcoin",
+        symbol: "BTC",
+        thumb: Icons.BitcoinIcon,
+      },
       amount: "",
       date: "",
-      data: null,
-      formData: {
-        coin: {
-          name: "Bitcoin",
-          symbol: "BTC",
-          thumb: Icons.BitcoinIcon,
-        },
-      },
-      searchValue: "",
-      isOpen: !this.state.isOpen,
-      selectedCoin: null,
     });
+    setSearchValue("");
+    setIsOpen(!isOpen);
+    setSelectedCoin(null);
   };
 
-  handleCoinChange = (coin) => {
-    this.closeDropdown();
-    this.setState({
-      formData: { coin: coin },
-      searchValue: coin.name,
-      selectedCoin: coin.name,
+  const handleCoinChange = (coin) => {
+    closeDropdown();
+    setFormData({
+      ...formData,
+      coin,
     });
+    setSearchValue(coin.name);
+    setSelectedCoin(coin.name);
   };
 
-  handleInputChange = (event) => {
+  const handleInputChange = (event) => {
     const { name, value } = event.target;
-    this.setState({
+    setFormData({
+      ...formData,
       [name]: value,
     });
   };
 
-  handleSave = () => {
-    const {
-      isComplete,
-      amount,
-      date,
-      formData: { coin },
-    } = this.state;
+  const handleSave = () => {
+    const { amount, date, coin } = formData;
     if (isComplete === true) {
       const existingPortfolio = localStorage.getItem("portfolio");
 
       const coins = {
-        currency: this.props.activeCurrency,
+        currency: activeCurrency,
         purchasePrice: amount,
         purchaseDate: date,
         data: coin,
@@ -194,125 +174,112 @@ export default class AddAssetButton extends React.Component {
         data.push(coins);
         localStorage.setItem("portfolio", JSON.stringify(data));
       } else {
-        localStorage.setItem("portfolio", JSON.stringify([]));
+        localStorage.setItem("portfolio", JSON.stringify([coins]));
       }
-      this.handleModalToggle();
+      handleModalToggle();
     }
   };
 
-  render() {
-    const {
-      searchValue,
-      errorMessage,
-      isSearchOpen,
-      isLoading,
-      data,
-      amount,
-      date,
-      isOpen,
-      isComplete,
-      formData: {
-        coin: { name, symbol, thumb },
-      },
-    } = this.state;
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => (
-          <ButtonContainer>
-            {isOpen && <ModalBackDrop />}
-            <Button onClick={this.handleModalToggle}>Add Asset</Button>
-            <ModalWrapper isOpen={isOpen}>
-              <ModalContainer>
-                <ModalHeader>Select Coins</ModalHeader>
-                <ModalCloseButton
-                  onClick={this.handleModalToggle}
-                  src={Icons.CrossIcon}
-                ></ModalCloseButton>
-                <ModalBody>
-                  <IconWrapper>
-                    <IconContainer>
-                      <Icon src={thumb} />
-                    </IconContainer>
-                    <IconTitle>
-                      {name}({symbol})
-                    </IconTitle>
-                  </IconWrapper>
-                  <InputWrapper ref={this.modalRef}>
-                    <ModalInput
-                      title="Select Coins"
-                      change={this.handleSearch}
-                      value={searchValue}
-                    >
-                      {!errorMessage && isSearchOpen && (
-                        <DropDownContainer>
-                          {data &&
-                            data.map((coin) => (
-                              <DropDownItem
-                                onClick={() => this.handleCoinChange(coin)}
-                              >
-                                {coin.name}
-                              </DropDownItem>
-                            ))}
-                        </DropDownContainer>
-                      )}
-                      {errorMessage && isSearchOpen && (
-                        <DropDownContainer>
-                          <DropDownHeader> No Results</DropDownHeader>
-                        </DropDownContainer>
-                      )}
-                      {isLoading && isSearchOpen && (
-                        <DropDownContainer>
-                          <DropDownHeader>
-                            {" "}
-                            <LoadingSpinner
-                              width="25px"
-                              height="25px"
-                              border="4px"
-                              color={theme.primary}
-                              borderColor={theme.main}
-                            />
-                          </DropDownHeader>
-                        </DropDownContainer>
-                      )}
-                    </ModalInput>
-                    <ModalInput
-                      change={this.handleInputChange}
-                      title="Purchased Amount"
-                      name="amount"
-                      value={amount}
-                    />
-                    <ModalInput
-                      change={this.handleInputChange}
-                      title=""
-                      name="date"
-                      value={date}
-                      type="date"
-                    />
-                  </InputWrapper>
-                </ModalBody>
-                <ModalButtonWrapper>
-                  <ModalButton
-                    isComplete={true}
-                    onClick={this.handleModalToggle}
-                    color={theme.modal1}
-                    bgColor={"#ffffff"}
+  return (
+    <ThemeContext.Consumer>
+      {(theme) => (
+        <ButtonContainer>
+          {isOpen && <ModalBackDrop />}
+          <Button onClick={handleModalToggle}>Add Asset</Button>
+          <ModalWrapper isOpen={isOpen}>
+            <ModalContainer>
+              <ModalHeader>Select Coins</ModalHeader>
+              <ModalCloseButton
+                onClick={handleModalToggle}
+                src={Icons.CrossIcon}
+              ></ModalCloseButton>
+              <ModalBody>
+                <IconWrapper>
+                  <IconContainer>
+                    <Icon src={formData.coin.thumb} />
+                  </IconContainer>
+                  <IconTitle>
+                    {formData.coin.name}({formData.coin.symbol})
+                  </IconTitle>
+                </IconWrapper>
+                <InputWrapper ref={modalRef}>
+                  <ModalInput
+                    title="Select Coins"
+                    change={handleSearch}
+                    value={searchValue}
                   >
-                    Close
-                  </ModalButton>
-                  <ModalButton
-                    isComplete={isComplete}
-                    color={theme.modal2}
-                    bgColor={"#06d554"}
-                    onClick={this.handleSave}
-                  >
-                    Save and Continue
-                  </ModalButton>
-                </ModalButtonWrapper>
-              </ModalContainer>
-            </ModalWrapper>
-          </ButtonContainer>
-        )}
-      </ThemeContext.Consumer>
-    );
-  }
-}
+                    {!errorMessage && isSearchOpen && (
+                      <DropDownContainer>
+                        {data &&
+                          data.map((coin) => (
+                            <DropDownItem
+                              key={coin.name}
+                              onClick={() => handleCoinChange(coin)}
+                            >
+                              {coin.name}
+                            </DropDownItem>
+                          ))}
+                      </DropDownContainer>
+                    )}
+                    {errorMessage && isSearchOpen && (
+                      <DropDownContainer>
+                        <DropDownHeader> No Results</DropDownHeader>
+                      </DropDownContainer>
+                    )}
+                    {isLoading && isSearchOpen && (
+                      <DropDownContainer>
+                        <DropDownHeader>
+                          {" "}
+                          <LoadingSpinner
+                            width="25px"
+                            height="25px"
+                            border="4px"
+                            color={theme.primary}
+                            borderColor={theme.main}
+                          />
+                        </DropDownHeader>
+                      </DropDownContainer>
+                    )}
+                  </ModalInput>
+                  <ModalInput
+                    change={handleInputChange}
+                    title="Purchased Amount"
+                    name="amount"
+                    value={formData.amount}
+                  />
+                  <ModalInput
+                    change={handleInputChange}
+                    title=""
+                    name="date"
+                    value={formData.date}
+                    type="date"
+                  />
+                </InputWrapper>
+              </ModalBody>
+              <ModalButtonWrapper>
+                <ModalButton
+                  isComplete={true}
+                  onClick={handleModalToggle}
+                  color={theme.modal1}
+                  bgColor={"#ffffff"}
+                >
+                  Close
+                </ModalButton>
+                <ModalButton
+                  isComplete={isComplete}
+                  color={theme.modal2}
+                  bgColor={"#06d554"}
+                  onClick={handleSave}
+                >
+                  Save and Continue
+                </ModalButton>
+              </ModalButtonWrapper>
+            </ModalContainer>
+          </ModalWrapper>
+        </ButtonContainer>
+      )}
+    </ThemeContext.Consumer>
+  );
+};
+
+export default AddAssetButton;

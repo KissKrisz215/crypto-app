@@ -19,6 +19,10 @@ export const Input = styled.input`
   &:focus {
     outline: none;
   }
+  &::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+  }
 `;
 
 export const ArrowLogo = styled.img`
