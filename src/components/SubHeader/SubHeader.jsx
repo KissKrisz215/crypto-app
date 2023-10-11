@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Container,
@@ -17,128 +17,113 @@ import {
 import Icons from "../../assets/index";
 import PercentageBar from "../PercentageBar/index";
 import { LoadingBar } from "../LoadingAnimations";
-export default class SubHeader extends React.Component {
-  state = {
-    currencies: null,
-    exchanges: null,
-    totalMarketCap: null,
-    totalVolume: null,
-    bitcoinPercentage: null,
-    ethPercentage: null,
-    marketCapPercentage: null,
-    totalMarketTrend: null,
-    errorMessage: null,
-    isLoading: true,
-  };
 
-  async handleData() {
-    const {
-      activeCurrency: { name },
-    } = this.props;
+const SubHeader = ({ activeCurrency }) => {
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
 
-    try {
-      const {
-        data: { data },
-      } = await axios("https://api.coingecko.com/api/v3/global");
-      this.setState({
-        currencies: data.active_cryptocurrencies,
-        exchanges: data.markets,
-        bitcoinPercentage: formatPercentage(data.market_cap_percentage.btc),
-        ethPercentage: formatPercentage(data.market_cap_percentage.eth),
-        totalMarketCap: formatCurrency(data.total_market_cap[name]),
-        totalVolume: formatCurrency(data.total_volume[name]),
-        marketCapPercentage: calculatePercentage(
-          data.total_market_cap[name],
-          data.total_volume[name]
-        ),
-        totalMarketTrend:
-          data.market_cap_change_percentage_24h_usd > 0 ? true : false,
-        isLoading: false,
-      });
-    } catch (err) {
-      console.log(err);
-      this.setState({
-        errorMessage:
-          "An error occurred while fetching data. Please try again later.",
-        isLoading: true,
-      });
-    }
-  }
+  useEffect(() => {
+    const handleData = async () => {
+      try {
+        const {
+          data: { data },
+        } = await axios("https://api.coingecko.com/api/v3/global");
+        setData(data);
+        setIsLoading(false);
+      } catch (err) {
+        console.log(err);
+        setErrorMessage(
+          "An error occurred while fetching data. Please try again later."
+        );
+        setIsLoading(true);
+      }
+    };
 
-  componentDidMount() {
-    this.handleData();
-  }
+    handleData();
+  }, []);
 
-  render() {
-    const {
-      currencies,
-      exchanges,
-      totalMarketCap,
-      totalMarketTrend,
-      totalVolume,
-      bitcoinPercentage,
-      ethPercentage,
-    } = this.state;
-
-    if (this.state.isLoading) {
-      return (
-        <Container>
-          <Col>
-            <LoadingBar />
-          </Col>
-          <Col>
-            <LoadingBar />
-          </Col>
-          <Col>
-            <LoadingBar />
-          </Col>
-          <Col>
-            <LoadingBar />
-          </Col>
-          <Col>
-            <LoadingBar />
-          </Col>
-          <Col>
-            <LoadingBar />
-          </Col>
-        </Container>
-      );
-    }
-
+  if (isLoading) {
     return (
       <Container>
-        <Col>Coins {currencies}</Col>
-        <Col>Exchanges {exchanges}</Col>
         <Col>
-          <Circle />
-          <Row>
-            <SubNavItem>{totalMarketCap}</SubNavItem>
-            <ArrowLogo
-              totalmarkettrend={totalMarketTrend}
-              src={Icons.ArrowIcon}
-            />
-          </Row>
+          <LoadingBar />
         </Col>
         <Col>
-          <Circle />
-          <SubNavItem>{totalVolume}</SubNavItem>
-          <PercentageBar percentage={this.state.marketCapPercentage} />
+          <LoadingBar />
         </Col>
         <Col>
-          <Row>
-            <CoinLogo src={Icons.BitcoinIcon} />
-            <SubNavItem>{bitcoinPercentage + "%"}</SubNavItem>
-          </Row>
-          <PercentageBar percentage={bitcoinPercentage} />
+          <LoadingBar />
         </Col>
         <Col>
-          <Row>
-            <CoinLogo src={Icons.EthereumIcon} />
-            <SubNavItem> {ethPercentage + "%"}</SubNavItem>
-          </Row>
-          <PercentageBar percentage={ethPercentage} />
+          <LoadingBar />
+        </Col>
+        <Col>
+          <LoadingBar />
+        </Col>
+        <Col>
+          <LoadingBar />
         </Col>
       </Container>
     );
   }
-}
+
+  const {
+    active_cryptocurrencies: currencies,
+    markets: exchanges,
+    total_market_cap: totalMarketCap,
+    market_cap_percentage: marketCapPercentageData,
+    total_volume: totalVolume,
+    market_cap_change_percentage_24h_usd: totalMarketTrend,
+  } = data;
+
+  const bitcoinPercentage = formatPercentage(marketCapPercentageData.btc);
+  const ethPercentage = formatPercentage(marketCapPercentageData.eth);
+
+  return (
+    <Container>
+      <Col>Coins {currencies}</Col>
+      <Col>Exchanges {exchanges}</Col>
+      <Col>
+        <Circle />
+        <Row>
+          <SubNavItem>
+            {formatCurrency(totalMarketCap[activeCurrency.name])}
+          </SubNavItem>
+          <ArrowLogo
+            totalmarkettrend={totalMarketTrend > 0}
+            src={Icons.ArrowIcon}
+          />
+        </Row>
+      </Col>
+      <Col>
+        <Circle />
+        <SubNavItem>
+          {formatCurrency(totalVolume[activeCurrency.name])}
+        </SubNavItem>
+        <PercentageBar
+          percentage={calculatePercentage(
+            totalMarketCap[activeCurrency.name],
+            totalVolume[activeCurrency.name]
+          )}
+        />
+      </Col>
+      <Col>
+        <Row>
+          <CoinLogo src={Icons.BitcoinIcon} />
+          <SubNavItem>{bitcoinPercentage + "%"}</SubNavItem>
+        </Row>
+        <PercentageBar percentage={bitcoinPercentage} />
+      </Col>
+      <Col>
+        <Row>
+          <CoinLogo src={Icons.EthereumIcon} />
+          <SubNavItem> {ethPercentage + "%"}</SubNavItem>
+        </Row>
+        <PercentageBar percentage={ethPercentage} />
+      </Col>
+    </Container>
+  );
+};
+
+export default SubHeader;
