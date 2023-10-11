@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   DropdownItem,
   DropdownMenu,
@@ -11,64 +11,65 @@ import {
 } from "./CurrencyToggle.styles";
 import Icons from "../../assets/index";
 
-export default class CurrencyToggle extends React.Component {
-  constructor(props) {
-    super(props);
-    this.dropdown = React.createRef();
-  }
+const CurrencyToggle = ({
+  activeCurrency,
+  currencies,
+  handleActiveCurrency,
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
-  state = {
-    isOpen: false,
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
   };
 
-  handleToggle = () => {
-    this.setState({ isOpen: !this.state.isOpen });
-  };
-
-  componentDidMount() {
-    document.addEventListener("click", this.handleClickOutside);
-  }
-
-  handleClickOutside = (event) => {
-    if (this.dropdown && !this.dropdown.current.contains(event.target)) {
-      this.setState({ isOpen: false });
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsOpen(false);
     }
   };
 
-  render() {
-    return (
-      <CurrencyToggleContainer onClick={this.handleToggle}>
-        <DropdownContainer ref={this.dropdown}>
-          <ActiveDropdown>
-            <DropdownIcon>{this.props.activeCurrency.symbol}</DropdownIcon>
-            <DropdownHeader>
-              {this.props.activeCurrency.name.toUpperCase()}{" "}
-              <DropdownArrow
-                src={Icons.ArrowIcon}
-                isopen={this.state.isOpen}
-              ></DropdownArrow>
-            </DropdownHeader>
-          </ActiveDropdown>
-          {this.state.isOpen && (
-            <DropdownMenu>
-              {this.props.currencies.map((currency) => (
-                <DropdownItem
-                  key={currency.name}
-                  onClick={() => this.props.handleActiveCurrency(currency)}
-                >
-                  <DropdownIcon>{currency.symbol}</DropdownIcon>
-                  <DropdownHeader>
-                    {currency.name.toUpperCase()}
-                    {this.props.activeCurrency.name === currency.name ? (
-                      <span>√</span>
-                    ) : null}
-                  </DropdownHeader>
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          )}
-        </DropdownContainer>
-      </CurrencyToggleContainer>
-    );
-  }
-}
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <CurrencyToggleContainer onClick={handleToggle}>
+      <DropdownContainer ref={dropdownRef}>
+        <ActiveDropdown>
+          <DropdownIcon>{activeCurrency.symbol}</DropdownIcon>
+          <DropdownHeader>
+            {activeCurrency.name.toUpperCase()}{" "}
+            <DropdownArrow
+              src={Icons.ArrowIcon}
+              isopen={isOpen}
+            ></DropdownArrow>
+          </DropdownHeader>
+        </ActiveDropdown>
+        {isOpen && (
+          <DropdownMenu>
+            {currencies.map((currency) => (
+              <DropdownItem
+                key={currency.name}
+                onClick={() => handleActiveCurrency(currency)}
+              >
+                <DropdownIcon>{currency.symbol}</DropdownIcon>
+                <DropdownHeader>
+                  {currency.name.toUpperCase()}
+                  {activeCurrency.name === currency.name ? (
+                    <span>√</span>
+                  ) : null}
+                </DropdownHeader>
+              </DropdownItem>
+            ))}
+          </DropdownMenu>
+        )}
+      </DropdownContainer>
+    </CurrencyToggleContainer>
+  );
+};
+
+export default CurrencyToggle;
