@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   TableRowContainer,
   CoinData,
@@ -7,160 +8,135 @@ import {
 } from "./TableRow.styles";
 import CoinPercentage from "../CoinPercentage/";
 import CoinProgressBar from "../CoinProgressBar/";
-import {
-  formatCurrency,
-  calculatePercentage,
-  formatPercentage,
-} from "../../utils/formatPrices";
+import { formatCurrency, formatPercentage } from "../../utils/formatPrices";
 import { LoadingBar } from "../LoadingAnimations";
 import SparkLine from "../SparkLine/";
 
-export default class TableRow extends React.Component {
-  state = {
-    coinData: {
-      marketCap: null,
-      totalVolume: null,
-      circulatingSupply: null,
-      totalSupply: null,
-      volumePercentage: null,
-      supplyPercentage: null,
-      priceData: null,
-      priceChangePercentage: null,
-    },
-    isLoading: true,
+const TableRow = ({ index, coin, isLoading, colors }) => {
+  const [coinData, setCoinData] = useState({
+    marketCap: null,
+    totalVolume: null,
+    circulatingSupply: null,
+    totalSupply: null,
+    volumePercentage: null,
+    supplyPercentage: null,
+  });
+
+  const navigate = useNavigate();
+
+  const useRedirect = (link) => {
+    navigate(link);
   };
 
-  componentDidMount() {
-    if (this.props.coin) {
-      const marketCap = formatCurrency(this.props.coin.market_cap);
-      const totalVolume = formatCurrency(this.props.coin.total_volume);
-      const totalSupply = formatCurrency(this.props.coin.total_supply);
-      const circulatingSupply = formatCurrency(
-        this.props.coin.circulating_supply
-      );
-      const priceData = this.props.coin.sparkline_in_7d.price;
-      const priceChangePercentage =
-        this.props.coin.price_change_percentage_7d_in_currency;
+  useEffect(() => {
+    if (coin) {
+      const marketCap = formatCurrency(coin.market_cap);
+      const totalVolume = formatCurrency(coin.total_volume);
+      const totalSupply = formatCurrency(coin.total_supply);
+      const circulatingSupply = formatCurrency(coin.circulating_supply);
       const volumePercentage =
-        formatPercentage(
-          this.props.coin.total_volume / (this.props.coin.market_cap / 100)
-        ) + "%";
+        formatPercentage(coin.total_volume / (coin.market_cap / 100)) + "%";
       const supplyPercentage =
-        formatPercentage(
-          this.props.coin.circulating_supply /
-            (this.props.coin.total_supply / 100)
-        ) + "%";
+        formatPercentage(circulatingSupply / (totalSupply / 100)) + "%";
 
-      this.setState({
-        coinData: {
-          marketCap,
-          totalVolume,
-          totalSupply,
-          circulatingSupply,
-          priceData,
-          priceChangePercentage,
-          volumePercentage,
-          supplyPercentage,
-        },
-        isLoading: this.props.isLoading,
+      setCoinData({
+        marketCap,
+        totalVolume,
+        totalSupply,
+        circulatingSupply,
+        volumePercentage,
+        supplyPercentage,
       });
     }
-  }
+  }, []);
 
-  render() {
-    if (this.state.isLoading) {
-      return (
-        <TableRowContainer>
-          <CoinData>
-            <CoinHeader>
-              <LoadingBar />
-            </CoinHeader>
-          </CoinData>
-          <CoinData>
-            <LoadingBar />
-          </CoinData>
-          <CoinData>
-            <LoadingBar />
-          </CoinData>
-          <CoinData>
-            <LoadingBar />
-          </CoinData>
-          <CoinData>
-            <LoadingBar />
-          </CoinData>
-          <CoinData>
-            <LoadingBar />
-          </CoinData>
-          <CoinData>
-            <LoadingBar />
-          </CoinData>
-          <CoinData>
-            <LoadingBar />
-          </CoinData>
-          <CoinData>
-            <LoadingBar />
-          </CoinData>
-        </TableRowContainer>
-      );
-    }
-
-    const {
-      index,
-      coin: {
-        symbol,
-        name,
-        image,
-        current_price,
-        price_change_percentage_1h_in_currency,
-        price_change_percentage_24h_in_currency,
-        price_change_percentage_7d_in_currency,
-      },
-    } = this.props;
-
-    const {
-      marketCap,
-      totalVolume,
-      circulatingSupply,
-      totalSupply,
-      volumePercentage,
-      supplyPercentage,
-      priceData,
-      priceChangePercentage,
-    } = this.state.coinData;
-    const { colors } = this.props;
-
+  if (isLoading) {
     return (
       <TableRowContainer>
-        <CoinData>{index}</CoinData>
         <CoinData>
           <CoinHeader>
-            <CoinIcon src={image} />
-            {name} ({symbol.toUpperCase()})
+            <LoadingBar />
           </CoinHeader>
         </CoinData>
-        <CoinData>${current_price}</CoinData>
-        <CoinPercentage data={price_change_percentage_1h_in_currency} />
-        <CoinPercentage data={price_change_percentage_24h_in_currency} />
-        <CoinPercentage data={price_change_percentage_7d_in_currency} />
-        <CoinProgressBar
-          percentage={volumePercentage}
-          base={marketCap}
-          current={totalVolume}
-          colors={colors}
-        />
-        <CoinProgressBar
-          percentage={supplyPercentage}
-          base={circulatingSupply}
-          current={totalSupply}
-          colors={colors}
-        />
-        {priceData && (
-          <SparkLine
-            data={priceData}
-            priceChangePercentage={priceChangePercentage}
-          />
-        )}
+        <CoinData>
+          <LoadingBar />
+        </CoinData>
+        <CoinData>
+          <LoadingBar />
+        </CoinData>
+        <CoinData>
+          <LoadingBar />
+        </CoinData>
+        <CoinData>
+          <LoadingBar />
+        </CoinData>
+        <CoinData>
+          <LoadingBar />
+        </CoinData>
+        <CoinData>
+          <LoadingBar />
+        </CoinData>
+        <CoinData>
+          <LoadingBar />
+        </CoinData>
+        <CoinData>
+          <LoadingBar />
+        </CoinData>
       </TableRowContainer>
     );
   }
-}
+
+  const {
+    symbol,
+    name,
+    image,
+    current_price,
+    price_change_percentage_1h_in_currency,
+    price_change_percentage_24h_in_currency,
+    price_change_percentage_7d_in_currency,
+  } = coin;
+
+  const {
+    marketCap,
+    totalVolume,
+    circulatingSupply,
+    totalSupply,
+    volumePercentage,
+    supplyPercentage,
+  } = coinData;
+
+  return (
+    <TableRowContainer onClick={() => useRedirect(`/coins/${coin.symbol}`)}>
+      <CoinData>{index}</CoinData>
+      <CoinData>
+        <CoinHeader>
+          <CoinIcon src={image} />
+          {name} ({symbol.toUpperCase()})
+        </CoinHeader>
+      </CoinData>
+      <CoinData>${current_price}</CoinData>
+      <CoinPercentage data={price_change_percentage_1h_in_currency} />
+      <CoinPercentage data={price_change_percentage_24h_in_currency} />
+      <CoinPercentage data={price_change_percentage_7d_in_currency} />
+      <CoinProgressBar
+        percentage={volumePercentage}
+        base={marketCap}
+        current={totalVolume}
+        colors={colors}
+      />
+      <CoinProgressBar
+        percentage={supplyPercentage}
+        base={circulatingSupply}
+        current={totalSupply}
+        colors={colors}
+      />
+      {/* Additional components */}
+      <SparkLine
+        data={coin.sparkline_in_7d.price}
+        priceChangePercentage={coin.price_change_percentage_7d_in_currency}
+      />
+    </TableRowContainer>
+  );
+};
+
+export default TableRow;

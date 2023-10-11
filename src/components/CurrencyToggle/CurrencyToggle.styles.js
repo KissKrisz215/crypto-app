@@ -5,6 +5,7 @@ export const CurrencyToggleContainer = styled.div`
   background: ${(props) => props.theme.navbarBrand};
   border-radius: 0.5rem;
   cursor: pointer;
+  z-index: 10;
 `;
 
 export const DropdownContainer = styled.div`

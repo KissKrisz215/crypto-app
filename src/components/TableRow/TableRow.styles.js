@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 
 export const TableRowContainer = styled.tr`
   border-bottom: 1px solid ${(props) => props.theme.lines};
+  cursor: pointer;
 `;
 
 export const CoinData = styled.td`
