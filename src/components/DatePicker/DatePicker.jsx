@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Date } from "./DatePicker.styles";
 
 const durations = [
@@ -28,47 +28,37 @@ const durations = [
   },
 ];
 
-export default class DatePicker extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleDateChange = this.handleDateChange.bind(this);
-  }
+const DatePicker = ({ date, changeDate }) => {
+  const [durationsState, setDurations] = useState(null);
 
-  state = {
-    durations: null,
-  };
+  useEffect(() => {
+    setDurations(durations);
+  }, []);
 
-  componentDidMount() {
-    this.setState({ durations: durations });
-  }
-
-  handleDateChange(e) {
-    const { changeDate } = this.props;
+  const handleDateChange = (e) => {
     const data = {
       name: e.target.getAttribute("name"),
       days: e.target.getAttribute("days"),
     };
     changeDate(data);
-  }
+  };
 
-  render() {
-    const { durations } = this.state;
-    const { date } = this.props;
-    return (
-      <Container>
-        {durations &&
-          durations.map((time) => (
-            <Date
-              key={time.name}
-              date={date}
-              name={time.name}
-              days={time.days}
-              onClick={this.handleDateChange}
-            >
-              {time.name}
-            </Date>
-          ))}
-      </Container>
-    );
-  }
-}
+  return (
+    <Container>
+      {durationsState &&
+        durationsState.map((time) => (
+          <Date
+            key={time.name}
+            date={date}
+            name={time.name}
+            days={time.days}
+            onClick={handleDateChange}
+          >
+            {time.name}
+          </Date>
+        ))}
+    </Container>
+  );
+};
+
+export default DatePicker;
