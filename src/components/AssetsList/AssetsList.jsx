@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Wrapper, Header } from "./AssetsList.styles";
 
-function AssetsList({ data }) {
+const AssetsList = ({ data }) => {
   const [dataArray, setData] = useState([]);
 
   useEffect(() => {
@@ -21,6 +21,6 @@ function AssetsList({ data }) {
       </Wrapper>
     </Container>
   );
-}
+};
 
 export default AssetsList;

@@ -1,8 +1,7 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { Line, Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import { ThemeContext } from "styled-components";
-Chart.register(...registerables);
 import {
   ChartContainer,
   ChartHeader,
@@ -13,8 +12,9 @@ import {
 } from "./Chart.styles";
 import { getTodayDate } from "../../utils";
 import DatePicker from "../DatePicker/DatePicker";
-import { LoadingSpinner } from "../LoadingAnimations/";
-import { LoadingBar } from "../LoadingAnimations/";
+import { LoadingSpinner, LoadingBar } from "../LoadingAnimations/";
+
+Chart.register(...registerables);
 
 const options = {
   plugins: {
@@ -63,21 +63,21 @@ const options = {
   },
 };
 
-class ChartItem extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: null,
-      errorMessage: null,
-      color: null,
-      currency: { name: "" },
-      isLoading: true,
-    };
-  }
+const ChartItem = ({
+  color,
+  currency,
+  type,
+  data,
+  date,
+  info,
+  title,
+  changeDate,
+}) => {
+  const [chartData, setChartData] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  loadData = async () => {
-    const { data, color, type } = this.props;
-
+  const loadData = async () => {
     if (data) {
       const labels = data.map((item) =>
         new Date(item[0]).toLocaleString(undefined, {
@@ -86,7 +86,7 @@ class ChartItem extends Component {
         })
       );
       const datasets = data.map((item) => item[1]);
-      const chartData = {
+      const newChartData = {
         labels,
         datasets: [
           {
@@ -109,89 +109,63 @@ class ChartItem extends Component {
         ],
       };
       setTimeout(() => {
-        this.setState({ data: chartData, isLoading: false });
+        setChartData(newChartData);
+        setIsLoading(false);
       }, 100);
     } else {
-      this.setState({ errorMessage: "There was an error loading chart data" });
+      setErrorMessage("There was an error loading chart data");
     }
   };
 
-  componentDidMount() {
-    const { color, currency } = this.props;
-    this.setState({ color: color, currency });
-    this.loadData();
-  }
+  useEffect(() => {
+    loadData();
+  }, [data, color, type]);
 
-  componentDidUpdate(prevProps) {
-    const { color, currency, data } = this.props;
-
-    if (currency.name !== this.state.currency.name) {
-      this.setState({ currency });
-      this.loadData();
-    }
-
-    if (color !== this.state.color) {
-      this.setState({ color: color });
-      this.loadData();
-    }
-
-    if (data !== prevProps.data) {
-      this.loadData();
-    }
-  }
-
-  render() {
-    const { title, info, type, date, changeDate } = this.props;
-    const { data, currency, isLoading } = this.state;
-
-    return (
-      <>
-        <ThemeContext.Consumer>
-          {(theme) => (
-            <>
-              {this.state.isLoading ? (
-                <ChartHeader>
-                  <LoadingBar width={"60px"} height={"30px"} />
-                  <LoadingBar width={"150px"} height={"30px"} />
-                  <LoadingBar width={"180px"} height={"30px"} />
-                </ChartHeader>
-              ) : (
-                <ChartHeader>
-                  <HeaderTitle>{title}</HeaderTitle>
-                  {currency && <SubTitle>{currency.symbol + info}</SubTitle>}
-                  <HeaderParagraph>{getTodayDate()}</HeaderParagraph>
-                </ChartHeader>
-              )}
-              <ChartContainer>
-                <DatePicker date={date} changeDate={changeDate} />
-                <ChartWrapper>
-                  {isLoading ? (
-                    <LoadingSpinner
-                      width="100px"
-                      height="100px"
-                      border="12px"
-                      color="#06d554"
-                      borderColor={theme.navbarBrand}
-                    />
-                  ) : (
-                    data && (
-                      <>
-                        {type === "line" ? (
-                          <Line data={data} options={options} />
-                        ) : (
-                          <Bar data={data} options={options} />
-                        )}
-                      </>
-                    )
-                  )}
-                </ChartWrapper>
-              </ChartContainer>
-            </>
+  return (
+    <ThemeContext.Consumer>
+      {(theme) => (
+        <>
+          {isLoading ? (
+            <ChartHeader>
+              <LoadingBar width={"60px"} height={"30px"} />
+              <LoadingBar width={"150px"} height={"30px"} />
+              <LoadingBar width={"180px"} height={"30px"} />
+            </ChartHeader>
+          ) : (
+            <ChartHeader>
+              <HeaderTitle>{title}</HeaderTitle>
+              {currency && <SubTitle>{currency.symbol + info}</SubTitle>}
+              <HeaderParagraph>{getTodayDate()}</HeaderParagraph>
+            </ChartHeader>
           )}
-        </ThemeContext.Consumer>
-      </>
-    );
-  }
-}
+          <ChartContainer>
+            <DatePicker date={date} changeDate={changeDate} />
+            <ChartWrapper>
+              {isLoading ? (
+                <LoadingSpinner
+                  width="100px"
+                  height="100px"
+                  border="12px"
+                  color="#06d554"
+                  borderColor={theme.navbarBrand}
+                />
+              ) : (
+                chartData && (
+                  <>
+                    {type === "line" ? (
+                      <Line data={chartData} options={options} />
+                    ) : (
+                      <Bar data={chartData} options={options} />
+                    )}
+                  </>
+                )
+              )}
+            </ChartWrapper>
+          </ChartContainer>
+        </>
+      )}
+    </ThemeContext.Consumer>
+  );
+};
 
 export default ChartItem;
