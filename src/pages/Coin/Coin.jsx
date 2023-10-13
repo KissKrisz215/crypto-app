@@ -12,6 +12,7 @@ import {
   DescriptionContainer,
   DescriptionText,
   LayerLogo,
+  LinkContainer,
 } from "./Coin.styles";
 import Icons from "../../assets/";
 import { formatPercentageTwoDecimal } from "../../utils";
@@ -19,6 +20,7 @@ import { calculatePercentage } from "../../utils/formatPrices";
 import CoinPriceData from "../../components/CoinPriceData";
 import CoinMarketData from "../../components/CoinMarketData";
 import CoinMarketInfo from "../../components/CoinMarketInfo/CoinMarketInfo";
+import CoinLink from "../../components/CoinLink/CoinLink";
 
 const Coin = ({ handleChangeActive, active, activeCurrency }) => {
   const { coinId } = useParams();
@@ -112,6 +114,12 @@ const Coin = ({ handleChangeActive, active, activeCurrency }) => {
                     ></DescriptionText>
                   )}
                 </DescriptionContainer>
+                <LinkContainer>
+                  {coin &&
+                    coin.links.blockchain_site
+                      .slice(0, 3)
+                      .map((link) => <CoinLink link={link}>{link}</CoinLink>)}
+                </LinkContainer>
               </BodyContainer>
             </BodyWrapper>
           </Container>

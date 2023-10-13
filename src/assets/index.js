@@ -7,6 +7,7 @@ import CrossIcon from "./Icons/Cross.svg";
 import Link from "./Icons/Link.svg";
 import Layer from "./Icons/Layer.svg";
 import Plus from "./Icons/Plus.svg";
+import Copy from "./Icons/Copy.svg";
 
 export default {
   ArrowIcon,
@@ -18,4 +19,5 @@ export default {
   Link,
   Layer,
   Plus,
+  Copy,
 };

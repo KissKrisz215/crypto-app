@@ -33,7 +33,11 @@ export const BodyWrapper = styled.div`
   margin: 1.8rem 0rem;
 `;
 
-export const BodyContainer = styled.div``;
+export const BodyContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+`;
 
 export const DescriptionContainer = styled.div`
   background-color: ${(props) => props.theme.main};
@@ -57,4 +61,9 @@ export const LayerLogo = styled.img`
   margin: 0.2rem 0rem;
   width: 20px;
   filter: ${(props) => props.theme.themeIcon};
+`;
+
+export const LinkContainer = styled.div`
+  display: flex;
+  gap: 0.9rem;
 `;
