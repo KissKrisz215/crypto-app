@@ -2,7 +2,18 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ThemeContext } from "styled-components";
-import { Container, Wrapper, Header, HeaderContainer } from "./Coin.styles";
+import {
+  Container,
+  Wrapper,
+  Header,
+  HeaderContainer,
+  BodyWrapper,
+  BodyContainer,
+  DescriptionContainer,
+  DescriptionText,
+  LayerLogo,
+} from "./Coin.styles";
+import Icons from "../../assets/";
 import { formatPercentageTwoDecimal } from "../../utils";
 import { calculatePercentage } from "../../utils/formatPrices";
 import CoinPriceData from "../../components/CoinPriceData";
@@ -88,6 +99,21 @@ const Coin = ({ handleChangeActive, active, activeCurrency }) => {
                 activeCurrency={activeCurrency}
               />
             </HeaderContainer>
+            <BodyWrapper>
+              <Header>Description</Header>
+              <BodyContainer>
+                <DescriptionContainer>
+                  <LayerLogo src={Icons.Layer} />
+                  {coin && (
+                    <DescriptionText
+                      dangerouslySetInnerHTML={{
+                        __html: coin.description.en,
+                      }}
+                    ></DescriptionText>
+                  )}
+                </DescriptionContainer>
+              </BodyContainer>
+            </BodyWrapper>
           </Container>
         </Wrapper>
       )}
