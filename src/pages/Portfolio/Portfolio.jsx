@@ -14,6 +14,12 @@ const Portfolio = ({ handleChangeActive, activeCurrency }) => {
     setData(storedData || []);
   }, [handleChangeActive]);
 
+  useEffect(() => {
+    window.addEventListener("storage", () => {
+      console.log("Updated Local Storage");
+    });
+  }, []);
+
   const theme = useContext(ThemeContext);
 
   return (

@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Container, Wrapper, Header } from "./AssetsList.styles";
 
 const AssetsList = ({ data }) => {
-  const [dataArray, setData] = useState([]);
+  const [dataArray, setDataArray] = useState([]);
 
   useEffect(() => {
-    if (data) {
-      setData(data);
-    }
+    setDataArray(data);
+    console.log("Changed");
   }, [data]);
 
   return (

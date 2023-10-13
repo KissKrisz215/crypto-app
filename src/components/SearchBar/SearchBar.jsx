@@ -93,7 +93,7 @@ const SearchBar = () => {
                   <DropDownItem
                     key={coin.name}
                     onClick={closeDropdown}
-                    to={`/coins/${coin.name}`}
+                    to={`/coins/${coin.name.toLowerCase()}`}
                   >
                     {coin.name}
                   </DropDownItem>

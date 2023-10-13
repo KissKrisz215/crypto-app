@@ -1,7 +1,8 @@
 import { styled } from "styled-components";
 
 export const Container = styled.td`
-  padding: 0 0.7rem;
+  padding: ${(props) => props.padding || "0 0.7rem"};
+  width: ${(props) => props.width};
 `;
 
 export const TitleContainer = styled.div`
@@ -22,7 +23,7 @@ export const Title = styled.p`
 export const ProgressBarContainer = styled.div`
   position: relative;
   width: 100%;
-  height: 9px;
+  height: ${(props) => props.height || "9px"};
   background-color: ${(props) => props.colors[1]};
   border-radius: 0.2rem;
   overflow: hidden;

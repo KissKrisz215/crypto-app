@@ -106,7 +106,9 @@ const TableRow = ({ index, coin, isLoading, colors }) => {
   } = coinData;
 
   return (
-    <TableRowContainer onClick={() => useRedirect(`/coins/${coin.symbol}`)}>
+    <TableRowContainer
+      onClick={() => useRedirect(`/coins/${coin.name.toLowerCase()}`)}
+    >
       <CoinData>{index}</CoinData>
       <CoinData>
         <CoinHeader>
@@ -130,7 +132,6 @@ const TableRow = ({ index, coin, isLoading, colors }) => {
         current={totalSupply}
         colors={colors}
       />
-      {/* Additional components */}
       <SparkLine
         data={coin.sparkline_in_7d.price}
         priceChangePercentage={coin.price_change_percentage_7d_in_currency}

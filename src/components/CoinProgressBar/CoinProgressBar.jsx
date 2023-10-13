@@ -8,12 +8,20 @@ import {
   CircleIcon,
 } from "./CoinProgressBar.styles";
 
-const CoinProgressBar = ({ colors, base, current, percentage }) => {
+const CoinProgressBar = ({
+  colors,
+  base,
+  current,
+  percentage,
+  width,
+  height,
+  padding,
+}) => {
   const baseColor = colors[0];
   const currentColor = colors[1];
 
   return (
-    <Container>
+    <Container width={width} padding={padding}>
       <TitleContainer>
         <Title color={baseColor}>
           <CircleIcon color={baseColor} />
@@ -24,7 +32,7 @@ const CoinProgressBar = ({ colors, base, current, percentage }) => {
           {current}
         </Title>
       </TitleContainer>
-      <ProgressBarContainer colors={colors}>
+      <ProgressBarContainer colors={colors} height={height}>
         <ProgressBar colors={colors} percentage={percentage} />
       </ProgressBarContainer>
     </Container>

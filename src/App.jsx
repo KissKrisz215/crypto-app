@@ -112,6 +112,7 @@ class App extends React.Component {
                 <Coin
                   active={this.state.active}
                   handleChangeActive={this.handleChangeActive}
+                  activeCurrency={this.state.activeCurrency}
                 />
               }
             />
