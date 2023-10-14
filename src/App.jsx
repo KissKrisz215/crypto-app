@@ -22,13 +22,14 @@ const darkTheme = {
   shine2: "#2C2F36",
   modal1: "#06d554",
   modal2: "ffffff",
+  inputMode: "#2C2D33",
 };
 
 const lightTheme = {
   main: "#FFFFFF",
   secondary: "#FCFCFC",
   primary: "#2C2F36",
-  navbarBrand: "rgb(247, 247, 247)",
+  navbarBrand: "#F7F7F7",
   defaultTextColor: "#2C2F36",
   icons: "invert(100%)",
   themeIcon: "invert(0%)",
@@ -40,6 +41,7 @@ const lightTheme = {
   shine2: "#F7F7F7",
   modal1: "#1f2128",
   modal2: "#1f2128",
+  inputMode: "#F7F7F7",
 };
 
 const currencies = [

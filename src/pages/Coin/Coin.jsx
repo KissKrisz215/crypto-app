@@ -19,8 +19,9 @@ import { formatPercentageTwoDecimal } from "../../utils";
 import { calculatePercentage } from "../../utils/formatPrices";
 import CoinPriceData from "../../components/CoinPriceData";
 import CoinMarketData from "../../components/CoinMarketData";
-import CoinMarketInfo from "../../components/CoinMarketInfo/CoinMarketInfo";
-import CoinLink from "../../components/CoinLink/CoinLink";
+import CoinMarketInfo from "../../components/CoinMarketInfo/";
+import CoinLink from "../../components/CoinLink/";
+import CurrencyConverter from "../../components/CurrencyConverter/";
 
 const Coin = ({ handleChangeActive, active, activeCurrency }) => {
   const { coinId } = useParams();
@@ -122,6 +123,12 @@ const Coin = ({ handleChangeActive, active, activeCurrency }) => {
                 </LinkContainer>
               </BodyContainer>
             </BodyWrapper>
+            {coin && (
+              <CurrencyConverter
+                activeCurrency={activeCurrency}
+                activeCoin={coin}
+              />
+            )}
           </Container>
         </Wrapper>
       )}
