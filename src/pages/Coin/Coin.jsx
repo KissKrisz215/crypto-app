@@ -130,7 +130,12 @@ const Coin = ({ handleChangeActive, active, activeCurrency }) => {
                 activeCoin={coin}
               />
             )}
-            <CoinChart />
+            <CoinChart
+              color={theme.lineGraph}
+              bgColor={theme.lineBackground}
+              coin={coinId}
+              currency={activeCurrency}
+            />
           </Container>
         </Wrapper>
       )}

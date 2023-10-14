@@ -23,6 +23,8 @@ const darkTheme = {
   modal1: "#06d554",
   modal2: "ffffff",
   inputMode: "#2C2D33",
+  lineGraph: "rgba(23,24,33,0)",
+  lineBackground: "#404040",
 };
 
 const lightTheme = {
@@ -42,6 +44,8 @@ const lightTheme = {
   modal1: "#1f2128",
   modal2: "#1f2128",
   inputMode: "#F7F7F7",
+  lineGraph: "#F7F7F7",
+  lineBackground: "#D3D0C9",
 };
 
 const currencies = [
