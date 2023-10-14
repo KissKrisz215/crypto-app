@@ -22,6 +22,7 @@ import CoinMarketData from "../../components/CoinMarketData";
 import CoinMarketInfo from "../../components/CoinMarketInfo/";
 import CoinLink from "../../components/CoinLink/";
 import CurrencyConverter from "../../components/CurrencyConverter/";
+import CoinChart from "../../components/CoinChart/";
 
 const Coin = ({ handleChangeActive, active, activeCurrency }) => {
   const { coinId } = useParams();
@@ -129,6 +130,7 @@ const Coin = ({ handleChangeActive, active, activeCurrency }) => {
                 activeCoin={coin}
               />
             )}
+            <CoinChart />
           </Container>
         </Wrapper>
       )}
