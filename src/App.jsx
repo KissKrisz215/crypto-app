@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { Home, Coin, Portfolio } from "./pages/index";
@@ -66,78 +66,74 @@ const currencies = [
   },
 ];
 
-class App extends React.Component {
-  state = {
-    theme: false,
-    active: "home",
-    activeCurrency: currencies[0],
+function App() {
+  const [theme, setTheme] = useState(false);
+  const [active, setActive] = useState("home");
+  const [activeCurrency, setActiveCurrency] = useState(currencies[0]);
+
+  const handleChangeTheme = () => {
+    setTheme(!theme);
   };
 
-  handleChangeTheme = () => {
-    this.setState({ theme: !this.state.theme });
+  const handleChangeActive = (newActive) => {
+    setActive(newActive);
   };
 
-  handleChangeActive = (active) => {
-    this.setState({ active });
+  const handleActiveCurrency = (currency) => {
+    setActiveCurrency(currency);
   };
 
-  handleActiveCurrency = (currency) => {
-    this.setState({ activeCurrency: currency });
-  };
+  useEffect(() => {
+    console.log(active);
+  }, [active]);
 
-  componentDidUpdate() {}
-
-  render() {
-    return (
-      <div>
-        <ThemeProvider
-          theme={this.state.theme === false ? darkTheme : lightTheme}
-        >
-          <GlobalStyle />
-          <Navbar
-            active={this.state.active}
-            handleChangeTheme={this.handleChangeTheme}
-            handleActiveCurrency={this.handleActiveCurrency}
-            activeCurrency={this.state.activeCurrency}
-            currencies={currencies}
+  return (
+    <div>
+      <ThemeProvider theme={theme ? lightTheme : darkTheme}>
+        <GlobalStyle />
+        <Navbar
+          active={active}
+          handleChangeTheme={handleChangeTheme}
+          handleActiveCurrency={handleActiveCurrency}
+          activeCurrency={activeCurrency}
+          currencies={currencies}
+        />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Home
+                active={active}
+                handleChangeActive={handleChangeActive}
+                activeCurrency={activeCurrency}
+              />
+            }
           />
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Home
-                  active={this.state.active}
-                  handleChangeActive={this.handleChangeActive}
-                  activeCurrency={this.state.activeCurrency}
-                />
-              }
-            />
-            <Route
-              path="/coins/:coinId"
-              element={
-                <Coin
-                  active={this.state.active}
-                  handleChangeActive={this.handleChangeActive}
-                  activeCurrency={this.state.activeCurrency}
-                />
-              }
-            />
-            <Route
-              path="/portfolio"
-              element={
-                <Portfolio
-                  active={this.state.active}
-                  handleChangeActive={this.handleChangeActive}
-                  activeCurrency={this.state.activeCurrency}
-                />
-              }
-            />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </ThemeProvider>
-      </div>
-    );
-  }
+          <Route
+            path="/coins/:coinId"
+            element={
+              <Coin
+                active={active}
+                handleChangeActive={handleChangeActive}
+                activeCurrency={activeCurrency}
+              />
+            }
+          />
+          <Route
+            path="/portfolio"
+            element={
+              <Portfolio
+                active={active}
+                handleChangeActive={handleChangeActive}
+                activeCurrency={activeCurrency}
+              />
+            }
+          />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </ThemeProvider>
+    </div>
+  );
 }
 
 export default App;

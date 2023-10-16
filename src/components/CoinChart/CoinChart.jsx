@@ -148,7 +148,7 @@ const CoinChart = ({ coin, currency, color, bgColor }) => {
 
   useEffect(() => {
     getData();
-  }, [color, bgColor]);
+  }, [color, bgColor, currency]);
 
   return (
     <Container>

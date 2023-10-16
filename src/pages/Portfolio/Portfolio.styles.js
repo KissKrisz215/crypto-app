@@ -1,21 +1,22 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  margin-top: 3.5rem;
-  padding: 0.6rem 0;
-  max-width: 1350px;
-  width: 90%;
+  height: 800px;
+  overflow: scroll;
 `;
 
 export const Wrapper = styled.div`
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 3.5rem;
 `;
 
 export const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 1.5rem;
+  margin: 1.5rem 0rem;
 `;
 
 export const Button = styled.button`

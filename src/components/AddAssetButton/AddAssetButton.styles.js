@@ -5,6 +5,7 @@ export const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 1.5rem;
+  width: 450px;
 `;
 
 export const Button = styled.button`
@@ -13,9 +14,8 @@ export const Button = styled.button`
   border: 1px solid #06d555;
   width: 100%;
   height: 100%;
-  max-width: 400px;
   max-height: 70px;
-  padding: 0.7rem;
+  padding: 0.8rem;
   border-radius: 0.4rem;
   &:hover {
     cursor: pointer;

@@ -24,8 +24,9 @@ import {
 import Icons from "../../assets/index";
 import ModalInput from "../ModalInput";
 import { LoadingSpinner } from "../LoadingAnimations/";
+import { nanoid } from "nanoid";
 
-const AddAssetButton = ({ activeCurrency }) => {
+const AddAssetButton = ({ activeCurrency, setData }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [formData, setFormData] = useState({
@@ -42,7 +43,7 @@ const AddAssetButton = ({ activeCurrency }) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState(null);
+  const [data, setListData] = useState(null);
   const modalRef = useRef(null);
 
   useEffect(() => {
@@ -82,19 +83,34 @@ const AddAssetButton = ({ activeCurrency }) => {
         `https://api.coingecko.com/api/v3/search?query=${searchValue}`
       );
       if (data.coins.length === 0) {
-        setData([]);
+        setListData([]);
         setErrorMessage("There was an error retrieving the data.");
         setIsLoading(false);
       } else {
         const slicedData = data.coins.slice(0, 25);
-        setData(slicedData);
+        setListData(slicedData);
         setErrorMessage(null);
         setIsLoading(false);
       }
     } catch (err) {
       console.log(err);
       setIsLoading(true);
-      setData([]);
+      setListData([]);
+    }
+  };
+
+  const getTokenAmount = async (coin, amount) => {
+    try {
+      const { data } = await axios(
+        `https://api.coingecko.com/api/v3/coins/${coin.name.toLowerCase()}?localization=false&tickers=false&market_data=true&community_data=true&developer_data=false&sparkline=false`
+      );
+      console.log(
+        "Purchase Price:",
+        data.market_data.current_price[activeCurrency.name] / amount
+      );
+      return amount / data.market_data.current_price[activeCurrency.name];
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -115,7 +131,7 @@ const AddAssetButton = ({ activeCurrency }) => {
     setIsLoading(true);
     setErrorMessage(null);
     if (value.length === 0) {
-      setData(null);
+      setListData(null);
       setIsSearchOpen(false);
     } else {
       getData();
@@ -140,6 +156,7 @@ const AddAssetButton = ({ activeCurrency }) => {
   };
 
   const handleCoinChange = (coin) => {
+    console.log("Coin from addassetbutton:", coin);
     closeDropdown();
     setFormData({
       ...formData,
@@ -157,8 +174,9 @@ const AddAssetButton = ({ activeCurrency }) => {
     });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const { amount, date, coin } = formData;
+    const purchaseAmount = await getTokenAmount(coin, amount);
     if (isComplete === true) {
       const existingPortfolio = localStorage.getItem("portfolio");
 
@@ -166,16 +184,20 @@ const AddAssetButton = ({ activeCurrency }) => {
         currency: activeCurrency,
         purchasePrice: amount,
         purchaseDate: date,
+        purchaseAmount: purchaseAmount,
         data: coin,
+        id: nanoid(),
       };
 
       if (existingPortfolio) {
         const data = JSON.parse(existingPortfolio);
         data.push(coins);
         localStorage.setItem("portfolio", JSON.stringify(data));
+        setData((prevData) => ({ ...prevData, data }));
       } else {
         localStorage.setItem("portfolio", JSON.stringify([coins]));
       }
+      window.dispatchEvent(new Event("storage"));
       handleModalToggle();
     }
   };

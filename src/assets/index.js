@@ -9,6 +9,7 @@ import Layer from "./Icons/Layer.svg";
 import Plus from "./Icons/Plus.svg";
 import Copy from "./Icons/Copy.svg";
 import Exchange from "./Icons/Exchange.svg";
+import Edit from "./Icons/Edit.svg";
 
 export default {
   ArrowIcon,
@@ -22,4 +23,5 @@ export default {
   Plus,
   Copy,
   Exchange,
+  Edit,
 };
