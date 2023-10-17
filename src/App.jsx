@@ -92,8 +92,19 @@ function App() {
   };
 
   const handleActiveCurrency = (currency) => {
+    localStorage.setItem("currency", JSON.stringify(currency));
     setActiveCurrency(currency);
   };
+
+  useEffect(() => {
+    const activeCurrency = JSON.parse(localStorage.getItem("currency"));
+    if (activeCurrency) {
+      setActiveCurrency(activeCurrency);
+    } else {
+      setActiveCurrency(currencies[0]);
+      localStorage.setItem("currency", JSON.stringify(currencies[0]));
+    }
+  }, []);
 
   useEffect(() => {
     console.log(active);
