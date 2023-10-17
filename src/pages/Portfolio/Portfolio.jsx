@@ -60,7 +60,6 @@ const Portfolio = ({ handleChangeActive, activeCurrency, active }) => {
     } else {
       setData(storedData);
     }
-    // setData(storedData);
   }, [active]);
 
   const theme = useContext(ThemeContext);

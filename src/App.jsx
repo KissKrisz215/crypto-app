@@ -67,13 +67,25 @@ const currencies = [
 ];
 
 function App() {
-  const [theme, setTheme] = useState(false);
+  const [theme, setTheme] = useState();
   const [active, setActive] = useState("home");
   const [activeCurrency, setActiveCurrency] = useState(currencies[0]);
 
   const handleChangeTheme = () => {
-    setTheme(!theme);
+    const newTheme = !theme;
+    localStorage.setItem("theme", newTheme);
+    setTheme(newTheme);
   };
+
+  useEffect(() => {
+    const activeTheme = localStorage.getItem("theme");
+    if (activeTheme) {
+      setTheme(activeTheme === "true");
+    } else {
+      setTheme(false);
+      localStorage.setItem("theme", false);
+    }
+  }, []);
 
   const handleChangeActive = (newActive) => {
     setActive(newActive);
