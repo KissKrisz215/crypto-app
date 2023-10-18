@@ -14,6 +14,7 @@ export const CurrencyTable = styled.div`
   width: 100%;
   max-width: 290px;
   display: flex;
+  padding: ${(props) => props.padding};
 `;
 
 export const CurrencySymbol = styled.div`

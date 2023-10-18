@@ -107,10 +107,6 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(active);
-  }, [active]);
-
   return (
     <div>
       <PageLoadingBar />

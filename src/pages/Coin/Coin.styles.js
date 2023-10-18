@@ -51,6 +51,7 @@ export const DescriptionContainer = styled.div`
 export const DescriptionText = styled.p`
   font-size: 0.8rem;
   text-align: center;
+  height: ${(props) => props.height};
   a {
     font-size: 0.8rem;
     text-decoration: none;

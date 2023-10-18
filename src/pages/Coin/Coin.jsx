@@ -24,6 +24,7 @@ import CoinLink from "../../components/CoinLink/";
 import CurrencyConverter from "../../components/CurrencyConverter/";
 import CoinChart from "../../components/CoinChart/";
 import { LoadingBar } from "../../components/LoadingAnimations";
+import { LoadingSpinner } from "../../components/LoadingAnimations";
 
 const Coin = ({ handleChangeActive, active, activeCurrency }) => {
   const { coinId } = useParams();
@@ -39,9 +40,9 @@ const Coin = ({ handleChangeActive, active, activeCurrency }) => {
       const response = await axios(
         `https://api.coingecko.com/api/v3/coins/${id}?localization=false&tickers=false&market_data=true&community_data=true&developer_data=false&sparkline=false`
       );
-      setIsLoading(true);
       setCoin(response.data);
       calculateCoinPriceChanges(response.data);
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
       setErrorMessage("There was an error loading the data.");
@@ -89,7 +90,6 @@ const Coin = ({ handleChangeActive, active, activeCurrency }) => {
       <ThemeContext.Consumer>
         {(theme) => (
           <Wrapper>
-            {console.log(coin)}
             <Container>
               <Header>Your Summary</Header>
               <HeaderContainer>
@@ -111,34 +111,34 @@ const Coin = ({ handleChangeActive, active, activeCurrency }) => {
                 <Header>Description</Header>
                 <BodyContainer>
                   <DescriptionContainer>
-                    <LayerLogo src={Icons.Layer} />
-                    {coin && (
-                      <DescriptionText
-                        dangerouslySetInnerHTML={{
-                          __html: coin.description.en,
-                        }}
-                      ></DescriptionText>
-                    )}
+                    <DescriptionText height="350px">
+                      <LoadingSpinner
+                        width="100px"
+                        height="100px"
+                        border="12px"
+                        color="#06d554"
+                        borderColor={theme.navbarBrand}
+                      />
+                    </DescriptionText>
                   </DescriptionContainer>
                   <LinkContainer>
-                    {coin &&
-                      coin.links.blockchain_site
-                        .slice(0, 3)
-                        .map((link) => <CoinLink link={link}>{link}</CoinLink>)}
+                    <CoinLink isLoading={isLoading}></CoinLink>
+                    <CoinLink isLoading={isLoading}></CoinLink>
+                    <CoinLink isLoading={isLoading}></CoinLink>
                   </LinkContainer>
                 </BodyContainer>
               </BodyWrapper>
-              {coin && (
-                <CurrencyConverter
-                  activeCurrency={activeCurrency}
-                  activeCoin={coin}
-                />
-              )}
+              <CurrencyConverter
+                activeCurrency={activeCurrency}
+                activeCoin={null}
+                isLoading={isLoading}
+              />
               <CoinChart
                 color={theme.lineGraph}
                 bgColor={theme.lineBackground}
                 coin={coinId}
                 currency={activeCurrency}
+                isLoading={isLoading}
               />
             </Container>
           </Wrapper>
@@ -151,7 +151,6 @@ const Coin = ({ handleChangeActive, active, activeCurrency }) => {
     <ThemeContext.Consumer>
       {(theme) => (
         <Wrapper>
-          {console.log(coin)}
           <Container>
             <Header>Your Summary</Header>
             <HeaderContainer>
@@ -187,9 +186,11 @@ const Coin = ({ handleChangeActive, active, activeCurrency }) => {
                       .map((link) => <CoinLink link={link}>{link}</CoinLink>)}
                 </LinkContainer>
               </BodyContainer>
+              {console.log(coin)}
             </BodyWrapper>
             {coin && (
               <CurrencyConverter
+                isLoading={isLoading}
                 activeCurrency={activeCurrency}
                 activeCoin={coin}
               />
@@ -199,6 +200,7 @@ const Coin = ({ handleChangeActive, active, activeCurrency }) => {
               bgColor={theme.lineBackground}
               coin={coinId}
               currency={activeCurrency}
+              isLoading={isLoading}
             />
           </Container>
         </Wrapper>

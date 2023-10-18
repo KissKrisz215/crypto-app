@@ -20,21 +20,17 @@ const CoinMarketData = ({
   if (isLoading) {
     return (
       <MarketDataWrapper>
-        {coin && (
-          <MarketDataContainer>
-            <LoadingBar width={"350px"} />
-            <LoadingBar width={"350px"} />
-            <LoadingBar width={"350px"} />
-            <LoadingBar width={"350px"} />
-          </MarketDataContainer>
-        )}
-        {coin && (
-          <MarketDataContainer>
-            <LoadingBar width={"350px"} />
-            <LoadingBar width={"350px"} />
-            <LoadingBar width={"350px"} />
-          </MarketDataContainer>
-        )}
+        <MarketDataContainer>
+          <LoadingBar width={"350px"} />
+          <LoadingBar width={"350px"} />
+          <LoadingBar width={"350px"} />
+          <LoadingBar width={"350px"} />
+        </MarketDataContainer>
+        <MarketDataContainer>
+          <LoadingBar width={"350px"} />
+          <LoadingBar width={"350px"} />
+          <LoadingBar width={"350px"} />
+        </MarketDataContainer>
         <ProgressBarContainer>
           <LoadingBar width={"200px"} />
         </ProgressBarContainer>

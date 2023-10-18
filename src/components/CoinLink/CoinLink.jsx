@@ -10,8 +10,9 @@ import {
   ClipBoardToolTip,
 } from "./CoinLink.styles";
 import Icons from "../../assets/";
+import { LoadingBar } from "../LoadingAnimations";
 
-export const CoinLink = ({ link }) => {
+export const CoinLink = ({ link, isLoading }) => {
   const [isCopied, setIsCopied] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
 
@@ -31,6 +32,14 @@ export const CoinLink = ({ link }) => {
 
     setTimeout(() => setIsCopied(false), 2500);
   };
+
+  if (isLoading) {
+    return (
+      <LinkWrapper>
+        <LoadingBar padding="0.1rem 0rem"></LoadingBar>
+      </LinkWrapper>
+    );
+  }
 
   return (
     <LinkWrapper>

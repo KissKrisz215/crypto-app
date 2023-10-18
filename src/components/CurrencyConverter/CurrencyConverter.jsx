@@ -10,24 +10,27 @@ import {
 } from "./CurrencyCoverter.styles";
 import Icons from "../../assets/";
 import { formatPrice } from "../../utils";
+import { LoadingBar } from "../LoadingAnimations";
 
-const CurrencyConverter = ({ activeCurrency, activeCoin }) => {
+const CurrencyConverter = ({ activeCurrency, activeCoin, isLoading }) => {
   const [isExchanged, setIsExchanged] = useState(true);
   const [coins, setCoins] = useState({
     coin1: {
       symbol: activeCurrency.symbol,
       name: activeCurrency.name.toUpperCase(),
-      amount: activeCoin.market_data.current_price[activeCurrency.name],
+      amount: activeCoin
+        ? activeCoin.market_data.current_price[activeCurrency.name]
+        : 0,
     },
     coin2: {
-      symbol: activeCoin.symbol.toUpperCase(),
-      name: activeCoin.symbol.toUpperCase(),
-      amount: 0,
+      symbol: activeCoin ? activeCoin.symbol.toUpperCase() : "",
+      name: activeCoin ? activeCoin.symbol.toUpperCase() : "",
+      amount: 1,
     },
   });
 
   const calculatePrice = (name) => {
-    if (name === "coin1") {
+    if (name === "coin1" && activeCoin) {
       const price =
         coins.coin1.amount /
         activeCoin.market_data.current_price[activeCurrency.name];
@@ -38,8 +41,7 @@ const CurrencyConverter = ({ activeCurrency, activeCoin }) => {
           amount: formatPrice(price),
         },
       }));
-      console.log(coins.coin2.amount);
-    } else if (name === "coin2") {
+    } else if (name === "coin2" && activeCoin) {
       const price =
         activeCoin.market_data.current_price[activeCurrency.name] *
         coins.coin2.amount;
@@ -54,23 +56,49 @@ const CurrencyConverter = ({ activeCurrency, activeCoin }) => {
   };
 
   const handleAmountChange = (event, coin) => {
-    coin.amount = event.target.value;
-    const name = event.target.name;
-    setCoins((prevData) => ({ ...prevData, coin }));
-    calculatePrice(name);
+    if (activeCoin) {
+      coin.amount = event.target.value;
+      const name = event.target.name;
+      setCoins((prevData) => ({ ...prevData, coin }));
+      calculatePrice(name);
+    }
   };
 
   useEffect(() => {
-    setCoins((prevCoins) => ({
-      ...prevCoins,
-      coin1: {
-        ...prevCoins.coin1,
-        symbol: activeCurrency.symbol,
-        name: activeCurrency.name.toUpperCase(),
-      },
-    }));
-    calculatePrice("coin1");
-  }, [activeCurrency]);
+    if (!isLoading && activeCoin) {
+      setCoins((prevCoins) => ({
+        ...prevCoins,
+        coin1: {
+          ...prevCoins.coin1,
+          symbol: activeCurrency.symbol,
+          name: activeCurrency.name.toUpperCase(),
+        },
+        coin2: {
+          symbol: activeCoin.symbol.toUpperCase(),
+          name: activeCoin.symbol.toUpperCase(),
+          amount: 1,
+        },
+      }));
+      calculatePrice("coin2");
+    }
+  }, [activeCurrency, activeCoin, isLoading]);
+
+  if (isLoading) {
+    return (
+      <Container>
+        <CurrencyTable padding={"0.15rem"}>
+          <LoadingBar padding={"0.3rem 0rem"} />
+        </CurrencyTable>
+        <ExchangeIcon
+          onClick={() => setIsExchanged(!isExchanged)}
+          src={Icons.Exchange}
+        />
+        <CurrencyTable padding={"0.15rem"}>
+          <LoadingBar padding={"0.3rem 0rem"} />
+        </CurrencyTable>
+      </Container>
+    );
+  }
 
   return (
     <Container>
@@ -87,7 +115,7 @@ const CurrencyConverter = ({ activeCurrency, activeCoin }) => {
             value={isExchanged ? coins.coin1.amount : coins.coin2.amount}
             type="number"
             name={isExchanged ? "coin1" : "coin2"}
-            onChange={() =>
+            onChange={(event) =>
               handleAmountChange(event, isExchanged ? coins.coin1 : coins.coin2)
             }
           />
@@ -110,7 +138,7 @@ const CurrencyConverter = ({ activeCurrency, activeCoin }) => {
             value={isExchanged ? coins.coin2.amount : coins.coin1.amount}
             type="number"
             name={isExchanged ? "coin2" : "coin1"}
-            onChange={() =>
+            onChange={(event) =>
               handleAmountChange(event, isExchanged ? coins.coin2 : coins.coin1)
             }
           />
