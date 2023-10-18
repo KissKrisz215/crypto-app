@@ -16,6 +16,7 @@ export const Wrapper = styled.div`
   height: ${(props) => (props.height ? props.height : `100%`)};
   display: flex;
   align-items: center;
+  margin: ${(props) => props.margin};
 `;
 
 export const InnerWrapper = styled.div`
@@ -26,4 +27,5 @@ export const InnerWrapper = styled.div`
   background-size: 1000px 10%;
   animation: ${slide} 2s infinite;
   border-radius: 0.3rem;
+  padding: ${(props) => props.padding};
 `;

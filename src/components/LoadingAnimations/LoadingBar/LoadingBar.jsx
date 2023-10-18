@@ -1,9 +1,9 @@
 import React from "react";
 import { Wrapper, InnerWrapper } from "./LoadingBar.styles";
 
-const LoadingBar = ({ width, height }) => (
-  <Wrapper width={width}>
-    <InnerWrapper height={height}></InnerWrapper>
+const LoadingBar = ({ width, height, padding, margin }) => (
+  <Wrapper width={width} margin={margin}>
+    <InnerWrapper height={height} padding={padding}></InnerWrapper>
   </Wrapper>
 );
 

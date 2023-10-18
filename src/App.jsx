@@ -4,6 +4,7 @@ import { ThemeProvider } from "styled-components";
 import { Home, Coin, Portfolio } from "./pages/index";
 import { GlobalStyle } from "./styles/GlobalStyle";
 import { Navbar } from "./components";
+import PageLoadingBar from "./components/PageLoadingBar/PageLoadingBar";
 import "./App.css";
 
 const darkTheme = {
@@ -112,6 +113,7 @@ function App() {
 
   return (
     <div>
+      <PageLoadingBar />
       <ThemeProvider theme={theme ? lightTheme : darkTheme}>
         <GlobalStyle />
         <Navbar

@@ -25,6 +25,7 @@ import {
   formatPercentage,
 } from "../../utils/formatPrices";
 import AssetProgressBar from "../AssetProgressBar/AssetProgressBar";
+import { LoadingBar } from "../LoadingAnimations";
 
 const AssetListItem = ({ coin, setDataArray }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -97,6 +98,101 @@ const AssetListItem = ({ coin, setDataArray }) => {
   useEffect(() => {
     console.log(coin);
   });
+
+  if (isLoading) {
+    return (
+      <CoinContainer key={coin.name}>
+        <CoinIconWrapper>
+          <CoinIconContainer padding={"0rem"}>
+            <LoadingBar
+              width={"80px"}
+              height={"80px"}
+              padding={"0rem 2rem"}
+            ></LoadingBar>
+          </CoinIconContainer>
+          <CoinTitle>
+            <LoadingBar
+              width={"100%"}
+              height={"100%"}
+              padding={"0.15rem 3.5rem"}
+              margin={"0.4rem 0rem"}
+            ></LoadingBar>
+          </CoinTitle>
+        </CoinIconWrapper>
+        <CoinInfoWrapper>
+          <CoinInfoContainer>
+            <CoinInfoHeader>
+              <HeaderInfo></HeaderInfo>
+              <ButtonContainer></ButtonContainer>
+            </CoinInfoHeader>
+            <CoinInfoBody>
+              <CoinInfoItem>
+                <LoadingBar
+                  width={"150px"}
+                  height={"30px"}
+                  padding={"0rem 2rem"}
+                ></LoadingBar>
+              </CoinInfoItem>
+              <CoinInfoItem>
+                <LoadingBar
+                  width={"150px"}
+                  height={"30px"}
+                  padding={"0rem 2rem"}
+                ></LoadingBar>
+              </CoinInfoItem>
+              <CoinInfoItem>
+                <LoadingBar
+                  width={"150px"}
+                  height={"30px"}
+                  padding={"0rem 2rem"}
+                ></LoadingBar>
+              </CoinInfoItem>
+              <CoinInfoItem>
+                <LoadingBar
+                  width={"150px"}
+                  height={"30px"}
+                  padding={"0rem 2rem"}
+                ></LoadingBar>
+              </CoinInfoItem>
+            </CoinInfoBody>
+          </CoinInfoContainer>
+          <CoinInfoContainer>
+            <CoinInfoHeader></CoinInfoHeader>
+            <CoinInfoBody>
+              <CoinInfoItem>
+                <LoadingBar
+                  width={"150px"}
+                  height={"30px"}
+                  padding={"0rem 2rem"}
+                ></LoadingBar>
+              </CoinInfoItem>
+              <CoinInfoItem>
+                <LoadingBar
+                  width={"150px"}
+                  height={"30px"}
+                  padding={"0rem 2rem"}
+                ></LoadingBar>
+              </CoinInfoItem>
+              <CoinInfoItem>
+                <LoadingBar
+                  width={"150px"}
+                  height={"30px"}
+                  padding={"0rem 2rem"}
+                ></LoadingBar>
+              </CoinInfoItem>
+              <CoinInfoItem>
+                <LoadingBar
+                  width={"150px"}
+                  height={"30px"}
+                  padding={"0rem 2rem"}
+                ></LoadingBar>
+              </CoinInfoItem>
+            </CoinInfoBody>
+          </CoinInfoContainer>
+        </CoinInfoWrapper>
+      </CoinContainer>
+    );
+  }
 
   return (
     <CoinContainer key={coin.name}>

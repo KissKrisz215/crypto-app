@@ -31,7 +31,9 @@ export const CoinIconContainer = styled.div`
   max-width: 60px;
   border-radius: 0.3rem;
   background-color: ${(props) => props.theme.secondary};
-  padding: 1rem;
+  padding: ${(props) => props.padding || "1rem"};
+  display: flex;
+  justify-content: center;
 `;
 
 export const CoinIcon = styled.img`
