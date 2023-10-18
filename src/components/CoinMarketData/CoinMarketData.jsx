@@ -7,6 +7,7 @@ import {
 } from "./CoinMarketData.styles";
 import CoinProgressBar from "../CoinProgressBar";
 import { formatPrice, formatNumberToDecimal } from "../../utils";
+import { LoadingBar } from "../LoadingAnimations";
 
 const CoinMarketData = ({
   coin,
@@ -14,7 +15,33 @@ const CoinMarketData = ({
   data,
   activeCurrency,
   currencySymbol,
+  isLoading,
 }) => {
+  if (isLoading) {
+    return (
+      <MarketDataWrapper>
+        {coin && (
+          <MarketDataContainer>
+            <LoadingBar width={"350px"} />
+            <LoadingBar width={"350px"} />
+            <LoadingBar width={"350px"} />
+            <LoadingBar width={"350px"} />
+          </MarketDataContainer>
+        )}
+        {coin && (
+          <MarketDataContainer>
+            <LoadingBar width={"350px"} />
+            <LoadingBar width={"350px"} />
+            <LoadingBar width={"350px"} />
+          </MarketDataContainer>
+        )}
+        <ProgressBarContainer>
+          <LoadingBar width={"200px"} />
+        </ProgressBarContainer>
+      </MarketDataWrapper>
+    );
+  }
+
   return (
     <MarketDataWrapper>
       {coin && (
