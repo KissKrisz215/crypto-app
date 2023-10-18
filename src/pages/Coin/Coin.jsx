@@ -39,7 +39,7 @@ const Coin = ({ handleChangeActive, active, activeCurrency }) => {
       const response = await axios(
         `https://api.coingecko.com/api/v3/coins/${id}?localization=false&tickers=false&market_data=true&community_data=true&developer_data=false&sparkline=false`
       );
-      setIsLoading(false);
+      setIsLoading(true);
       setCoin(response.data);
       calculateCoinPriceChanges(response.data);
     } catch (err) {
@@ -98,11 +98,13 @@ const Coin = ({ handleChangeActive, active, activeCurrency }) => {
                   activeCurrency={activeCurrency}
                   coin={coin}
                   coinData={coinData}
+                  isLoading={isLoading}
                 />
                 <CoinMarketData
                   coin={coin}
                   percentage={percentage}
                   activeCurrency={activeCurrency}
+                  isLoading={isLoading}
                 />
               </HeaderContainer>
               <BodyWrapper>

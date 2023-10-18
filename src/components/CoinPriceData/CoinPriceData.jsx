@@ -21,8 +21,73 @@ import {
 import Icons from "../../assets/";
 import { formatPrice } from "../../utils";
 import { formatDate } from "../../utils/formatDates";
+import { LoadingBar } from "../LoadingAnimations";
 
-const CoinPriceData = ({ activeCurrency, coin, coinData }) => {
+const CoinPriceData = ({ activeCurrency, coin, coinData, isLoading }) => {
+  if (isLoading) {
+    return (
+      <PriceContainer>
+        <PriceHeader>
+          <AmountContainer>
+            <AmountText>
+              <LoadingBar width={"250px"} height={"35px"}></LoadingBar>
+            </AmountText>
+            <PricePercentageContainer></PricePercentageContainer>
+          </AmountContainer>
+        </PriceHeader>
+        <PriceBody>
+          <ProfitContainer>
+            <LoadingBar
+              width={"150px"}
+              height={"25px"}
+              margin={"1rem 0rem"}
+            ></LoadingBar>
+          </ProfitContainer>
+        </PriceBody>
+        <PriceProgressWrapper>
+          <PriceProgressContainer>
+            <PriceProgressItem></PriceProgressItem>
+            <PriceProgressItem>
+              <PriceProgressAmount>
+                <LoadingBar
+                  width={"250px"}
+                  height={"25px"}
+                  margin={"0.2rem 0rem"}
+                ></LoadingBar>
+              </PriceProgressAmount>
+              <PriceProgressDate>
+                <LoadingBar
+                  width={"250px"}
+                  height={"25px"}
+                  margin={"0rem 0rem"}
+                ></LoadingBar>
+              </PriceProgressDate>
+            </PriceProgressItem>
+          </PriceProgressContainer>
+          <PriceProgressContainer>
+            <PriceProgressItem></PriceProgressItem>
+            <PriceProgressItem>
+              <PriceProgressAmount>
+                <LoadingBar
+                  width={"250px"}
+                  height={"25px"}
+                  margin={"0.2rem 0rem"}
+                ></LoadingBar>
+              </PriceProgressAmount>
+              <PriceProgressDate>
+                <LoadingBar
+                  width={"250px"}
+                  height={"25px"}
+                  margin={"0rem 0rem"}
+                ></LoadingBar>
+              </PriceProgressDate>
+            </PriceProgressItem>
+          </PriceProgressContainer>
+        </PriceProgressWrapper>
+      </PriceContainer>
+    );
+  }
+
   return (
     <PriceContainer>
       <PriceHeader>
