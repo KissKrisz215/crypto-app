@@ -23,6 +23,7 @@ import CoinMarketInfo from "../../components/CoinMarketInfo/";
 import CoinLink from "../../components/CoinLink/";
 import CurrencyConverter from "../../components/CurrencyConverter/";
 import CoinChart from "../../components/CoinChart/";
+import { LoadingBar } from "../../components/LoadingAnimations";
 
 const Coin = ({ handleChangeActive, active, activeCurrency }) => {
   const { coinId } = useParams();
@@ -82,6 +83,67 @@ const Coin = ({ handleChangeActive, active, activeCurrency }) => {
   useEffect(() => {
     getData(coinId.toLowerCase());
   }, [coinId]);
+
+  if (isLoading) {
+    return (
+      <ThemeContext.Consumer>
+        {(theme) => (
+          <Wrapper>
+            {console.log(coin)}
+            <Container>
+              <Header>Your Summary</Header>
+              <HeaderContainer>
+                <CoinMarketInfo coin={coin} isLoading={isLoading} />
+                <CoinPriceData
+                  activeCurrency={activeCurrency}
+                  coin={coin}
+                  coinData={coinData}
+                />
+                <CoinMarketData
+                  coin={coin}
+                  percentage={percentage}
+                  activeCurrency={activeCurrency}
+                />
+              </HeaderContainer>
+              <BodyWrapper>
+                <Header>Description</Header>
+                <BodyContainer>
+                  <DescriptionContainer>
+                    <LayerLogo src={Icons.Layer} />
+                    {coin && (
+                      <DescriptionText
+                        dangerouslySetInnerHTML={{
+                          __html: coin.description.en,
+                        }}
+                      ></DescriptionText>
+                    )}
+                  </DescriptionContainer>
+                  <LinkContainer>
+                    {coin &&
+                      coin.links.blockchain_site
+                        .slice(0, 3)
+                        .map((link) => <CoinLink link={link}>{link}</CoinLink>)}
+                  </LinkContainer>
+                </BodyContainer>
+              </BodyWrapper>
+              {coin && (
+                <CurrencyConverter
+                  activeCurrency={activeCurrency}
+                  activeCoin={coin}
+                />
+              )}
+              <CoinChart
+                color={theme.lineGraph}
+                bgColor={theme.lineBackground}
+                coin={coinId}
+                currency={activeCurrency}
+              />
+            </Container>
+          </Wrapper>
+        )}
+      </ThemeContext.Consumer>
+    );
+  }
 
   return (
     <ThemeContext.Consumer>

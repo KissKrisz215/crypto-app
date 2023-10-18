@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
   background: ${(props) => props.theme.main};
   border-radius: 10px;
   width: ${(props) => (props.width ? props.width : `100%`)};
-  height: ${(props) => (props.height ? props.height : `100%`)};
+  height: ${(props) => (props.outerheight ? props.outerheight : `100%`)};
   display: flex;
   align-items: center;
   margin: ${(props) => props.margin};
