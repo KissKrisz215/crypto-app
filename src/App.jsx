@@ -1,53 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
+import { connect } from "react-redux";
 import { Home, Coin, Portfolio } from "./pages/index";
 import { GlobalStyle } from "./styles/GlobalStyle";
 import { Navbar } from "./components";
 import PageLoadingBar from "./components/PageLoadingBar/PageLoadingBar";
+import { setActivePage } from "./store/activePage/actions";
+import { themes } from "./styles/colors";
 import "./App.css";
-
-const darkTheme = {
-  main: "#191B1F",
-  secondary: "#1F2128",
-  primary: "#FAFBFB",
-  navbarBrand: "#2C2F36",
-  defaultTextColor: "#FFFFFF",
-  icons: "invert(0%)",
-  themeIcon: "invert(100%)",
-  general: "#ffffff",
-  chart1: "#0CF864",
-  chart2: "#2172E5",
-  lines: "#464749",
-  shine1: "#1F2128",
-  shine2: "#2C2F36",
-  modal1: "#06d554",
-  modal2: "ffffff",
-  inputMode: "#2C2D33",
-  lineGraph: "rgba(23,24,33,0)",
-  lineBackground: "#404040",
-};
-
-const lightTheme = {
-  main: "#FFFFFF",
-  secondary: "#FCFCFC",
-  primary: "#2C2F36",
-  navbarBrand: "#F7F7F7",
-  defaultTextColor: "#2C2F36",
-  icons: "invert(100%)",
-  themeIcon: "invert(0%)",
-  general: "#2c2f36",
-  chart1: "#2172E5",
-  chart2: "#0CF864",
-  lines: "#EEEEEE",
-  shine1: "#E0DED7",
-  shine2: "#F7F7F7",
-  modal1: "#1f2128",
-  modal2: "#1f2128",
-  inputMode: "#F7F7F7",
-  lineGraph: "#F7F7F7",
-  lineBackground: "#D3D0C9",
-};
 
 const currencies = [
   {
@@ -67,9 +28,8 @@ const currencies = [
   },
 ];
 
-function App() {
+function App(props) {
   const [theme, setTheme] = useState();
-  const [active, setActive] = useState("home");
   const [activeCurrency, setActiveCurrency] = useState(currencies[0]);
 
   const handleChangeTheme = () => {
@@ -87,10 +47,6 @@ function App() {
       localStorage.setItem("theme", false);
     }
   }, []);
-
-  const handleChangeActive = (newActive) => {
-    setActive(newActive);
-  };
 
   const handleActiveCurrency = (currency) => {
     localStorage.setItem("currency", JSON.stringify(currency));
@@ -110,10 +66,10 @@ function App() {
   return (
     <div>
       <PageLoadingBar />
-      <ThemeProvider theme={theme ? lightTheme : darkTheme}>
+      <ThemeProvider theme={theme ? themes.lightTheme : themes.darkTheme}>
         <GlobalStyle />
         <Navbar
-          active={active}
+          active={props.active}
           handleChangeTheme={handleChangeTheme}
           handleActiveCurrency={handleActiveCurrency}
           activeCurrency={activeCurrency}
@@ -124,8 +80,8 @@ function App() {
             path="/"
             element={
               <Home
-                active={active}
-                handleChangeActive={handleChangeActive}
+                active={props.active}
+                handleChangeActive={props.handleChangeActive}
                 activeCurrency={activeCurrency}
               />
             }
@@ -134,8 +90,8 @@ function App() {
             path="/coins/:coinId"
             element={
               <Coin
-                active={active}
-                handleChangeActive={handleChangeActive}
+                active={props.active}
+                handleChangeActive={props.handleChangeActive}
                 activeCurrency={activeCurrency}
               />
             }
@@ -144,8 +100,8 @@ function App() {
             path="/portfolio"
             element={
               <Portfolio
-                active={active}
-                handleChangeActive={handleChangeActive}
+                active={props.active}
+                handleChangeActive={props.handleChangeActive}
                 activeCurrency={activeCurrency}
               />
             }
@@ -157,4 +113,12 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  active: state.active,
+});
+
+const mapDispatchToProps = {
+  handleChangeActive: setActivePage,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

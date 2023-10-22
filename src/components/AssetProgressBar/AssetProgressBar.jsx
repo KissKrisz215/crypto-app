@@ -8,7 +8,6 @@ import {
 } from "./AssetProgressBar.styles";
 
 const AssetProgressBar = ({ percentage }) => {
-  console.log(percentage);
   return (
     <ThemeContext.Consumer>
       {(theme) => (

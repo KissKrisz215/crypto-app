@@ -95,10 +95,6 @@ const AssetListItem = ({ coin, setDataArray }) => {
     getData();
   }, []);
 
-  useEffect(() => {
-    console.log(coin);
-  });
-
   if (isLoading) {
     return (
       <CoinContainer key={coin.name}>
@@ -255,7 +251,6 @@ const AssetListItem = ({ coin, setDataArray }) => {
             <CoinInfoItem>
               <ItemHeader>Coin amount:</ItemHeader>
               <ItemText change={true}>
-                {console.log("DATA!", coin)}
                 {coin && formatNumberToDecimal(coin.purchaseAmount, 2)}{" "}
                 {coin && coin.data.symbol}
               </ItemText>
