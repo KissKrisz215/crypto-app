@@ -8,34 +8,17 @@ import { Navbar } from "./components";
 import PageLoadingBar from "./components/PageLoadingBar/PageLoadingBar";
 import { setActivePage } from "./store/activePage/actions";
 import { setActiveCurrency } from "./store/currency/actions";
+import { setActiveTheme } from "./store/theme/actions";
 import { themes } from "./styles/colors";
 import "./App.css";
 
 function App(props) {
-  const [theme, setTheme] = useState();
-
-  const handleChangeTheme = () => {
-    const newTheme = !theme;
-    localStorage.setItem("theme", newTheme);
-    setTheme(newTheme);
-  };
-
-  useEffect(() => {
-    const activeTheme = localStorage.getItem("theme");
-    if (activeTheme) {
-      setTheme(activeTheme === "true");
-    } else {
-      setTheme(false);
-      localStorage.setItem("theme", false);
-    }
-  }, []);
-
   return (
     <div>
       <PageLoadingBar />
-      <ThemeProvider theme={theme ? themes.lightTheme : themes.darkTheme}>
+      <ThemeProvider theme={props.theme ? themes.lightTheme : themes.darkTheme}>
         <GlobalStyle />
-        <Navbar active={props.active} handleChangeTheme={handleChangeTheme} />
+        <Navbar active={props.active} />
         <Routes>
           <Route
             path="/"
@@ -74,11 +57,13 @@ function App(props) {
 const mapStateToProps = (state) => ({
   active: state.active,
   activeCurrency: state.activeCurrency,
+  theme: state.activeTheme,
 });
 
 const mapDispatchToProps = {
   handleChangeActive: setActivePage,
   handleActiveCurrency: setActiveCurrency,
+  handleChangeTheme: setActiveTheme,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

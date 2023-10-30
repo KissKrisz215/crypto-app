@@ -8,7 +8,7 @@ import {
 import { SearchBar, CurrencyToggle, ThemeToggle } from "../index";
 import SubHeader from "../SubHeader/SubHeader";
 
-const Navbar = ({ active, handleChangeTheme }) => (
+const Navbar = ({ active }) => (
   <Wrapper>
     <SubHeader />
     <NavbarContainer>
@@ -23,7 +23,7 @@ const Navbar = ({ active, handleChangeTheme }) => (
       <Container gap="1rem">
         <SearchBar />
         <CurrencyToggle />
-        <ThemeToggle handleChangeTheme={handleChangeTheme} />
+        <ThemeToggle />
       </Container>
     </NavbarContainer>
   </Wrapper>
