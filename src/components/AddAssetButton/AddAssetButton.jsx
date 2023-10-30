@@ -25,8 +25,9 @@ import Icons from "../../assets/index";
 import ModalInput from "../ModalInput";
 import { LoadingSpinner } from "../LoadingAnimations/";
 import { nanoid } from "nanoid";
+import { useSelector } from "react-redux";
 
-const AddAssetButton = ({ activeCurrency, setData }) => {
+const AddAssetButton = ({ setData }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [formData, setFormData] = useState({
@@ -45,6 +46,7 @@ const AddAssetButton = ({ activeCurrency, setData }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setListData] = useState(null);
   const modalRef = useRef(null);
+  const activeCurrency = useSelector((state) => state.activeCurrency);
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -104,10 +106,6 @@ const AddAssetButton = ({ activeCurrency, setData }) => {
       const { data } = await axios(
         `https://api.coingecko.com/api/v3/coins/${coin.name.toLowerCase()}?localization=false&tickers=false&market_data=true&community_data=true&developer_data=false&sparkline=false`
       );
-      console.log(
-        "Purchase Price:",
-        data.market_data.current_price[activeCurrency.name] / amount
-      );
       return amount / data.market_data.current_price[activeCurrency.name];
     } catch (err) {
       console.log(err);
@@ -156,7 +154,6 @@ const AddAssetButton = ({ activeCurrency, setData }) => {
   };
 
   const handleCoinChange = (coin) => {
-    console.log("Coin from addassetbutton:", coin);
     closeDropdown();
     setFormData({
       ...formData,

@@ -25,14 +25,16 @@ import CurrencyConverter from "../../components/CurrencyConverter/";
 import CoinChart from "../../components/CoinChart/";
 import { LoadingBar } from "../../components/LoadingAnimations";
 import { LoadingSpinner } from "../../components/LoadingAnimations";
+import { useSelector } from "react-redux";
 
-const Coin = ({ handleChangeActive, active, activeCurrency }) => {
+const Coin = ({ handleChangeActive, active }) => {
   const { coinId } = useParams();
   const [coin, setCoin] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [coinData, setCoinData] = useState(null);
   const [percentage, setPercentage] = useState(null);
+  const activeCurrency = useSelector((state) => state.activeCurrency);
 
   const getData = async (id) => {
     setIsLoading(true);
@@ -103,7 +105,6 @@ const Coin = ({ handleChangeActive, active, activeCurrency }) => {
                 <CoinMarketData
                   coin={coin}
                   percentage={percentage}
-                  activeCurrency={activeCurrency}
                   isLoading={isLoading}
                 />
               </HeaderContainer>
@@ -191,8 +192,8 @@ const Coin = ({ handleChangeActive, active, activeCurrency }) => {
             {coin && (
               <CurrencyConverter
                 isLoading={isLoading}
-                activeCurrency={activeCurrency}
                 activeCoin={coin}
+                activeCurrency={activeCurrency}
               />
             )}
             <CoinChart

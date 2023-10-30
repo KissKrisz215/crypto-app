@@ -48,7 +48,7 @@ const initialValue = [
   },
 ];
 
-const Portfolio = ({ handleChangeActive, activeCurrency, active }) => {
+const Portfolio = ({ handleChangeActive, active }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const Portfolio = ({ handleChangeActive, activeCurrency, active }) => {
 
   return (
     <Wrapper>
-      <AddAssetButton setData={setData} activeCurrency={activeCurrency} />
+      <AddAssetButton setData={setData} />
       <Container>
         <AssetsList data={data} />
       </Container>

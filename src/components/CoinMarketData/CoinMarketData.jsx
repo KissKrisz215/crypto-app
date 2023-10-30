@@ -8,15 +8,16 @@ import {
 import CoinProgressBar from "../CoinProgressBar";
 import { formatPrice, formatNumberToDecimal } from "../../utils";
 import { LoadingBar } from "../LoadingAnimations";
+import { useSelector } from "react-redux";
 
 const CoinMarketData = ({
   coin,
   percentage,
   data,
-  activeCurrency,
   currencySymbol,
   isLoading,
 }) => {
+  const activeCurrency = useSelector((state) => state.activeCurrency);
   if (isLoading) {
     return (
       <MarketDataWrapper>

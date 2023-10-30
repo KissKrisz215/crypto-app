@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import {
   Container,
   Col,
@@ -18,10 +19,11 @@ import Icons from "../../assets/index";
 import PercentageBar from "../PercentageBar/index";
 import { LoadingBar } from "../LoadingAnimations";
 
-const SubHeader = ({ activeCurrency }) => {
+const SubHeader = () => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+  const activeCurrency = useSelector((state) => state.activeCurrency);
 
   useEffect(() => {
     const handleData = async () => {

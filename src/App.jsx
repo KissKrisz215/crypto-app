@@ -7,30 +7,12 @@ import { GlobalStyle } from "./styles/GlobalStyle";
 import { Navbar } from "./components";
 import PageLoadingBar from "./components/PageLoadingBar/PageLoadingBar";
 import { setActivePage } from "./store/activePage/actions";
+import { setActiveCurrency } from "./store/currency/actions";
 import { themes } from "./styles/colors";
 import "./App.css";
 
-const currencies = [
-  {
-    name: "usd",
-    symbol: "$",
-    isActive: true,
-  },
-  {
-    name: "eur",
-    symbol: "€",
-    isActive: false,
-  },
-  {
-    name: "gbp",
-    symbol: "£",
-    isActive: false,
-  },
-];
-
 function App(props) {
   const [theme, setTheme] = useState();
-  const [activeCurrency, setActiveCurrency] = useState(currencies[0]);
 
   const handleChangeTheme = () => {
     const newTheme = !theme;
@@ -48,33 +30,12 @@ function App(props) {
     }
   }, []);
 
-  const handleActiveCurrency = (currency) => {
-    localStorage.setItem("currency", JSON.stringify(currency));
-    setActiveCurrency(currency);
-  };
-
-  useEffect(() => {
-    const activeCurrency = JSON.parse(localStorage.getItem("currency"));
-    if (activeCurrency) {
-      setActiveCurrency(activeCurrency);
-    } else {
-      setActiveCurrency(currencies[0]);
-      localStorage.setItem("currency", JSON.stringify(currencies[0]));
-    }
-  }, []);
-
   return (
     <div>
       <PageLoadingBar />
       <ThemeProvider theme={theme ? themes.lightTheme : themes.darkTheme}>
         <GlobalStyle />
-        <Navbar
-          active={props.active}
-          handleChangeTheme={handleChangeTheme}
-          handleActiveCurrency={handleActiveCurrency}
-          activeCurrency={activeCurrency}
-          currencies={currencies}
-        />
+        <Navbar active={props.active} handleChangeTheme={handleChangeTheme} />
         <Routes>
           <Route
             path="/"
@@ -82,7 +43,6 @@ function App(props) {
               <Home
                 active={props.active}
                 handleChangeActive={props.handleChangeActive}
-                activeCurrency={activeCurrency}
               />
             }
           />
@@ -92,7 +52,6 @@ function App(props) {
               <Coin
                 active={props.active}
                 handleChangeActive={props.handleChangeActive}
-                activeCurrency={activeCurrency}
               />
             }
           />
@@ -102,7 +61,6 @@ function App(props) {
               <Portfolio
                 active={props.active}
                 handleChangeActive={props.handleChangeActive}
-                activeCurrency={activeCurrency}
               />
             }
           />
@@ -115,10 +73,12 @@ function App(props) {
 
 const mapStateToProps = (state) => ({
   active: state.active,
+  activeCurrency: state.activeCurrency,
 });
 
 const mapDispatchToProps = {
   handleChangeActive: setActivePage,
+  handleActiveCurrency: setActiveCurrency,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -8,15 +8,9 @@ import {
 import { SearchBar, CurrencyToggle, ThemeToggle } from "../index";
 import SubHeader from "../SubHeader/SubHeader";
 
-const Navbar = ({
-  activeCurrency,
-  active,
-  handleActiveCurrency,
-  currencies,
-  handleChangeTheme,
-}) => (
+const Navbar = ({ active, handleChangeTheme }) => (
   <Wrapper>
-    <SubHeader activeCurrency={activeCurrency} />
+    <SubHeader />
     <NavbarContainer>
       <Container>
         <NavbarLink page="home" active={active} to="/">
@@ -28,11 +22,7 @@ const Navbar = ({
       </Container>
       <Container gap="1rem">
         <SearchBar />
-        <CurrencyToggle
-          activeCurrency={activeCurrency}
-          handleActiveCurrency={handleActiveCurrency}
-          currencies={currencies}
-        />
+        <CurrencyToggle />
         <ThemeToggle handleChangeTheme={handleChangeTheme} />
       </Container>
     </NavbarContainer>

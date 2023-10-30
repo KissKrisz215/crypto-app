@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
 import { ThemeContext } from "styled-components";
+import { useSelector } from "react-redux";
 import {
   Container,
   Header,
@@ -16,7 +17,7 @@ import ChartItem from "../../components/Chart/Chart";
 import { formatCurrency, addCommas } from "../../utils";
 import CoinTable from "../../components/CoinTable/";
 
-const Home = ({ activeCurrency, handleChangeActive }) => {
+const Home = ({ handleChangeActive }) => {
   const [pricesData, setPricesData] = useState(null);
   const [marketData, setMarketData] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -33,7 +34,7 @@ const Home = ({ activeCurrency, handleChangeActive }) => {
   });
   const [showRows, setShowRows] = useState(50);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const activeCurrency = useSelector((state) => state.activeCurrency);
   const changeCurrentPage = (value) => {
     if (value > 0) {
       setCurrentPage(value);

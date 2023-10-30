@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   DropdownItem,
   DropdownMenu,
@@ -10,18 +11,34 @@ import {
   DropdownArrow,
 } from "./CurrencyToggle.styles";
 import Icons from "../../assets/index";
+import { setActiveCurrency } from "../../store/currency/actions";
 
-const CurrencyToggle = ({
-  activeCurrency,
-  currencies,
-  handleActiveCurrency,
-}) => {
+const currencies = [
+  {
+    name: "usd",
+    symbol: "$",
+    isActive: true,
+  },
+  {
+    name: "eur",
+    symbol: "€",
+    isActive: false,
+  },
+  {
+    name: "gbp",
+    symbol: "£",
+    isActive: false,
+  },
+];
+
+const CurrencyToggle = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
-
+  const activeCurrency = useSelector((state) => state.activeCurrency);
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
+  const dispatch = useDispatch();
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -54,7 +71,7 @@ const CurrencyToggle = ({
             {currencies.map((currency) => (
               <DropdownItem
                 key={currency.name}
-                onClick={() => handleActiveCurrency(currency)}
+                onClick={() => dispatch(setActiveCurrency(currency))}
               >
                 <DropdownIcon>{currency.symbol}</DropdownIcon>
                 <DropdownHeader>
