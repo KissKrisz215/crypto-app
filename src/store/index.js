@@ -8,6 +8,7 @@ import thunk from "redux-thunk";
 import searchReducer from "./search";
 import navbarInfoReducer from "./subHeader";
 import chartReducer from "./charts";
+import coinsListReducer from "./coins";
 
 const rootReducer = combineReducers({
   active: activePageReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   search: searchReducer,
   navbarInfo: navbarInfoReducer,
   chart: chartReducer,
+  coins: coinsListReducer,
 });
 
 const persistConfig = {

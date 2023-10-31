@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Container,
   TableHead,
@@ -25,6 +26,8 @@ import TableRow from "../TableRow/TableRow";
 import percentageBarColors from "../../utils/PercentageBarColors";
 import SelectRows from "../SelectRows/";
 import Icons from "../../assets/index";
+import { setActiveCategory, setCurrentPage } from "../../store/coins/actions";
+import { getCoins, setData } from "../../store/coins/actions";
 
 const buttonsArray = ["#", "Name", "Price", "1h%", "24h%", "7d%"];
 const categoriesArray = [
@@ -34,20 +37,14 @@ const categoriesArray = [
   { name: "Metaverse", category: "metaverse" },
 ];
 
-const CoinTable = ({
-  sortCoins,
-  sortBy,
-  sortType,
-  activeCategory,
-  changeActiveCategory,
-  showRows,
-  handleShowRowsChange,
-  currentPage,
-  changeCurrentPage,
-}) => {
-  const [data, setData] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+const CoinTable = ({ sortCoins, sortBy, sortType }) => {
+  const data = useSelector((state) => state.coins.data);
+  const isLoading = useSelector((state) => state.coins.isLoading);
+  const errorMessage = useSelector((state) => state.coins.errorMessage);
+  const activeCategory = useSelector((state) => state.coins.activeCategory);
+  const currentPage = useSelector((state) => state.coins.currentPage);
+  const showRows = useSelector((state) => state.coins.showRows);
+  const dispatch = useDispatch();
 
   const sortByName = () => {
     const dataArray = JSON.parse(JSON.stringify(data));
@@ -59,7 +56,7 @@ const CoinTable = ({
       data1 = dataArray.sort((a, b) => a.name.localeCompare(b.name));
     }
 
-    setData(data1);
+    dispatch(setData(data1));
   };
 
   const sortByPrice = () => {
@@ -72,7 +69,7 @@ const CoinTable = ({
       data1 = dataArray.sort((a, b) => a.current_price - b.current_price);
     }
 
-    setData(data1);
+    dispatch(setData(data1));
   };
 
   const sortByHour = (time) => {
@@ -93,7 +90,7 @@ const CoinTable = ({
       );
     }
 
-    setData(data1);
+    dispatch(setData(data1));
   };
 
   const defaultSort = () => {
@@ -104,7 +101,7 @@ const CoinTable = ({
     } else {
       data1 = dataArray.sort((a, b) => a.market_cap_rank - b.market_cap_rank);
     }
-    setData(data1);
+    dispatch(setData(data1));
   };
 
   const handleSort = () => {
@@ -119,32 +116,9 @@ const CoinTable = ({
     }
   };
 
-  const getCoins = async () => {
-    setIsLoading(true);
-    setData(Array.from({ length: showRows }));
-
-    try {
-      let category;
-      if (activeCategory) {
-        category = activeCategory.category;
-      }
-      const { data } = await axios(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd${
-          category ? `&category=${category}&` : "&"
-        }order=market_cap_desc&per_page=${showRows}&page=${currentPage}&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
-      );
-      setData(data);
-      setIsLoading(false);
-    } catch (err) {
-      console.log(err);
-      setErrorMessage("There was an error loading the data.");
-      setIsLoading(true);
-    }
-  };
-
   useEffect(() => {
-    setData(data);
-    getCoins();
+    dispatch(setData(data));
+    dispatch(getCoins());
   }, []);
 
   useEffect(() => {
@@ -152,11 +126,15 @@ const CoinTable = ({
   }, [sortBy, sortType]);
 
   useEffect(() => {
-    getCoins();
+    dispatch(getCoins());
   }, [activeCategory.name]);
 
   useEffect(() => {
-    getCoins();
+    const intervalId = setInterval(() => {
+      dispatch(getCoins());
+    }, 60000);
+
+    return () => clearInterval(intervalId);
   }, [showRows, currentPage]);
 
   return (
@@ -171,28 +149,25 @@ const CoinTable = ({
                   key={category}
                   category={category}
                   activeCategory={activeCategory}
-                  onClick={() => changeActiveCategory(category)}
+                  onClick={() => dispatch(setActiveCategory(category))}
                 >
                   {category.name}
                 </Buttons>
               ))}
           </Navigation>
           <Navigation>
-            <SelectRows
-              showRows={showRows}
-              handleShowRowsChange={handleShowRowsChange}
-            />
+            <SelectRows showRows={showRows} />
             <NavigationText>
               Page:
               <SelectPageContainer>
                 <ArrowContainer
-                  onClick={() => changeCurrentPage(currentPage - 1)}
+                  onClick={() => dispatch(setCurrentPage(currentPage - 1))}
                 >
                   <ArrowLogo rotate={"90deg"} src={Icons.ArrowIcon} />
                 </ArrowContainer>
                 {currentPage}
                 <ArrowContainer
-                  onClick={() => changeCurrentPage(currentPage + 1)}
+                  onClick={() => dispatch(setCurrentPage(currentPage + 1))}
                 >
                   <ArrowLogo rotate={"270deg"} src={Icons.ArrowIcon} />
                 </ArrowContainer>

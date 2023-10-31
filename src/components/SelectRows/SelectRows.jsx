@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import {
   SelectWrapper,
   SelectButton,
@@ -10,10 +11,12 @@ import {
   NavigationText,
 } from "./SelectRows.styles";
 import Icons from "../../assets/index";
+import { setShowRows } from "../../store/coins/actions";
 
 const RowsArray = [10, 25, 50, 100];
 
-const SelectRows = ({ showRows, handleShowRowsChange }) => {
+const SelectRows = ({ showRows }) => {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -49,7 +52,7 @@ const SelectRows = ({ showRows, handleShowRowsChange }) => {
                 RowsArray.map((item) => (
                   <SelectOption
                     key={item}
-                    onClick={() => handleShowRowsChange(item)}
+                    onClick={() => dispatch(setShowRows(item))}
                     value={item}
                   >
                     {item}

@@ -38,26 +38,7 @@ const Home = ({ handleChangeActive }) => {
   } = useSelector((state) => state.chart);
   const [sortBy, setSortBy] = useState(null);
   const [sortType, setSortType] = useState(false);
-  const [activeCategory, setActiveCategory] = useState({
-    name: "Cryptocurrency",
-    category: null,
-  });
-  const [showRows, setShowRows] = useState(50);
-  const [currentPage, setCurrentPage] = useState(1);
   const activeCurrency = useSelector((state) => state.activeCurrency);
-  const changeCurrentPage = (value) => {
-    if (value > 0) {
-      setCurrentPage(value);
-    }
-  };
-
-  const handleShowRowsChange = (value) => {
-    setShowRows(value);
-  };
-
-  const changeActiveCategory = (value) => {
-    setActiveCategory(value);
-  };
 
   const sortCoins = (value) => {
     setSortBy(value);
@@ -155,12 +136,6 @@ const Home = ({ handleChangeActive }) => {
                   sortCoins={sortCoins}
                   sortBy={sortBy}
                   sortType={sortType}
-                  activeCategory={activeCategory}
-                  changeActiveCategory={changeActiveCategory}
-                  showRows={showRows}
-                  handleShowRowsChange={handleShowRowsChange}
-                  changeCurrentPage={changeCurrentPage}
-                  currentPage={currentPage}
                 />
               </CoinTableContainer>
             </CoinTableWrapper>
