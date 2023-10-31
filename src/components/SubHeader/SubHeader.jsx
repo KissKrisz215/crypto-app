@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Container,
   Col,
@@ -18,31 +17,19 @@ import {
 import Icons from "../../assets/index";
 import PercentageBar from "../PercentageBar/index";
 import { LoadingBar } from "../LoadingAnimations";
+import { getNavbarInfo } from "../../store/subHeader/actions";
 
 const SubHeader = () => {
-  const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState(null);
   const activeCurrency = useSelector((state) => state.activeCurrency);
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.navbarInfo.isLoading);
+  const data = useSelector((state) => state.navbarInfo.data);
+  const errorMessage = useSelector((state) => state.navbarInfo.errorMessage);
 
   useEffect(() => {
-    const handleData = async () => {
-      try {
-        const {
-          data: { data },
-        } = await axios("https://api.coingecko.com/api/v3/global");
-        setData(data);
-        setIsLoading(false);
-      } catch (err) {
-        console.log(err);
-        setErrorMessage(
-          "An error occurred while fetching data. Please try again later."
-        );
-        setIsLoading(true);
-      }
-    };
-
-    handleData();
+    console.log("Before Code has been run", data);
+    dispatch(getNavbarInfo());
+    console.log("after Code has been run", data);
   }, []);
 
   if (isLoading) {

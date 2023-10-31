@@ -6,6 +6,7 @@ import activeCurrencyReducer from "./currency";
 import activeThemeReducer from "./theme";
 import thunk from "redux-thunk";
 import searchReducer from "./search";
+import navbarInfoReducer from "./subHeader";
 
 const rootReducer = combineReducers({
   active: activePageReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   handleActiveCurrency: activeCurrencyReducer,
   activeTheme: activeThemeReducer,
   search: searchReducer,
+  navbarInfo: navbarInfoReducer,
 });
 
 const persistConfig = {
