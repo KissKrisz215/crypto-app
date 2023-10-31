@@ -10,6 +10,7 @@ import navbarInfoReducer from "./subHeader";
 import chartReducer from "./charts";
 import coinsListReducer from "./coins";
 import portfolioDataReducer from "./portfolio";
+import coinSearchReducer from "./modal";
 
 const rootReducer = combineReducers({
   active: activePageReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   chart: chartReducer,
   coins: coinsListReducer,
   portfolio: portfolioDataReducer,
+  coinSearch: coinSearchReducer,
 });
 
 const persistConfig = {

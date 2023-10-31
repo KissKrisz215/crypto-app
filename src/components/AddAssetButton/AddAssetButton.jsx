@@ -27,6 +27,12 @@ import { LoadingSpinner } from "../LoadingAnimations/";
 import { nanoid } from "nanoid";
 import { useDispatch, useSelector } from "react-redux";
 import { setData } from "../../store/portfolio/actions";
+import {
+  setIsLoading,
+  setListData,
+  setErrorMessage,
+} from "../../store/modal/actions";
+import { getData } from "../../store/modal/actions";
 
 const AddAssetButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,10 +48,11 @@ const AddAssetButton = () => {
   });
   const [selectedCoin, setSelectedCoin] = useState(null);
   const [searchValue, setSearchValue] = useState("");
-  const [errorMessage, setErrorMessage] = useState(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [listData, setListData] = useState(null);
+  const listData = useSelector((state) => state.coinSearch.listData);
+  const isLoading = useSelector((state) => state.coinSearch.isLoading);
+  const errorMessage = useSelector((state) => state.coinSearch.errorMessage);
+
   const data = useSelector((state) => state.portfolio.data);
   const modalRef = useRef(null);
   const activeCurrency = useSelector((state) => state.activeCurrency);
@@ -82,28 +89,6 @@ const AddAssetButton = () => {
     }
   }, [formData]);
 
-  const getData = async () => {
-    try {
-      const { data } = await axios(
-        `https://api.coingecko.com/api/v3/search?query=${searchValue}`
-      );
-      if (data.coins.length === 0) {
-        setListData([]);
-        setErrorMessage("There was an error retrieving the data.");
-        setIsLoading(false);
-      } else {
-        const slicedData = data.coins.slice(0, 25);
-        setListData(slicedData);
-        setErrorMessage(null);
-        setIsLoading(false);
-      }
-    } catch (err) {
-      console.log(err);
-      setIsLoading(true);
-      setListData([]);
-    }
-  };
-
   const getTokenAmount = async (coin, amount) => {
     try {
       const { data } = await axios(
@@ -129,13 +114,13 @@ const AddAssetButton = () => {
   const handleSearch = (e) => {
     const { value } = e.target;
     setSearchValue(value);
-    setIsLoading(true);
-    setErrorMessage(null);
+    dispatch(setIsLoading(true));
+    dispatch(setErrorMessage(null));
     if (value.length === 0) {
-      setListData(null);
+      dispatch(setListData(null));
       setIsSearchOpen(false);
     } else {
-      getData();
+      dispatch(getData(searchValue));
       setIsSearchOpen(true);
     }
   };
