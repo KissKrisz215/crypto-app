@@ -9,6 +9,7 @@ import searchReducer from "./search";
 import navbarInfoReducer from "./subHeader";
 import chartReducer from "./charts";
 import coinsListReducer from "./coins";
+import portfolioDataReducer from "./portfolio";
 
 const rootReducer = combineReducers({
   active: activePageReducer,
@@ -19,12 +20,13 @@ const rootReducer = combineReducers({
   navbarInfo: navbarInfoReducer,
   chart: chartReducer,
   coins: coinsListReducer,
+  portfolio: portfolioDataReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["activeCurrency", "activeTheme"],
+  whitelist: ["activeCurrency", "activeTheme", "portfolio"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -119,23 +119,16 @@ const CoinTable = ({ sortCoins, sortBy, sortType }) => {
   useEffect(() => {
     dispatch(setData(data));
     dispatch(getCoins());
-  }, []);
-
-  useEffect(() => {
-    handleSort();
-  }, [sortBy, sortType]);
-
-  useEffect(() => {
-    dispatch(getCoins());
-  }, [activeCategory.name]);
-
-  useEffect(() => {
     const intervalId = setInterval(() => {
       dispatch(getCoins());
     }, 60000);
 
     return () => clearInterval(intervalId);
-  }, [showRows, currentPage]);
+  }, []);
+
+  useEffect(() => {
+    dispatch(getCoins());
+  }, [showRows, currentPage, activeCategory.name, sortBy, sortType]);
 
   return (
     <Container>

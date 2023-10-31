@@ -26,10 +26,14 @@ import {
 } from "../../utils/formatPrices";
 import AssetProgressBar from "../AssetProgressBar/AssetProgressBar";
 import { LoadingBar } from "../LoadingAnimations";
+import { setData } from "../../store/portfolio/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const AssetListItem = ({ coin, setDataArray }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [coinData, setCoinData] = useState(null);
+  const data = useSelector((state) => state.portfolio.data);
+  const dispatch = useDispatch();
 
   const getData = async () => {
     try {
@@ -85,10 +89,8 @@ const AssetListItem = ({ coin, setDataArray }) => {
   };
 
   const handleDelete = (id) => {
-    const portfolio = JSON.parse(localStorage.getItem("portfolio"));
-    const updatedPortfolio = portfolio.filter((item) => item.id !== coin.id);
-    setDataArray(updatedPortfolio);
-    localStorage.setItem("portfolio", JSON.stringify(updatedPortfolio));
+    const updatedPortfolio = data.filter((item) => item.id !== coin.id);
+    dispatch(setData(updatedPortfolio));
   };
 
   useEffect(() => {

@@ -25,9 +25,10 @@ import Icons from "../../assets/index";
 import ModalInput from "../ModalInput";
 import { LoadingSpinner } from "../LoadingAnimations/";
 import { nanoid } from "nanoid";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setData } from "../../store/portfolio/actions";
 
-const AddAssetButton = ({ setData }) => {
+const AddAssetButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [formData, setFormData] = useState({
@@ -44,9 +45,11 @@ const AddAssetButton = ({ setData }) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setListData] = useState(null);
+  const [listData, setListData] = useState(null);
+  const data = useSelector((state) => state.portfolio.data);
   const modalRef = useRef(null);
   const activeCurrency = useSelector((state) => state.activeCurrency);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -175,8 +178,6 @@ const AddAssetButton = ({ setData }) => {
     const { amount, date, coin } = formData;
     const purchaseAmount = await getTokenAmount(coin, amount);
     if (isComplete === true) {
-      const existingPortfolio = localStorage.getItem("portfolio");
-
       const coins = {
         currency: activeCurrency,
         purchasePrice: amount,
@@ -186,15 +187,10 @@ const AddAssetButton = ({ setData }) => {
         id: nanoid(),
       };
 
-      if (existingPortfolio) {
-        const data = JSON.parse(existingPortfolio);
-        data.push(coins);
-        localStorage.setItem("portfolio", JSON.stringify(data));
-        setData((prevData) => ({ ...prevData, data }));
-      } else {
-        localStorage.setItem("portfolio", JSON.stringify([coins]));
-      }
-      window.dispatchEvent(new Event("storage"));
+      const dataCopy = [...data];
+      dataCopy.push(coins);
+      dispatch(setData(dataCopy));
+
       handleModalToggle();
     }
   };
@@ -229,8 +225,8 @@ const AddAssetButton = ({ setData }) => {
                   >
                     {!errorMessage && isSearchOpen && (
                       <DropDownContainer>
-                        {data &&
-                          data.map((coin) => (
+                        {listData &&
+                          listData.map((coin) => (
                             <DropDownItem
                               key={coin.name}
                               onClick={() => handleCoinChange(coin)}
