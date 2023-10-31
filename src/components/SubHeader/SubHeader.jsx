@@ -27,9 +27,7 @@ const SubHeader = () => {
   const errorMessage = useSelector((state) => state.navbarInfo.errorMessage);
 
   useEffect(() => {
-    console.log("Before Code has been run", data);
     dispatch(getNavbarInfo());
-    console.log("after Code has been run", data);
   }, []);
 
   if (isLoading) {

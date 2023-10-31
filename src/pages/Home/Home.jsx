@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from "react";
 import axios from "axios";
 import { ThemeContext } from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Container,
   Header,
@@ -16,16 +16,26 @@ import {
 import ChartItem from "../../components/Chart/Chart";
 import { formatCurrency, addCommas } from "../../utils";
 import CoinTable from "../../components/CoinTable/";
+import {
+  getChartData,
+  setMarketDate,
+  setPricesDate,
+  getPriceAndVolume,
+  setCurrency,
+} from "../../store/charts/actions";
 
 const Home = ({ handleChangeActive }) => {
-  const [pricesData, setPricesData] = useState(null);
-  const [marketData, setMarketData] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [currency, setCurrency] = useState(null);
-  const [currencyPrice, setCurrencyPrice] = useState(null);
-  const [currencyVolume, setCurrencyVolume] = useState(null);
-  const [pricesDate, setPricesDate] = useState({ name: "1d", days: 1 });
-  const [marketDate, setMarketDate] = useState({ name: "1d", days: 1 });
+  const dispatch = useDispatch();
+  const {
+    pricesData,
+    marketData,
+    currency,
+    currencyPrice,
+    currencyVolume,
+    pricesDate,
+    marketDate,
+    errorMessage,
+  } = useSelector((state) => state.chart);
   const [sortBy, setSortBy] = useState(null);
   const [sortType, setSortType] = useState(false);
   const [activeCategory, setActiveCategory] = useState({
@@ -54,83 +64,33 @@ const Home = ({ handleChangeActive }) => {
     setSortType(!sortType);
   };
 
-  const getData = async (days, interval) => {
-    try {
-      const { data } = await axios(
-        `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=${
-          activeCurrency.name
-        }&days=${days}${interval ? `&interval=${interval}` : ""}`
-      );
-      return data;
-    } catch (err) {
-      console.log(err);
-      setErrorMessage("There was an error retrieving the data.");
-    }
-  };
-
   const getPricesData = async () => {
     const days = pricesDate.days;
+    const type = "line";
     let interval = "daily";
-    switch (pricesDate.name) {
-      case "1d":
-        interval = null;
-        break;
-      case "1w":
-        interval = null;
-        break;
-      case "1m":
-        interval = null;
-        break;
+    const name = pricesDate.name;
+    if (name === "1d" || name === "1w" || name === "1m") {
+      interval = null;
     }
-    const data = await getData(days, interval);
-    const pricesData = data.prices;
 
-    setPricesData(pricesData);
-    setErrorMessage(null);
+    dispatch(getChartData(days, interval, type));
   };
 
   const getMarketData = async () => {
+    const type = "bar";
     const days = marketDate.days;
     let interval = "daily";
-    switch (marketDate.name) {
-      case "1d":
-        interval = null;
-        break;
+    if (marketDate.name === "1d") {
+      interval = null;
     }
-    const data = await getData(days, interval);
-    const marketData12 = data.total_volumes;
-
-    setMarketData(marketData12);
-    setErrorMessage(null);
-  };
-
-  const getPriceAndVolume = async () => {
-    try {
-      const { data } = await axios(
-        "https://api.coingecko.com/api/v3/coins/bitcoin?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false"
-      );
-
-      const currencyPrice = addCommas(
-        data.market_data.current_price[activeCurrency.name]
-      );
-
-      const currencyVolume = formatCurrency(
-        data.market_data.total_volume[activeCurrency.name]
-      );
-
-      setCurrencyPrice(currencyPrice);
-      setCurrencyVolume(currencyVolume);
-    } catch (err) {
-      console.log(err);
-      setErrorMessage("There was an error retrieving the data.");
-    }
+    dispatch(getChartData(days, interval, type));
   };
 
   useEffect(() => {
-    setCurrency(activeCurrency);
+    dispatch(setCurrency(activeCurrency));
     getMarketData();
     getPricesData();
-    getPriceAndVolume();
+    dispatch(getPriceAndVolume());
     handleChangeActive("home");
   }, [activeCurrency, handleChangeActive]);
 

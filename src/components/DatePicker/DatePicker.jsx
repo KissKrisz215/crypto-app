@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Date } from "./DatePicker.styles";
+import { useDispatch } from "react-redux";
 
 const durations = [
   {
@@ -30,6 +31,7 @@ const durations = [
 
 const DatePicker = ({ date, changeDate }) => {
   const [durationsState, setDurations] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setDurations(durations);
@@ -40,7 +42,8 @@ const DatePicker = ({ date, changeDate }) => {
       name: e.target.getAttribute("name"),
       days: e.target.getAttribute("days"),
     };
-    changeDate(data);
+
+    dispatch(changeDate(data));
   };
 
   return (

@@ -7,6 +7,7 @@ import activeThemeReducer from "./theme";
 import thunk from "redux-thunk";
 import searchReducer from "./search";
 import navbarInfoReducer from "./subHeader";
+import chartReducer from "./charts";
 
 const rootReducer = combineReducers({
   active: activePageReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   activeTheme: activeThemeReducer,
   search: searchReducer,
   navbarInfo: navbarInfoReducer,
+  chart: chartReducer,
 });
 
 const persistConfig = {
