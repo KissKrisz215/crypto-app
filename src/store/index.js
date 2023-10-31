@@ -5,12 +5,14 @@ import activePageReducer from "./activePage/index";
 import activeCurrencyReducer from "./currency";
 import activeThemeReducer from "./theme";
 import thunk from "redux-thunk";
+import searchReducer from "./search";
 
 const rootReducer = combineReducers({
   active: activePageReducer,
   activeCurrency: activeCurrencyReducer,
   handleActiveCurrency: activeCurrencyReducer,
   activeTheme: activeThemeReducer,
+  search: searchReducer,
 });
 
 const persistConfig = {

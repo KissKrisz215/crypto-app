@@ -11,41 +11,23 @@ import {
 } from "./SearchBar.styles";
 import Icons from "../../assets/index";
 import { LoadingSpinner } from "../LoadingAnimations/";
+import { useDispatch, useSelector } from "react-redux";
+import { getSearchResults } from "../../store/search/actions";
 
 const SearchBar = () => {
   const [searchValue, setSearchValue] = useState("");
-  const [data, setData] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const dropdownRef = useRef(null);
   const prevInputRef = useRef("");
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const { data } = await axios(
-          `https://api.coingecko.com/api/v3/search?query=${searchValue}`
-        );
-        if (data.coins.length === 0) {
-          setData([]);
-          setErrorMessage("There was an error retrieving the data.");
-          setIsLoading(false);
-        } else {
-          const slicedData = data.coins.slice(0, 25);
-          setData(slicedData);
-          setErrorMessage(null);
-          setIsLoading(false);
-        }
-      } catch (err) {
-        console.log(err);
-        setIsLoading(true);
-        setData([]);
-      }
-    };
+  const isLoading = useSelector((state) => state.search.isLoading);
+  const data = useSelector((state) => state.search.data);
+  const errorMessage = useSelector((state) => state.search.errorMessage);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
     if (searchValue.length > 0 && prevInputRef.current !== searchValue) {
-      getData();
+      dispatch(getSearchResults(searchValue));
       prevInputRef.current = searchValue;
     }
   }, [searchValue]);
@@ -53,8 +35,6 @@ const SearchBar = () => {
   const handleSearch = (e) => {
     const { value } = e.target;
     setSearchValue(value);
-    setIsLoading(true);
-    setErrorMessage(null);
     setIsOpen(value.length > 0);
   };
 
