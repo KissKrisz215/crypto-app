@@ -12,6 +12,7 @@ import {
   ErrorMessage,
   CoinTableWrapper,
   CoinTableContainer,
+  ChartsDesktopContainer,
 } from "./Home.styles";
 import ChartItem from "../../components/Chart/Chart";
 import { formatCurrency, addCommas } from "../../utils";
@@ -24,6 +25,7 @@ import {
   setCurrency,
 } from "../../store/charts/actions";
 import LinksSocial from "../../components/LinksSocial";
+import MobileCharts from "../../components/MobileCharts/MobileCharts";
 
 const Home = ({ handleChangeActive }) => {
   const dispatch = useDispatch();
@@ -90,46 +92,61 @@ const Home = ({ handleChangeActive }) => {
         <Wrapper>
           <Container>
             <Header>Your overview</Header>
-            <ChartsContainer>
-              <ChartWrapper>
-                {errorMessage && (
-                  <ErrorContainer>
-                    <ErrorMessage>{errorMessage}</ErrorMessage>
-                  </ErrorContainer>
-                )}
-                {pricesData && (
-                  <ChartItem
-                    currency={currency}
-                    data={pricesData}
-                    type="line"
-                    color={theme.chart1}
-                    title="BTC"
-                    info={currencyPrice}
-                    date={pricesDate.name}
-                    changeDate={setPricesDate}
-                  />
-                )}
-              </ChartWrapper>
-              <ChartWrapper>
-                {errorMessage && (
-                  <ErrorContainer>
-                    <ErrorMessage>{errorMessage}</ErrorMessage>
-                  </ErrorContainer>
-                )}
-                {marketData && (
-                  <ChartItem
-                    currency={currency}
-                    data={marketData}
-                    type="bar"
-                    color={theme.chart2}
-                    title="BTC Volume"
-                    info={currencyVolume}
-                    date={marketDate.name}
-                    changeDate={setMarketDate}
-                  />
-                )}
-              </ChartWrapper>
-            </ChartsContainer>
+            <MobileCharts
+              errorMessage={errorMessage}
+              currency={currency}
+              pricesData={pricesData}
+              currencyPrice={currencyPrice}
+              pricesDate={pricesDate}
+              setPricesDate={setPricesDate}
+              marketData={marketData}
+              currencyVolume={currencyVolume}
+              marketDate={marketDate}
+              setMarketDate={setMarketDate}
+            />
+            <ChartsDesktopContainer>
+              <ChartsContainer>
+                <ChartWrapper>
+                  {errorMessage && (
+                    <ErrorContainer>
+                      <ErrorMessage>{errorMessage}</ErrorMessage>
+                    </ErrorContainer>
+                  )}
+                  {pricesData && (
+                    <ChartItem
+                      currency={currency}
+                      data={pricesData}
+                      type="line"
+                      color={theme.chart1}
+                      title="BTC"
+                      info={currencyPrice}
+                      date={pricesDate.name}
+                      changeDate={setPricesDate}
+                    />
+                  )}
+                </ChartWrapper>
+
+                <ChartWrapper>
+                  {errorMessage && (
+                    <ErrorContainer>
+                      <ErrorMessage>{errorMessage}</ErrorMessage>
+                    </ErrorContainer>
+                  )}
+                  {marketData && (
+                    <ChartItem
+                      currency={currency}
+                      data={marketData}
+                      type="bar"
+                      color={theme.chart2}
+                      title="BTC Volume"
+                      info={currencyVolume}
+                      date={marketDate.name}
+                      changeDate={setMarketDate}
+                    />
+                  )}
+                </ChartWrapper>
+              </ChartsContainer>
+            </ChartsDesktopContainer>
             <CoinTableWrapper>
               <Header>Your overview</Header>
               <CoinTableContainer>

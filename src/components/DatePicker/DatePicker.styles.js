@@ -1,13 +1,22 @@
 import { styled } from "styled-components";
+import breakpoint from "../../styles/breakpoints";
 
 export const Container = styled.div`
   position: absolute;
-  right: 0%;
-  top: 0%;
+  top: 100%;
+  width: 100%;
   margin: 1rem;
   display: flex;
-  background-color: ${(props) => props.theme.secondary};
+  background-color: ${(props) => props.theme.navbarBrand};
+  justify-content: space-around;
   border-radius: 0.3rem;
+  @media only screen and ${breakpoint.device.sm} {
+    width: auto;
+    justify-content: none;
+    right: 0%;
+    top: 0%;
+    background-color: ${(props) => props.theme.secondary};
+  }
 `;
 
 export const Date = styled.div`
