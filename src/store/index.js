@@ -13,6 +13,7 @@ import portfolioDataReducer from "./portfolio";
 import coinSearchReducer from "./modal";
 import coinListReducer from "./coinList";
 import coinReducer from "./coin";
+import mobileActiveReducer from "./mobileActive";
 
 const rootReducer = combineReducers({
   active: activePageReducer,
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   coinSearch: coinSearchReducer,
   coinList: coinListReducer,
   coin: coinReducer,
+  mobileActive: mobileActiveReducer,
 });
 
 const persistConfig = {

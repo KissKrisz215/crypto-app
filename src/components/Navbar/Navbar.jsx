@@ -9,6 +9,7 @@ import {
 } from "./Navbar.styles";
 import { SearchBar, CurrencyToggle, ThemeToggle } from "../index";
 import SubHeader from "../SubHeader/SubHeader";
+import MobileNavbar from "../MobileNavbar/MobileNavbar";
 
 const Navbar = ({ active }) => (
   <Wrapper>
@@ -31,6 +32,7 @@ const Navbar = ({ active }) => (
         <ThemeToggle />
       </Container>
     </NavbarContainer>
+    <MobileNavbar active={active} />
   </Wrapper>
 );
 

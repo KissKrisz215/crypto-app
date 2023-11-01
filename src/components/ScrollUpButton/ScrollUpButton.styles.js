@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import breakpoint from "../../styles/breakpoints";
 
 export const Container = styled.div`
   position: fixed;
@@ -14,6 +15,9 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  display: ${(props) => (props.isVisible ? "flex" : "none")};
+  display: none;
   z-index: 10;
+  @media only screen and ${breakpoint.device.sm} {
+    display: ${(props) => (props.isVisible ? "flex" : "none")};
+  }
 `;
