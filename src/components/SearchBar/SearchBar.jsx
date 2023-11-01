@@ -14,7 +14,7 @@ import { LoadingSpinner } from "../LoadingAnimations/";
 import { useDispatch, useSelector } from "react-redux";
 import { getSearchResults } from "../../store/search/actions";
 
-const SearchBar = () => {
+const SearchBar = ({ isActive }) => {
   const [searchValue, setSearchValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -60,7 +60,7 @@ const SearchBar = () => {
   return (
     <ThemeContext.Consumer>
       {(theme) => (
-        <SearchContainer ref={dropdownRef}>
+        <SearchContainer ref={dropdownRef} isActive={isActive}>
           <SearchInput
             onChange={handleSearch}
             placeholder="Search..."

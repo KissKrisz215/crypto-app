@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
+import breakpoint from "../../styles/breakpoints";
 
 export const TableRowContainer = styled.tr`
   border-bottom: 1px solid ${(props) => props.theme.lines};
@@ -20,4 +21,11 @@ export const CoinHeader = styled.div`
   align-items: center;
   gap: 0.5rem;
   font-size: 0.8rem;
+`;
+
+export const DataDesktopContainer = styled.div`
+  display: none;
+  @media only screen and ${breakpoint.device.sm} {
+    display: inline-flex;
+  }
 `;

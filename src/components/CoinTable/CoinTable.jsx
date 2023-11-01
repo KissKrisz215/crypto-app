@@ -20,6 +20,10 @@ import {
   SelectPageContainer,
   ArrowLogo,
   ArrowContainer,
+  NavigationHeader,
+  ShowRowsContainer,
+  ShowRowsHeader,
+  // TitleDesktopContainer,
 } from "./CoinTable.styles";
 import CoinButton from "../CoinButton/CoinButton";
 import TableRow from "../TableRow/TableRow";
@@ -29,7 +33,6 @@ import Icons from "../../assets/index";
 import { setActiveCategory, setCurrentPage } from "../../store/coins/actions";
 import { getCoins, setData } from "../../store/coins/actions";
 
-const buttonsArray = ["#", "Name", "Price", "1h%", "24h%", "7d%"];
 const categoriesArray = [
   { name: "Cryptocurrency", category: null },
   { name: "DeFi", category: "decentralized-finance-defi" },
@@ -45,6 +48,12 @@ const CoinTable = ({ sortCoins, sortBy, sortType }) => {
   const currentPage = useSelector((state) => state.coins.currentPage);
   const showRows = useSelector((state) => state.coins.showRows);
   const dispatch = useDispatch();
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 920);
+  const [buttonsArray, setButtonsArray] = useState(
+    isMobileView
+      ? ["Name", "Price", "1h%"]
+      : ["#", "Name", "Price", "1h%", "24h%", "7d%"]
+  );
 
   const sortByName = () => {
     const dataArray = JSON.parse(JSON.stringify(data));
@@ -123,35 +132,126 @@ const CoinTable = ({ sortCoins, sortBy, sortType }) => {
       dispatch(getCoins());
     }, 60000);
 
-    return () => clearInterval(intervalId);
+    const handleResize = () => {
+      const newIsMobileView = window.innerWidth <= 920;
+      setIsMobileView(newIsMobileView);
+      setButtonsArray(
+        newIsMobileView
+          ? ["Name", "Price", "1h%"]
+          : ["#", "Name", "Price", "1h%", "24h%", "7d%"]
+      );
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearInterval(intervalId);
+    };
   }, []);
 
   useEffect(() => {
     dispatch(getCoins());
   }, [showRows, currentPage, activeCategory.name, sortBy, sortType]);
 
+  if (isMobileView) {
+    return (
+      <Container>
+        <NavigationContainer>
+          <NavigationWrapper>
+            <NavigationHeader>
+              <Navigation>
+                <NavigationTitle>Filter by:</NavigationTitle>
+                {categoriesArray &&
+                  categoriesArray.map((category) => (
+                    <Buttons
+                      key={category}
+                      category={category}
+                      activeCategory={activeCategory}
+                      onClick={() => dispatch(setActiveCategory(category))}
+                    >
+                      {category.name}
+                    </Buttons>
+                  ))}
+              </Navigation>
+            </NavigationHeader>
+            <Navigation>
+              <NavigationText>
+                <ShowRowsHeader>Page:</ShowRowsHeader>
+                <SelectPageContainer>
+                  <ArrowContainer
+                    onClick={() => dispatch(setCurrentPage(currentPage - 1))}
+                  >
+                    <ArrowLogo rotate={"90deg"} src={Icons.ArrowIcon} />
+                  </ArrowContainer>
+                  {currentPage}
+                  <ArrowContainer
+                    onClick={() => dispatch(setCurrentPage(currentPage + 1))}
+                  >
+                    <ArrowLogo rotate={"270deg"} src={Icons.ArrowIcon} />
+                  </ArrowContainer>
+                </SelectPageContainer>
+              </NavigationText>
+            </Navigation>
+          </NavigationWrapper>
+        </NavigationContainer>
+        <TableWrapper>
+          <TableHead>
+            <TableRowHeader>
+              {buttonsArray &&
+                buttonsArray.map((button) => (
+                  <CoinButton
+                    key={button}
+                    sortCoins={sortCoins}
+                    sortBy={sortBy}
+                    sortType={sortType}
+                    title={button}
+                  />
+                ))}
+            </TableRowHeader>
+          </TableHead>
+          <TableBody>
+            {isLoading
+              ? data.map((coin) => <TableRow isLoading={isLoading} />)
+              : data.map((coin) => (
+                  <TableRow
+                    key={coin.id}
+                    coin={coin}
+                    index={coin.market_cap_rank}
+                    colors={percentageBarColors[coin.market_cap_rank % 10]}
+                    isMobileView={isMobileView}
+                  />
+                ))}
+          </TableBody>
+        </TableWrapper>
+      </Container>
+    );
+  }
+
   return (
     <Container>
       <NavigationContainer>
         <NavigationWrapper>
-          <Navigation>
-            <NavigationTitle>Filter by:</NavigationTitle>
-            {categoriesArray &&
-              categoriesArray.map((category) => (
-                <Buttons
-                  key={category}
-                  category={category}
-                  activeCategory={activeCategory}
-                  onClick={() => dispatch(setActiveCategory(category))}
-                >
-                  {category.name}
-                </Buttons>
-              ))}
-          </Navigation>
+          <NavigationHeader>
+            <Navigation>
+              <NavigationTitle>Filter by:</NavigationTitle>
+              {categoriesArray &&
+                categoriesArray.map((category) => (
+                  <Buttons
+                    key={category}
+                    category={category}
+                    activeCategory={activeCategory}
+                    onClick={() => dispatch(setActiveCategory(category))}
+                  >
+                    {category.name}
+                  </Buttons>
+                ))}
+            </Navigation>
+          </NavigationHeader>
           <Navigation>
             <SelectRows showRows={showRows} />
             <NavigationText>
-              Page:
+              <ShowRowsHeader>Page:</ShowRowsHeader>
               <SelectPageContainer>
                 <ArrowContainer
                   onClick={() => dispatch(setCurrentPage(currentPage - 1))}
@@ -201,6 +301,7 @@ const CoinTable = ({ sortCoins, sortBy, sortType }) => {
                   coin={coin}
                   index={coin.market_cap_rank}
                   colors={percentageBarColors[coin.market_cap_rank % 10]}
+                  isMobileView={isMobileView}
                 />
               ))}
         </TableBody>

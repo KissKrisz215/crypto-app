@@ -21,7 +21,7 @@ export const SearchInput = styled.input`
 
 export const SearchContainer = styled.div`
   position: relative;
-  display: none;
+  display: ${(props) => (props.isActive === true ? "flex" : "none")};
   align-items: center;
   @media only screen and ${breakpoint.device.sm} {
     display: flex;

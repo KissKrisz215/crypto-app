@@ -8,13 +8,14 @@ export const Container = styled.div`
   ${"" /* justify-content: center; */}
   display: flex;
   gap: 0.7rem;
-  padding: 0.3rem 2rem;
+  padding: 0.3rem 0rem;
   border-radius: 0 0 0.5rem 0.5rem;
   width: 100%;
   @media only screen and ${breakpoint.device.sm} {
     width: auto;
     background-color: ${(props) => props.theme.main};
     justify-content: auto;
+    padding: 0.3rem 2rem;
   }
 `;
 

@@ -61,7 +61,7 @@ export const ErrorContainer = styled.div`
 export const ErrorMessage = styled.p``;
 
 export const CoinTableWrapper = styled.div`
-  margin-top: 5rem;
+  margin-top: 2rem;
   max-height: 700px;
   margin-bottom: 7rem;
   @media only screen and ${breakpoint.device.sm} {

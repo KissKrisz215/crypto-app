@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import breakpoint from "../../styles/breakpoints";
 
 export const Container = styled.td`
   font-size: 0.8rem;
@@ -18,9 +19,13 @@ export const TitleWrapper = styled.div`
 `;
 
 export const IconWrapper = styled.div`
+  display: none;
   font-size: 0.9rem;
   transform: ${(props) =>
     props.sortType && props.sortBy === props.title
       ? "rotate(180deg)"
       : "rotate(0deg)"};
+  @media only screen and ${breakpoint.device.sm} {
+    display: block;
+  }
 `;

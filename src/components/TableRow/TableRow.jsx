@@ -5,6 +5,7 @@ import {
   CoinData,
   CoinIcon,
   CoinHeader,
+  DataDesktopContainer,
 } from "./TableRow.styles";
 import CoinPercentage from "../CoinPercentage/";
 import CoinProgressBar from "../CoinProgressBar/";
@@ -12,7 +13,7 @@ import { formatCurrency, formatPercentage } from "../../utils/formatPrices";
 import { LoadingBar } from "../LoadingAnimations";
 import SparkLine from "../SparkLine/";
 
-const TableRow = ({ index, coin, isLoading, colors }) => {
+const TableRow = ({ index, coin, isLoading, colors, isMobileView }) => {
   const [coinData, setCoinData] = useState({
     marketCap: null,
     totalVolume: null,
@@ -104,6 +105,23 @@ const TableRow = ({ index, coin, isLoading, colors }) => {
     volumePercentage,
     supplyPercentage,
   } = coinData;
+
+  if (isMobileView) {
+    return (
+      <TableRowContainer
+        onClick={() => useRedirect(`/coins/${coin.name.toLowerCase()}`)}
+      >
+        <CoinData>
+          <CoinHeader>
+            <CoinIcon src={image} />
+            {name} ({symbol.toUpperCase()})
+          </CoinHeader>
+        </CoinData>
+        <CoinData>${current_price}</CoinData>
+        <CoinPercentage data={price_change_percentage_1h_in_currency} />
+      </TableRowContainer>
+    );
+  }
 
   return (
     <TableRowContainer

@@ -34,6 +34,7 @@ export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
+  width: 100%;
 `;
 
 export const Container = styled.div`

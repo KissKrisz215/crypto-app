@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import breakpoint from "../../styles/breakpoints";
 
 export const Container = styled.div`
   padding: 0rem;
@@ -79,8 +80,11 @@ export const NavigationWrapper = styled.div`
   display: flex;
   gap: 0.5rem;
   width: 100%;
-  justify-content: space-between;
+  justify-content: end;
   align-items: center;
+  @media only screen and ${breakpoint.device.sm} {
+    justify-content: space-between;
+  }
 `;
 
 export const NavigationText = styled.p`
@@ -104,8 +108,34 @@ export const ArrowContainer = styled.div`
 `;
 
 export const ArrowLogo = styled.img`
-  width: 0.5rem;
+  width: 0.9rem;
   filter: ${(props) => props.theme.themeIcon};
   transform: ${(props) => `rotate(${props.rotate})`};
   cursor: pointer;
+  @media only screen and ${breakpoint.device.sm} {
+    width: 0.5rem;
+  }
+`;
+
+export const NavigationHeader = styled.div`
+  display: none;
+  @media only screen and ${breakpoint.device.sm} {
+    display: block;
+  }
+`;
+
+export const ShowRowsContainer = styled.div`
+  display: none;
+  @media only screen and ${breakpoint.device.sm} {
+    display: block;
+  }
+`;
+
+export const ShowRowsHeader = styled.p`
+  margin: 0;
+  font-size: 0.7rem;
+  display: none;
+  @media only screen and ${breakpoint.device.sm} {
+    display: block;
+  }
 `;
