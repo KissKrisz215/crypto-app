@@ -28,65 +28,13 @@ import AssetProgressBar from "../AssetProgressBar/AssetProgressBar";
 import { LoadingBar } from "../LoadingAnimations";
 import { setData } from "../../store/portfolio/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { getMarketChanges } from "../../store/coinList/actions";
 
 const AssetListItem = ({ coin, setDataArray }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [coinData, setCoinData] = useState(null);
   const data = useSelector((state) => state.portfolio.data);
+  const isLoading = useSelector((state) => state.coinList.isLoading);
+  const coinData = useSelector((state) => state.coinList.coinData);
   const dispatch = useDispatch();
-
-  const getData = async () => {
-    try {
-      const { data } = await axios(
-        `https://api.coingecko.com/api/v3/coins/${coin.data.id}?localization=false&tickers=false&market_data=true&community_data=true&developer_data=false&sparkline=false`
-      );
-      getMarketChanges(data);
-    } catch (err) {
-      console.log(err);
-      setIsLoading(true);
-    }
-  };
-
-  const getMarketChanges = (item) => {
-    const marketVolume = formatNumberToDecimal(
-      item.market_data.market_cap[coin.currency.name] /
-        item.market_data.total_volume[coin.currency.name],
-      0
-    );
-
-    const supplyData = formatPercentage(
-      item.market_data.circulating_supply /
-        (item.market_data.total_supply / 100)
-    );
-
-    const amountValue = formatNumberToDecimal(
-      item.market_data.current_price[coin.currency.name] * coin.purchaseAmount,
-      0
-    );
-
-    const current_price = item.market_data.current_price[coin.currency.name];
-
-    const price_change = formatNumberToDecimal(
-      item.market_data.price_change_24h_in_currency[coin.currency.name]
-    );
-
-    const changeSincePurchase = formatNumberToDecimal(
-      ((current_price * coin.purchaseAmount - coin.purchasePrice) /
-        coin.purchasePrice) *
-        100,
-      2
-    );
-
-    const data = {
-      current_price,
-      price_change,
-      market_vs_volume: marketVolume,
-      supply: supplyData,
-      value: amountValue,
-      changeSincePurchase,
-    };
-    setCoinData(data);
-  };
 
   const handleDelete = (id) => {
     const updatedPortfolio = data.filter((item) => item.id !== coin.id);
@@ -94,7 +42,7 @@ const AssetListItem = ({ coin, setDataArray }) => {
   };
 
   useEffect(() => {
-    getData();
+    dispatch(getMarketChanges(coin));
   }, []);
 
   if (isLoading) {

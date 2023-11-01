@@ -10,7 +10,6 @@ export const CoinWrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  ${"" /* gap: 1.5rem; */}
 `;
 
 export const CoinIconWrapper = styled.div`

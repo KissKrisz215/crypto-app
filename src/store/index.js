@@ -11,6 +11,7 @@ import chartReducer from "./charts";
 import coinsListReducer from "./coins";
 import portfolioDataReducer from "./portfolio";
 import coinSearchReducer from "./modal";
+import coinListReducer from "./coinList";
 
 const rootReducer = combineReducers({
   active: activePageReducer,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   coins: coinsListReducer,
   portfolio: portfolioDataReducer,
   coinSearch: coinSearchReducer,
+  coinList: coinListReducer,
 });
 
 const persistConfig = {
