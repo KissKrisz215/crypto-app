@@ -11,12 +11,14 @@ import { setActiveCurrency } from "./store/currency/actions";
 import { setActiveTheme } from "./store/theme/actions";
 import { themes } from "./styles/colors";
 import "./App.css";
+import ScrollUpButton from "./components/ScrollUpButton/ScrollUpButton";
 
 function App(props) {
   return (
     <div>
       <PageLoadingBar />
       <ThemeProvider theme={props.theme ? themes.lightTheme : themes.darkTheme}>
+        <ScrollUpButton />
         <GlobalStyle />
         <Navbar active={props.active} />
         <Routes>
