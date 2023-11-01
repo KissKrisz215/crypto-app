@@ -10,6 +10,8 @@ import Plus from "./Icons/Plus.svg";
 import Copy from "./Icons/Copy.svg";
 import Exchange from "./Icons/Exchange.svg";
 import Edit from "./Icons/Edit.svg";
+import LinkedInLogo from "./Icons/linkedin.svg";
+import GithubLogo from "./Icons/github.svg";
 
 export default {
   ArrowIcon,
@@ -24,4 +26,6 @@ export default {
   Copy,
   Exchange,
   Edit,
+  LinkedInLogo,
+  GithubLogo,
 };

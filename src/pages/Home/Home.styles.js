@@ -5,6 +5,9 @@ export const Container = styled.div`
   padding: 0.6rem 0;
   max-width: 1350px;
   width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
 
 export const Wrapper = styled.div`
@@ -49,12 +52,13 @@ export const ErrorMessage = styled.p``;
 
 export const CoinTableWrapper = styled.div`
   margin-top: 2rem;
-  height: 600px;
+  max-height: 700px;
+  margin-bottom: 7rem;
 `;
 
 export const CoinTableContainer = styled.div`
   background: ${(props) => props.theme.main};
-  max-height: 800px;
+  max-height: 900px;
   border-radius: 0.6rem;
   overflow: scroll;
 `;

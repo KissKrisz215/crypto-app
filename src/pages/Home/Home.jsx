@@ -23,6 +23,7 @@ import {
   getPriceAndVolume,
   setCurrency,
 } from "../../store/charts/actions";
+import LinksSocial from "../../components/LinksSocial";
 
 const Home = ({ handleChangeActive }) => {
   const dispatch = useDispatch();
@@ -139,6 +140,7 @@ const Home = ({ handleChangeActive }) => {
                 />
               </CoinTableContainer>
             </CoinTableWrapper>
+            <LinksSocial />
           </Container>
         </Wrapper>
       )}
