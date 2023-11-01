@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import breakpoint from "../../styles/breakpoints";
 
 export const SearchInput = styled.input`
   background-color: ${(props) => props.theme.navbarBrand};
@@ -20,8 +21,11 @@ export const SearchInput = styled.input`
 
 export const SearchContainer = styled.div`
   position: relative;
-  display: flex;
+  display: none;
   align-items: center;
+  @media only screen and ${breakpoint.device.sm} {
+    display: flex;
+  }
 `;
 
 export const InputIcon = styled.img`

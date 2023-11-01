@@ -7,7 +7,6 @@ export const Container = styled.div`
   width: 90%;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 `;
 
 export const Wrapper = styled.div`

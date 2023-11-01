@@ -1,16 +1,23 @@
 import styled from "styled-components";
+import breakpoint from "../../styles/breakpoints";
 
 export const CurrencyToggleContainer = styled.div`
-  padding: 0rem 0.5rem;
+  padding: 0.2rem 0.5rem;
   background: ${(props) => props.theme.navbarBrand};
   border-radius: 0.5rem;
   cursor: pointer;
   z-index: 5;
+  @media only screen and ${breakpoint.device.sm} {
+    padding: 0rem 0.5rem;
+  }
 `;
 
 export const DropdownContainer = styled.div`
   position: relative;
   font-size: 17px;
+  display: flex;
+  align-items: center;
+  height: 100%;
 `;
 
 export const DropdownMenu = styled.div`
@@ -24,7 +31,7 @@ export const DropdownMenu = styled.div`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: calc(100% + 0.7rem);
+  top: calc(100% + 0.5rem);
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px;
 `;
 
@@ -42,7 +49,7 @@ export const DropdownItem = styled.div`
 `;
 
 export const DropdownIcon = styled.div`
-  font-size: 17px;
+  font-size: 0.8rem;
   color: #00ff5f;
   background-color: #191b1f;
   padding: 0.3rem 0.3rem;
@@ -55,7 +62,7 @@ export const DropdownIcon = styled.div`
 `;
 
 export const DropdownHeader = styled.p`
-  font-size: 16px;
+  font-size: 0.6rem;
   display: inline-flex;
   gap: 0.2rem;
   align-items: center;

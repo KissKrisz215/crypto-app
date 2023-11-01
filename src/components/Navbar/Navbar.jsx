@@ -4,6 +4,8 @@ import {
   Wrapper,
   Container,
   NavbarContainer,
+  OverviewContainer,
+  OverViewText,
 } from "./Navbar.styles";
 import { SearchBar, CurrencyToggle, ThemeToggle } from "../index";
 import SubHeader from "../SubHeader/SubHeader";
@@ -12,6 +14,9 @@ const Navbar = ({ active }) => (
   <Wrapper>
     <SubHeader />
     <NavbarContainer>
+      <OverviewContainer to="/">
+        <OverViewText>Overview</OverViewText>
+      </OverviewContainer>
       <Container>
         <NavbarLink page="home" active={active} to="/">
           Coins
