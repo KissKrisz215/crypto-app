@@ -25,66 +25,25 @@ import CurrencyConverter from "../../components/CurrencyConverter/";
 import CoinChart from "../../components/CoinChart/";
 import { LoadingBar } from "../../components/LoadingAnimations";
 import { LoadingSpinner } from "../../components/LoadingAnimations";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getData } from "../../store/coin/actions";
 
 const Coin = ({ handleChangeActive, active }) => {
   const { coinId } = useParams();
-  const [coin, setCoin] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [coinData, setCoinData] = useState(null);
-  const [percentage, setPercentage] = useState(null);
+  const coin = useSelector((state) => state.coin.coin);
+  const isLoading = useSelector((state) => state.coin.isLoading);
+  const errorMessage = useSelector((state) => state.coin.errorMessage);
+  const coinData = useSelector((state) => state.coin.coinData);
+  const percentage = useSelector((state) => state.coin.percentage);
   const activeCurrency = useSelector((state) => state.activeCurrency);
-
-  const getData = async (id) => {
-    setIsLoading(true);
-    try {
-      const response = await axios(
-        `https://api.coingecko.com/api/v3/coins/${id}?localization=false&tickers=false&market_data=true&community_data=true&developer_data=false&sparkline=false`
-      );
-      setCoin(response.data);
-      calculateCoinPriceChanges(response.data);
-      setIsLoading(false);
-    } catch (err) {
-      console.log(err);
-      setErrorMessage("There was an error loading the data.");
-    }
-  };
-
-  const calculateCoinPriceChanges = (coin) => {
-    const price_change_percentage_24h = formatPercentageTwoDecimal(
-      coin.market_data.price_change_percentage_24h_in_currency[
-        activeCurrency.name
-      ]
-    );
-
-    const profit = (
-      (price_change_percentage_24h *
-        coin.market_data.current_price[activeCurrency.name]) /
-      100
-    ).toFixed(2);
-
-    const percentage = calculatePercentage(
-      coin.market_data.max_supply,
-      coin.market_data.circulating_supply
-    );
-
-    setCoinData({
-      price_change_percentage_24h,
-      profit,
-    });
-
-    if (!isNaN(percentage)) {
-      setPercentage(percentage);
-    }
-  };
+  const dispatch = useDispatch();
 
   useEffect(() => {
     handleChangeActive("portfolio");
   }, [active]);
 
   useEffect(() => {
-    getData(coinId.toLowerCase());
+    dispatch(getData(coinId.toLowerCase()));
   }, [coinId]);
 
   if (isLoading) {
