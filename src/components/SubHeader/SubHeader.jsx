@@ -8,6 +8,8 @@ import {
   CoinLogo,
   ArrowLogo,
   SubNavItem,
+  ColBody,
+  ColHeader,
 } from "./SubHeader.styles";
 import {
   formatPercentage,
@@ -69,46 +71,50 @@ const SubHeader = () => {
 
   return (
     <Container>
-      <Col>Coins {currencies}</Col>
-      <Col>Exchanges {exchanges}</Col>
-      <Col>
-        <Circle />
-        <Row>
+      <ColHeader>
+        <Col>Coins {currencies}</Col>
+        <Col>Exchanges {exchanges}</Col>
+        <Col>
+          <Circle />
+          <Row>
+            <SubNavItem>
+              {formatCurrency(totalMarketCap[activeCurrency.name])}
+            </SubNavItem>
+            <ArrowLogo
+              totalmarkettrend={totalMarketTrend > 0}
+              src={Icons.ArrowIcon}
+            />
+          </Row>
+        </Col>
+      </ColHeader>
+      <ColBody>
+        <Col>
+          <Circle />
           <SubNavItem>
-            {formatCurrency(totalMarketCap[activeCurrency.name])}
+            {formatCurrency(totalVolume[activeCurrency.name])}
           </SubNavItem>
-          <ArrowLogo
-            totalmarkettrend={totalMarketTrend > 0}
-            src={Icons.ArrowIcon}
+          <PercentageBar
+            percentage={calculatePercentage(
+              totalMarketCap[activeCurrency.name],
+              totalVolume[activeCurrency.name]
+            )}
           />
-        </Row>
-      </Col>
-      <Col>
-        <Circle />
-        <SubNavItem>
-          {formatCurrency(totalVolume[activeCurrency.name])}
-        </SubNavItem>
-        <PercentageBar
-          percentage={calculatePercentage(
-            totalMarketCap[activeCurrency.name],
-            totalVolume[activeCurrency.name]
-          )}
-        />
-      </Col>
-      <Col>
-        <Row>
-          <CoinLogo src={Icons.BitcoinIcon} />
-          <SubNavItem>{bitcoinPercentage + "%"}</SubNavItem>
-        </Row>
-        <PercentageBar percentage={bitcoinPercentage} />
-      </Col>
-      <Col>
-        <Row>
-          <CoinLogo src={Icons.EthereumIcon} />
-          <SubNavItem> {ethPercentage + "%"}</SubNavItem>
-        </Row>
-        <PercentageBar percentage={ethPercentage} />
-      </Col>
+        </Col>
+        <Col>
+          <Row>
+            <CoinLogo src={Icons.BitcoinIcon} />
+            <SubNavItem>{bitcoinPercentage + "%"}</SubNavItem>
+          </Row>
+          <PercentageBar percentage={bitcoinPercentage} />
+        </Col>
+        <Col>
+          <Row>
+            <CoinLogo src={Icons.EthereumIcon} />
+            <SubNavItem> {ethPercentage + "%"}</SubNavItem>
+          </Row>
+          <PercentageBar percentage={ethPercentage} />
+        </Col>
+      </ColBody>
     </Container>
   );
 };

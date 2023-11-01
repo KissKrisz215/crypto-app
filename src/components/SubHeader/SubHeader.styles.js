@@ -1,13 +1,21 @@
 import styled from "styled-components";
+import breakpoint from "../../styles/breakpoints";
 
 export const Container = styled.div`
   position: absolute;
   top: 100%;
-  background-color: ${(props) => props.theme.main};
+  background-color: ${(props) => props.theme.navbarBrand};
+  ${"" /* justify-content: center; */}
   display: flex;
-  gap: 1.5rem;
+  gap: 0.7rem;
   padding: 0.3rem 2rem;
   border-radius: 0 0 0.5rem 0.5rem;
+  width: 100%;
+  @media only screen and ${breakpoint.device.sm} {
+    width: auto;
+    background-color: ${(props) => props.theme.main};
+    justify-content: auto;
+  }
 `;
 
 export const Col = styled.div`
@@ -15,9 +23,13 @@ export const Col = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 17px;
+  font-size: 0.8rem;
   min-width: 90px;
-  min-height: 45px;
+  max-height: 40px;
+  @media only screen and ${breakpoint.device.sm} {
+    max-height: auto;
+    min-height: 45px;
+  }
 `;
 
 export const Row = styled.div`
@@ -33,7 +45,7 @@ export const Circle = styled.div`
 `;
 
 export const SubNavItem = styled.p`
-  font-size: 17px;
+  font-size: 0.8rem;
 `;
 
 export const CoinLogo = styled.img``;
@@ -46,4 +58,26 @@ export const ArrowLogo = styled.img`
   transform: ${(props) =>
     props.totalMarketTrend ? "rotate(180deg)" : "rotate(0deg)"};
   width: 12px;
+`;
+
+export const ColHeader = styled.div`
+  margin: 0;
+  display: none;
+  gap: 1rem;
+  @media only screen and ${breakpoint.device.sm} {
+    display: flex;
+  }
+`;
+
+export const ColBody = styled.div`
+  margin: 0;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  width: 100%;
+  @media only screen and ${breakpoint.device.sm} {
+    display: flex;
+    justify-content: auto;
+    width: auto;
+  }
 `;
