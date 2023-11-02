@@ -30,9 +30,8 @@ export const ModalWrapper = styled.div`
   background-color: Red;
   width: 85%;
   max-width: 700px;
-  ${"" /* height: 100%; */}
-  ${"" /* max-height: 700px; */}
   top: 60%;
+  max-height: 550px;
   border-radius: 0.4rem;
   position: fixed;
   left: 50%;
@@ -42,7 +41,7 @@ export const ModalWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   z-index: 10;
-  padding: 1.5rem 0rem;
+  padding: 1.9rem 0rem;
   @media only screen and ${breakpoint.device.sm} {
     position: absolute;
     max-height: 380px;
@@ -77,12 +76,13 @@ export const ModalHeaderMobile = styled.h2`
 
 export const ModalBody = styled.div`
   display: flex;
-  gap: 1.3rem;
+  gap: 0rem;
   width: 100%;
   align-items: center;
   flex-direction: column;
   margin-top: 0.8rem;
   @media only screen and ${breakpoint.device.sm} {
+    gap: 1.3rem;
     flex-direction: row;
     align-items: start;
     justify-content: center;
@@ -145,15 +145,16 @@ export const InputWrapper = styled.div`
   max-width: 400px;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.3rem;
   @media only screen and ${breakpoint.device.sm} {
     width: 100%;
+    gap: 0.5rem;
   }
 `;
 
 export const ModalButton = styled.button`
   width: 240px;
-  height: 50px;
+  height: 2rem;
   border-radius: 0.4rem;
   font-size: 0.7rem;
   cursor: pointer;
@@ -161,6 +162,9 @@ export const ModalButton = styled.button`
   color: ${(props) => props.color};
   border: 0;
   opacity: ${(props) => (props.isComplete ? "1" : "0.6")};
+  @media only screen and ${breakpoint.device.sm} {
+    height: 50px;
+  }
 `;
 
 export const ModalButtonWrapper = styled.div`
