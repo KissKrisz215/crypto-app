@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import breakpoint from "../../styles/breakpoints";
 
 export const ButtonContainer = styled.div`
   display: flex;
@@ -24,13 +25,13 @@ export const Button = styled.button`
 
 export const ModalWrapper = styled.div`
   background-color: Red;
-  width: 100%;
+  width: 85%;
   max-width: 700px;
   height: 100%;
-  max-height: 380px;
+  max-height: 750px;
+  top: 60%;
   border-radius: 0.4rem;
-  position: absolute;
-  top: 50%;
+  position: fixed;
   left: 50%;
   transform: translate(-50%, -70%);
   background-color: ${(props) => props.theme.navbarBrand};
@@ -38,6 +39,14 @@ export const ModalWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   z-index: 10;
+  padding-top: 1.5rem;
+  @media only screen and ${breakpoint.device.sm} {
+    position: absolute;
+    max-height: 380px;
+    top: 50%;
+    width: 100%;
+    padding-top: 0rem;
+  }
 `;
 
 export const ModalContainer = styled.div`
@@ -47,27 +56,49 @@ export const ModalContainer = styled.div`
   height: 100%;
 `;
 
-export const ModalHeader = styled.h2``;
+export const ModalHeader = styled.h2`
+  display: none;
+  @media only screen and ${breakpoint.device.sm} {
+    display: block;
+  }
+`;
+
+export const ModalHeaderMobile = styled.h2`
+  display: block;
+  @media only screen and ${breakpoint.device.sm} {
+    display: none;
+  }
+`;
 
 export const ModalBody = styled.div`
   display: flex;
   gap: 1.3rem;
   width: 100%;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   margin-top: 0.8rem;
+  @media only screen and ${breakpoint.device.sm} {
+    flex-direction: row;
+    align-items: start;
+    justify-content: center;
+  }
 `;
 
 export const IconWrapper = styled.div`
   background-color: ${(props) => props.theme.main};
   border-radius: 0.4rem;
-  width: 100%;
-  height: 100%;
-  max-width: 150px;
+  width: 200px;
+  height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 0.3rem;
+  @media only screen and ${breakpoint.device.sm} {
+    width: 100%;
+    height: 100%;
+    max-width: 150px;
+  }
 `;
 
 export const IconContainer = styled.div`
@@ -94,18 +125,25 @@ export const ModalButtonContainer = styled.div``;
 
 export const ModalCloseButton = styled.img`
   position: absolute;
-  right: 3%;
-  top: 5%;
+  right: 5%;
+  top: 3%;
   width: 1.5rem;
   cursor: pointer;
+  @media only screen and ${breakpoint.device.sm} {
+    right: 3%;
+    top: 5%;
+  }
 `;
 
 export const InputWrapper = styled.div`
-  width: 100%;
+  width: 80%;
   max-width: 400px;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  @media only screen and ${breakpoint.device.sm} {
+    width: 100%;
+  }
 `;
 
 export const ModalButton = styled.button`
@@ -123,9 +161,16 @@ export const ModalButton = styled.button`
 export const ModalButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
   margin-top: 1.7rem;
   gap: 0.6rem;
   width: 100%;
+  @media only screen and ${breakpoint.device.sm} {
+    flex-direction: row;
+    align-items: start;
+    align-items: auto;
+  }
 `;
 
 export const DropDownContainer = styled.div`

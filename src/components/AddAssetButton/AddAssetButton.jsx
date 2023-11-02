@@ -20,6 +20,7 @@ import {
   DropDownItem,
   DropDownHeader,
   ModalBackDrop,
+  ModalHeaderMobile,
 } from "./AddAssetButton.styles";
 import Icons from "../../assets/index";
 import ModalInput from "../ModalInput";
@@ -202,6 +203,7 @@ const AddAssetButton = () => {
                     {formData.coin.name}({formData.coin.symbol})
                   </IconTitle>
                 </IconWrapper>
+                <ModalHeaderMobile>Select Coins</ModalHeaderMobile>
                 <InputWrapper ref={modalRef}>
                   <ModalInput
                     title="Select Coins"
