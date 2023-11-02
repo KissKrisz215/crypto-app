@@ -17,6 +17,7 @@ export const Button = styled.button`
   background-color: #06d555;
   border: 1px solid #06d555;
   width: 100%;
+  max-width: 400px;
   height: 100%;
   max-height: 70px;
   padding: 0.8rem;
@@ -29,7 +30,7 @@ export const Button = styled.button`
 export const ModalWrapper = styled.div`
   background-color: Red;
   width: 85%;
-  max-width: 700px;
+  max-width: 400px;
   top: 60%;
   max-height: 550px;
   border-radius: 0.4rem;
@@ -43,6 +44,7 @@ export const ModalWrapper = styled.div`
   z-index: 10;
   padding: 1.9rem 0rem;
   @media only screen and ${breakpoint.device.sm} {
+    max-width: 700px;
     position: absolute;
     max-height: 380px;
     top: 50%;

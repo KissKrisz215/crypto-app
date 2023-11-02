@@ -37,10 +37,10 @@ const MobileCharts = ({
           <ChartsContainer>
             <CarouselProvider
               naturalSlideWidth={100}
-              naturalSlideHeight={100}
+              naturalSlideHeight={85}
               totalSlides={2}
             >
-              <Slider>
+              <Slider style={{ height: "400px" }}>
                 <Slide index={0}>
                   <ChartWrapper>
                     {errorMessage && (

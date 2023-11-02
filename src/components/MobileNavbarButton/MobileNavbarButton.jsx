@@ -12,6 +12,7 @@ const MobileNavbarButton = ({
   action,
 }) => {
   const active = useSelector((state) => state.mobileActive);
+  const activeTheme = useSelector((state) => state.activeTheme);
   const dispatch = useDispatch();
 
   return (
@@ -22,7 +23,7 @@ const MobileNavbarButton = ({
       {name === active ? (
         <NavbarIcon src={iconActive} />
       ) : (
-        <NavbarIcon src={iconLight} />
+        <NavbarIcon src={activeTheme === true ? iconDark : iconLight} />
       )}
     </Container>
   );
