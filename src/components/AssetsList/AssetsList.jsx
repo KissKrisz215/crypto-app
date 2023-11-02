@@ -24,7 +24,7 @@ const AssetsList = () => {
   return (
     <Container>
       <Header>Your Statistics</Header>
-      <ErrorMessage>{errorMessage && errorMessage}</ErrorMessage>
+      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <Wrapper>
         <CoinWrapper>
           {data &&

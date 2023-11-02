@@ -1,9 +1,18 @@
 import styled from "styled-components";
+import breakpoint from "../../styles/breakpoints";
 
 export const CoinContainer = styled.div`
-  margin: 1rem 0rem;
+  margin: 0rem;
   display: flex;
-  gap: 2rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  @media only screen and ${breakpoint.device.sm} {
+    flex-direction: row;
+    align-items: auto;
+    gap: 2rem;
+    margin: 1rem 0rem;
+  }
 `;
 
 export const CoinWrapper = styled.div`
@@ -18,21 +27,27 @@ export const CoinIconWrapper = styled.div`
   min-height: 150px;
   padding: 0.8rem;
   border-radius: 0.4rem;
-  background-color: ${(props) => props.theme.main};
+  background-color: none;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   gap: 0.3rem;
+  @media only screen and ${breakpoint.device.sm} {
+    background-color: ${(props) => props.theme.main};
+  }
 `;
 
 export const CoinIconContainer = styled.div`
   max-width: 60px;
   border-radius: 0.3rem;
-  background-color: ${(props) => props.theme.secondary};
+  background-color: ${(props) => props.theme.navbarBrand};
   padding: ${(props) => props.padding || "1rem"};
   display: flex;
   justify-content: center;
+  @media only screen and ${breakpoint.device.sm} {
+    background-color: ${(props) => props.theme.secondary};
+  }
 `;
 
 export const CoinIcon = styled.img`
@@ -62,24 +77,42 @@ export const CoinInfoHeader = styled.div`
   gap: 0.6rem;
   align-items: center;
   position: relative;
+  margin-bottom: 1rem;
+  @media only screen and ${breakpoint.device.sm} {
+    margin-bottom: 0rem;
+  }
 `;
 
 export const CoinInfoBody = styled.div`
   height: 65px;
   border-radius: 0.5rem;
-  background-color: ${(props) => props.theme.main};
+  background-color: none;
   margin-top: 0.1rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
   padding: 0 1rem;
   justify-content: space-between;
-  gap: 0.1rem;
+  gap: 0.4rem;
+  @media only screen and ${breakpoint.device.sm} {
+    background-color: ${(props) => props.theme.main};
+    flex-direction: row;
+    gap: 0rem;
+  }
 `;
 
 export const CoinInfoItem = styled.div`
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  width: 35%;
+  border-radius: 0.3rem;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  background-color: ${(props) => props.theme.navbarBrand};
+  @media only screen and ${breakpoint.device.sm} {
+    background-color: transparent;
+  }
 `;
 
 export const ItemHeader = styled.p`
@@ -105,19 +138,25 @@ export const ButtonContainer = styled.div`
   cursor: pointer;
   border-radius: 0.3rem;
   position: absolute;
-  right: 0;
+  right: 0%;
   cursor: pointer;
-  top: calc(0% - 0.8rem);
+  top: calc(0% - 0.4rem);
   display: flex;
   gap: 0.3rem;
+  @media only screen and ${breakpoint.device.sm} {
+    top: calc(0% - 0.8rem);
+  }
 `;
 
 export const EditButton = styled.div`
   font-size: 0.7rem;
   color: ${(props) => props.color};
   background-color: ${(props) => props.theme.main};
-  padding: 0.3rem 0.6rem;
+  padding: 0.5rem 0.7rem;
   border-radius: 0.1rem;
+  @media only screen and ${breakpoint.device.sm} {
+    padding: 0.3rem 0.6rem;
+  }
 `;
 
 export const HeaderInfo = styled.h4`
@@ -133,3 +172,12 @@ export const ArrowLogo = styled.img`
   transform: ${(props) => (props.change ? "rotate(180deg)" : "rotate(0deg)")};
   width: 12px;
 `;
+
+export const PriceContainer = styled.div`
+  display: none;
+  @media only screen and ${breakpoint.device.sm} {
+    display: block;
+  }
+`;
+
+export const MarketContainer = styled.div``;

@@ -17,6 +17,8 @@ import {
   ItemText,
   ButtonContainer,
   ArrowLogo,
+  PriceContainer,
+  MarketContainer,
 } from "./AssetListItem.styles";
 import Icons from "../../assets/index";
 import {
@@ -151,94 +153,98 @@ const AssetListItem = ({ coin, setDataArray }) => {
         </CoinTitle>
       </CoinIconWrapper>
       <CoinInfoWrapper>
-        <CoinInfoContainer>
-          <CoinInfoHeader>
-            <HeaderInfo>Market price:</HeaderInfo>
-            <ButtonContainer>
-              <EditButton onClick={handleDelete} color={"#FE1040"}>
-                Delete
-              </EditButton>
-            </ButtonContainer>
-          </CoinInfoHeader>
-          <CoinInfoBody>
-            <CoinInfoItem>
-              <ItemHeader>Current Price:</ItemHeader>
-              <ItemText change={true}>
-                {coin && coin.currency.symbol}{" "}
-                {coinData && coinData.current_price}
-              </ItemText>
-            </CoinInfoItem>
-            <CoinInfoItem>
-              <ItemHeader>Price change 24h:</ItemHeader>
-              {coinData && (
-                <ItemText change={coinData.price_change > 0}>
-                  <ArrowLogo
-                    change={coinData.price_change > 0}
-                    src={Icons.ArrowIcon}
-                  />
-                  {coin && coin.currency.symbol}
-                  {coinData && Math.abs(coinData.price_change)}
+        <MarketContainer>
+          <CoinInfoContainer>
+            <CoinInfoHeader>
+              <HeaderInfo>Market price:</HeaderInfo>
+              <ButtonContainer>
+                <EditButton onClick={handleDelete} color={"#FE1040"}>
+                  Delete
+                </EditButton>
+              </ButtonContainer>
+            </CoinInfoHeader>
+            <CoinInfoBody>
+              <CoinInfoItem>
+                <ItemHeader>Current Price:</ItemHeader>
+                <ItemText change={true}>
+                  {coin && coin.currency.symbol}{" "}
+                  {coinData && coinData.current_price}
                 </ItemText>
-              )}
-            </CoinInfoItem>
-            <CoinInfoItem>
-              <ItemHeader>Market Cap vs Volume:</ItemHeader>
-              {coinData && (
-                <AssetProgressBar percentage={coinData.market_vs_volume} />
-              )}
-            </CoinInfoItem>
-            <CoinInfoItem>
-              <ItemHeader>Circ supply vs max supply:</ItemHeader>
-              {coinData && <AssetProgressBar percentage={coinData.supply} />}
-            </CoinInfoItem>
-          </CoinInfoBody>
-        </CoinInfoContainer>
-        <CoinInfoContainer>
-          <CoinInfoHeader>
-            <HeaderInfo>Your coin:</HeaderInfo>
-          </CoinInfoHeader>
-          <CoinInfoBody>
-            <CoinInfoItem>
-              <ItemHeader>Coin amount:</ItemHeader>
-              <ItemText change={true}>
-                {coin && formatNumberToDecimal(coin.purchaseAmount, 2)}{" "}
-                {coin && coin.data.symbol}
-              </ItemText>
-            </CoinInfoItem>
-            <CoinInfoItem>
-              <ItemHeader>Amount value:</ItemHeader>
-              {coinData && (
-                <ItemText change={coinData.value >= coin.purchasePrice}>
-                  <ArrowLogo
-                    change={coinData.value >= coin.purchasePrice}
-                    src={Icons.ArrowIcon}
-                  />
-                  {coin && coin.currency.symbol}
-                  {coinData && coinData.value}
+              </CoinInfoItem>
+              <CoinInfoItem>
+                <ItemHeader>Price change 24h:</ItemHeader>
+                {coinData && (
+                  <ItemText change={coinData.price_change > 0}>
+                    <ArrowLogo
+                      change={coinData.price_change > 0}
+                      src={Icons.ArrowIcon}
+                    />
+                    {coin && coin.currency.symbol}
+                    {coinData && Math.abs(coinData.price_change)}
+                  </ItemText>
+                )}
+              </CoinInfoItem>
+              <CoinInfoItem>
+                <ItemHeader>Market Cap vs Volume:</ItemHeader>
+                {coinData && (
+                  <AssetProgressBar percentage={coinData.market_vs_volume} />
+                )}
+              </CoinInfoItem>
+              <CoinInfoItem>
+                <ItemHeader>Circ supply vs max supply:</ItemHeader>
+                {coinData && <AssetProgressBar percentage={coinData.supply} />}
+              </CoinInfoItem>
+            </CoinInfoBody>
+          </CoinInfoContainer>
+        </MarketContainer>
+        <PriceContainer>
+          <CoinInfoContainer>
+            <CoinInfoHeader>
+              <HeaderInfo>Your coin:</HeaderInfo>
+            </CoinInfoHeader>
+            <CoinInfoBody>
+              <CoinInfoItem>
+                <ItemHeader>Coin amount:</ItemHeader>
+                <ItemText change={true}>
+                  {coin && formatNumberToDecimal(coin.purchaseAmount, 2)}{" "}
+                  {coin && coin.data.symbol}
                 </ItemText>
-              )}
-            </CoinInfoItem>
-            <CoinInfoItem>
-              <ItemHeader>Amount price change since purchase:</ItemHeader>
-              {coinData && (
-                <ItemText
-                  change={coinData.changeSincePurchase < 0 ? false : true}
-                >
-                  {" "}
-                  <ArrowLogo
+              </CoinInfoItem>
+              <CoinInfoItem>
+                <ItemHeader>Amount value:</ItemHeader>
+                {coinData && (
+                  <ItemText change={coinData.value >= coin.purchasePrice}>
+                    <ArrowLogo
+                      change={coinData.value >= coin.purchasePrice}
+                      src={Icons.ArrowIcon}
+                    />
+                    {coin && coin.currency.symbol}
+                    {coinData && coinData.value}
+                  </ItemText>
+                )}
+              </CoinInfoItem>
+              <CoinInfoItem>
+                <ItemHeader>Amount price change since purchase:</ItemHeader>
+                {coinData && (
+                  <ItemText
                     change={coinData.changeSincePurchase < 0 ? false : true}
-                    src={Icons.ArrowIcon}
-                  />
-                  {coinData && coinData.changeSincePurchase}%
-                </ItemText>
-              )}
-            </CoinInfoItem>
-            <CoinInfoItem>
-              <ItemHeader>Purchase date:</ItemHeader>
-              <ItemText change={true}> {coin && coin.purchaseDate}</ItemText>
-            </CoinInfoItem>
-          </CoinInfoBody>
-        </CoinInfoContainer>
+                  >
+                    {" "}
+                    <ArrowLogo
+                      change={coinData.changeSincePurchase < 0 ? false : true}
+                      src={Icons.ArrowIcon}
+                    />
+                    {coinData && coinData.changeSincePurchase}%
+                  </ItemText>
+                )}
+              </CoinInfoItem>
+              <CoinInfoItem>
+                <ItemHeader>Purchase date:</ItemHeader>
+                <ItemText change={true}> {coin && coin.purchaseDate}</ItemText>
+              </CoinInfoItem>
+            </CoinInfoBody>
+          </CoinInfoContainer>
+        </PriceContainer>
       </CoinInfoWrapper>
     </CoinContainer>
   );
