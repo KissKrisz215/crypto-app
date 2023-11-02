@@ -4,14 +4,9 @@ import breakpoint from "../../styles/breakpoints";
 export const Container = styled.div`
   margin-top: 0rem;
   padding: 0rem;
-  ${
-    "" /* max-width: 1460px;
-  width: 100%; */
-  }
   height: 100%;
   @media only screen and ${breakpoint.device.sm} {
   }
-  ${"" /* min-width: 1250px; */}
   padding: 0.6rem 0;
 `;
 
