@@ -1,8 +1,8 @@
 import styled from "styled-components";
+import breakpoint from "../../styles/breakpoints";
 
 export const LinkWrapper = styled.div`
-  background-color: ${(props) => props.theme.main};
-  width: 100%;
+  background-color: ${(props) => props.theme.navbarBrand};
   height: 50px;
   border-radius: 0.5rem;
   display: flex;
@@ -10,6 +10,10 @@ export const LinkWrapper = styled.div`
   justify-content: space-between;
   gap: 0.8rem;
   padding: 0 0.7rem;
+  @media only screen and ${breakpoint.device.sm} {
+    background-color: ${(props) => props.theme.main};
+    width: 100%;
+  }
 `;
 
 export const LinkContainer = styled.div`

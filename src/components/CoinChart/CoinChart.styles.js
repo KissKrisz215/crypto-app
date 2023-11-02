@@ -1,4 +1,12 @@
 import styled from "styled-components";
+import breakpoint from "../../styles/breakpoints";
+
+export const MobileChartMenu = styled.div`
+  display: block;
+  @media only screen and ${breakpoint.device.sm} {
+    display: none;
+  }
+`;
 
 export const Container = styled.div`
   margin: 1.8rem 0rem;
@@ -13,6 +21,10 @@ export const ChartMenuContainer = styled.div`
 export const ChartMenu = styled.div`
   display: flex;
   gap: 1rem;
+  display: none;
+  @media only screen and ${breakpoint.device.sm} {
+    display: flex;
+  }
 `;
 
 export const ContainerCirlce = styled.div`

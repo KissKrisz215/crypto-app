@@ -1,10 +1,16 @@
 import styled from "styled-components";
+import breakpoint from "../../styles/breakpoints";
 
 export const Container = styled.div`
   width: 100%;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   gap: 1.3rem;
+  @media only screen and ${breakpoint.device.sm} {
+    flex-direction: row;
+    justify-content: center;
+  }
 `;
 
 export const CurrencyTable = styled.div`
@@ -26,6 +32,7 @@ export const CurrencySymbol = styled.div`
   align-items:center;
   justify-content:center;
   font-size:0.8rem;
+  
 `;
 
 export const CurrencyInput = styled.input`
@@ -56,6 +63,7 @@ export const DollarSign = styled.div`
 export const ExchangeIcon = styled.img`
   filter: ${(props) => props.theme.themeIcon};
   cursor: pointer;
+  width: 30px;
 `;
 
 export const CurrencyInputContainer = styled.div`

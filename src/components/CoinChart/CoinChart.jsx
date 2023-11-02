@@ -9,6 +9,7 @@ import {
   ContainerCirlce,
   ChartItem,
   ChartContainer,
+  MobileChartMenu,
 } from "./CoinChart.styles";
 
 Chart.register(...registerables);

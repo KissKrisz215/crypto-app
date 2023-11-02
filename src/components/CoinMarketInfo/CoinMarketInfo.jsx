@@ -12,6 +12,7 @@ import {
 } from "./CoinMarketInfo.styles";
 import Icons from "../../assets/";
 import { LoadingBar } from "../LoadingAnimations";
+import breakpoint from "../../styles/breakpoints";
 
 export const CoinMarketInfo = ({ coin, isLoading }) => {
   if (isLoading) {

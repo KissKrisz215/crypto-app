@@ -1,13 +1,21 @@
 import { styled } from "styled-components";
+import breakpoint from "../../styles/breakpoints";
 
 export const PriceContainer = styled.div`
-  background-color: ${(props) => props.theme.main};
-  width: 400px;
+  background-color: ${(props) => props.theme.navbarBrand};
+  width: 100%;
   border-radius: 0.5rem;
   height: 100%;
+  min-height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media only screen and ${breakpoint.device.sm} {
+    background-color: ${(props) => props.theme.main};
+    height: 100%;
+    min-height: auto;
+    width: 400px;
+  }
 `;
 
 export const PriceHeader = styled.div`
