@@ -71,9 +71,11 @@ export const CoinTableWrapper = styled.div`
 
 export const CoinTableContainer = styled.div`
   background: ${(props) => props.theme.main};
-  max-height: 900px;
   border-radius: 0.6rem;
-  overflow: scroll;
+  @media only screen and ${breakpoint.device.sm} {
+    max-height: 900px;
+    overflow: scroll;
+  }
 `;
 
 export const ChartsDesktopContainer = styled.div`

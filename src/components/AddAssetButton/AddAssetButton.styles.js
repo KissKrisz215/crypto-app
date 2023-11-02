@@ -6,7 +6,10 @@ export const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 1.5rem;
-  width: 450px;
+  width: 80%;
+  @media only screen and ${breakpoint.device.sm} {
+    width: 450px;
+  }
 `;
 
 export const Button = styled.button`
@@ -27,8 +30,8 @@ export const ModalWrapper = styled.div`
   background-color: Red;
   width: 85%;
   max-width: 700px;
-  height: 100%;
-  max-height: 750px;
+  ${"" /* height: 100%; */}
+  ${"" /* max-height: 700px; */}
   top: 60%;
   border-radius: 0.4rem;
   position: fixed;
@@ -39,13 +42,15 @@ export const ModalWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   z-index: 10;
-  padding-top: 1.5rem;
+  padding: 1.5rem 0rem;
   @media only screen and ${breakpoint.device.sm} {
     position: absolute;
     max-height: 380px;
     top: 50%;
     width: 100%;
     padding-top: 0rem;
+    height: 100%;
+    padding: 1.5rem 0rem 0rem;
   }
 `;
 

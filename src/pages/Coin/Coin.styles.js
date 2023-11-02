@@ -43,7 +43,6 @@ export const HeaderContainer = styled.div`
     width: 100%;
   }
 `;
-//NEED FIX LATER !!!!
 
 export const BodyWrapper = styled.div`
   margin: 24.8rem 0rem 2rem;
@@ -76,6 +75,10 @@ export const DescriptionText = styled.p`
   font-size: 0.8rem;
   text-align: center;
   height: ${(props) => props.height};
+  max-height: ${(props) => (props.isReadMore === true ? "auto" : "240px")};
+  overflow: hidden;
+  text-overflow: ${(props) => (props.isReadMore === true ? "auto" : "auto")};
+
   a {
     font-size: 0.8rem;
     text-decoration: none;
@@ -96,5 +99,16 @@ export const LinkContainer = styled.div`
   @media only screen and ${breakpoint.device.sm} {
     flex-direction: row;
     width: 100%;
+  }
+`;
+
+export const ReadMoreButton = styled.p`
+  font-size: 0.7rem;
+  color: #00fc2a;
+  margin: 0;
+  cursor: pointer;
+  display: block;
+  @media only screen and ${breakpoint.device.sm} {
+    display: none;
   }
 `;

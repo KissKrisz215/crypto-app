@@ -24,7 +24,7 @@ export const getCoins = () => async (dispatch, getState) => {
     }
 
     const { data } = await axios(
-      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd${
+      `https://api.coingecko.com/apiz/v3/coins/markets?vs_currency=usd${
         category ? `&category=${category}&` : "&"
       }order=market_cap_desc&per_page=${showRows}&page=${currentPage}&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
     );

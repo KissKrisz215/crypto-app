@@ -3,14 +3,16 @@ import breakpoint from "../../styles/breakpoints";
 
 export const Container = styled.div`
   position: absolute;
-  top: 100%;
+  top: 90%;
   width: 100%;
   margin: 1rem;
   display: flex;
   background-color: ${(props) => props.theme.navbarBrand};
   justify-content: space-around;
   border-radius: 0.3rem;
+  display: none;
   @media only screen and ${breakpoint.device.sm} {
+    display: flex;
     width: auto;
     justify-content: none;
     right: 0%;

@@ -6,6 +6,7 @@ import {
   CoinIcon,
   CoinHeader,
   DataDesktopContainer,
+  CoinDataDesktop,
 } from "./TableRow.styles";
 import CoinPercentage from "../CoinPercentage/";
 import CoinProgressBar from "../CoinProgressBar/";
@@ -65,24 +66,24 @@ const TableRow = ({ index, coin, isLoading, colors, isMobileView }) => {
         <CoinData>
           <LoadingBar />
         </CoinData>
-        <CoinData>
+        <CoinDataDesktop>
           <LoadingBar />
-        </CoinData>
-        <CoinData>
+        </CoinDataDesktop>
+        <CoinDataDesktop>
           <LoadingBar />
-        </CoinData>
-        <CoinData>
+        </CoinDataDesktop>
+        <CoinDataDesktop>
           <LoadingBar />
-        </CoinData>
-        <CoinData>
+        </CoinDataDesktop>
+        <CoinDataDesktop>
           <LoadingBar />
-        </CoinData>
-        <CoinData>
+        </CoinDataDesktop>
+        <CoinDataDesktop>
           <LoadingBar />
-        </CoinData>
-        <CoinData>
+        </CoinDataDesktop>
+        <CoinDataDesktop>
           <LoadingBar />
-        </CoinData>
+        </CoinDataDesktop>
       </TableRowContainer>
     );
   }

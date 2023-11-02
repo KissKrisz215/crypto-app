@@ -12,6 +12,15 @@ export const CoinData = styled.td`
   padding: 0.7rem 0.6rem 0.7rem 0.9rem;
 `;
 
+export const CoinDataDesktop = styled.td`
+  font-size: 0.9rem;
+  padding: 0.7rem 0.6rem 0.7rem 0.9rem;
+  display: none;
+  @media only screen and ${breakpoint.device.sm} {
+    display: table-cell;
+  }
+`;
+
 export const CoinIcon = styled.img`
   width: 31px;
 `;

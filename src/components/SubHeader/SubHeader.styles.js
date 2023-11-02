@@ -5,7 +5,6 @@ export const Container = styled.div`
   position: absolute;
   top: 100%;
   background-color: ${(props) => props.theme.navbarBrand};
-  ${"" /* justify-content: center; */}
   display: flex;
   gap: 0.7rem;
   padding: 0.3rem 0rem;
@@ -35,7 +34,10 @@ export const Col = styled.div`
 
 export const Row = styled.div`
   display: flex;
-  gap: 0.3rem;
+  gap: 0.1rem;
+  @media only screen and ${breakpoint.device.sm} {
+    gap: 0.3rem;
+  }
 `;
 
 export const Circle = styled.div`
@@ -64,21 +66,23 @@ export const ArrowLogo = styled.img`
 export const ColHeader = styled.div`
   margin: 0;
   display: none;
-  gap: 1rem;
+  gap: 0.2rem;
   @media only screen and ${breakpoint.device.sm} {
     display: flex;
+    gap: 1rem;
   }
 `;
 
 export const ColBody = styled.div`
   margin: 0;
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   justify-content: center;
   width: 100%;
   @media only screen and ${breakpoint.device.sm} {
     display: flex;
     justify-content: auto;
     width: auto;
+    gap: 1rem;
   }
 `;

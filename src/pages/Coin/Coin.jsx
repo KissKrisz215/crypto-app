@@ -13,6 +13,7 @@ import {
   DescriptionText,
   LayerLogo,
   LinkContainer,
+  ReadMoreButton,
 } from "./Coin.styles";
 import Icons from "../../assets/";
 import { formatPercentageTwoDecimal } from "../../utils";
@@ -37,6 +38,7 @@ const Coin = ({ handleChangeActive, active }) => {
   const percentage = useSelector((state) => state.coin.percentage);
   const activeCurrency = useSelector((state) => state.activeCurrency);
   const dispatch = useDispatch();
+  const [isReadMore, setIsReadMore] = useState(false);
 
   useEffect(() => {
     handleChangeActive("portfolio");
@@ -133,11 +135,16 @@ const Coin = ({ handleChangeActive, active }) => {
                   <LayerLogo src={Icons.Layer} />
                   {coin && (
                     <DescriptionText
+                      isReadMore={isReadMore}
                       dangerouslySetInnerHTML={{
                         __html: coin.description.en,
                       }}
                     ></DescriptionText>
                   )}
+                  {console.log(isReadMore)}
+                  <ReadMoreButton onClick={() => setIsReadMore(!isReadMore)}>
+                    {isReadMore === false ? "Read More" : "Read Less"}
+                  </ReadMoreButton>
                 </DescriptionContainer>
                 <LinkContainer>
                   {coin &&

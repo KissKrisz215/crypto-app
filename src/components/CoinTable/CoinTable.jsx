@@ -151,6 +151,10 @@ const CoinTable = ({ sortCoins, sortBy, sortType }) => {
   }, []);
 
   useEffect(() => {
+    console.log(isMobileView);
+  }, [isMobileView]);
+
+  useEffect(() => {
     dispatch(getCoins());
   }, [showRows, currentPage, activeCategory.name, sortBy, sortType]);
 
