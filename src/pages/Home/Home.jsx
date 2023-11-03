@@ -14,9 +14,9 @@ import {
   CoinTableContainer,
   ChartsDesktopContainer,
 } from "./Home.styles";
-import ChartItem from "../../components/Chart/Chart";
+import ChartItem from "../../components/HomePage/Chart";
 import { formatCurrency, addCommas } from "../../utils";
-import CoinTable from "../../components/CoinTable/";
+import CoinTable from "../../components/HomePage/CoinTable";
 import {
   getChartData,
   setMarketDate,
@@ -24,8 +24,8 @@ import {
   getPriceAndVolume,
   setCurrency,
 } from "../../store/charts/actions";
-import LinksSocial from "../../components/LinksSocial";
-import MobileCharts from "../../components/MobileCharts/MobileCharts";
+import LinksSocial from "../../components/HomePage/LinksSocial";
+import MobileCharts from "../../components/HomePage/MobileCharts";
 
 const Home = ({ handleChangeActive }) => {
   const dispatch = useDispatch();

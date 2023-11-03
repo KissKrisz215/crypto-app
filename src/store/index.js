@@ -14,7 +14,6 @@ import coinSearchReducer from "./modal";
 import coinListReducer from "./coinList";
 import coinReducer from "./coin";
 import mobileActiveReducer from "./mobileActive";
-
 const rootReducer = combineReducers({
   active: activePageReducer,
   activeCurrency: activeCurrencyReducer,
@@ -38,6 +37,6 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-
 export const store = createStore(persistedReducer, applyMiddleware(thunk));
+
 export const persistor = persistStore(store);

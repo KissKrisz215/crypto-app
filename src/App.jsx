@@ -5,13 +5,13 @@ import { connect } from "react-redux";
 import { Home, Coin, Portfolio } from "./pages/index";
 import { GlobalStyle } from "./styles/GlobalStyle";
 import { Navbar } from "./components";
-import PageLoadingBar from "./components/PageLoadingBar/PageLoadingBar";
+import PageLoadingBar from "./components/LoadingAnimations/PageLoadingBar";
 import { setActivePage } from "./store/activePage/actions";
 import { setActiveCurrency } from "./store/currency/actions";
 import { setActiveTheme } from "./store/theme/actions";
 import { themes } from "./styles/colors";
 import "./App.css";
-import ScrollUpButton from "./components/ScrollUpButton/ScrollUpButton";
+import ScrollUpButton from "./components/HomePage/ScrollUpButton";
 
 function App(props) {
   return (

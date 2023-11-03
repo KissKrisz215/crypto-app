@@ -18,12 +18,12 @@ import {
 import Icons from "../../assets/";
 import { formatPercentageTwoDecimal } from "../../utils";
 import { calculatePercentage } from "../../utils/formatPrices";
-import CoinPriceData from "../../components/CoinPriceData";
-import CoinMarketData from "../../components/CoinMarketData";
-import CoinMarketInfo from "../../components/CoinMarketInfo/";
-import CoinLink from "../../components/CoinLink/";
-import CurrencyConverter from "../../components/CurrencyConverter/";
-import CoinChart from "../../components/CoinChart/";
+import CoinPriceData from "../../components/CoinPage/CoinPriceData";
+import CoinMarketData from "../../components/CoinPage/CoinMarketData";
+import CoinMarketInfo from "../../components/CoinPage/CoinMarketInfo/";
+import CoinLink from "../../components/CoinPage/CoinLink";
+import CurrencyConverter from "../../components/CoinPage/CurrencyConverter";
+import CoinChart from "../../components/CoinPage/CoinChart";
 import { LoadingBar } from "../../components/LoadingAnimations";
 import { LoadingSpinner } from "../../components/LoadingAnimations";
 import { useDispatch, useSelector } from "react-redux";

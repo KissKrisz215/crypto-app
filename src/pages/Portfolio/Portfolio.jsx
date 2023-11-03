@@ -2,8 +2,8 @@ import React, { useEffect, useContext, useState } from "react";
 import { ThemeContext } from "styled-components";
 import { Container, Wrapper } from "./Portfolio.styles";
 import Icons from "../../assets/index";
-import AddAssetButton from "../../components/AddAssetButton/";
-import AssetsList from "../../components/AssetsList/AssetsList";
+import AddAssetButton from "../../components/PortfolioPage/AddAssetButton";
+import AssetsList from "../../components/PortfolioPage/AssetsList";
 import { useSelector } from "react-redux";
 import { setData } from "../../store/portfolio/actions";
 
