@@ -192,12 +192,13 @@ const AddAssetButton = () => {
               <ModalHeader>Select Coins</ModalHeader>
               <ModalCloseButton
                 onClick={handleModalToggle}
+                alt="Close modal button"
                 src={Icons.CrossIcon}
               ></ModalCloseButton>
               <ModalBody>
                 <IconWrapper>
                   <IconContainer>
-                    <Icon src={formData.coin.thumb} />
+                    <Icon alt="Coin icon" src={formData.coin.thumb} />
                   </IconContainer>
                   <IconTitle>
                     {formData.coin.name}({formData.coin.symbol})

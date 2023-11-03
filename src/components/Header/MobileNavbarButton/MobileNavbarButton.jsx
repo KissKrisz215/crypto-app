@@ -21,9 +21,12 @@ const MobileNavbarButton = ({
       onClick={() => (action ? dispatch(setMobileActive("search")) : null)}
     >
       {name === active ? (
-        <NavbarIcon src={iconActive} />
+        <NavbarIcon alt={`${name} button active`} src={iconActive} />
       ) : (
-        <NavbarIcon src={activeTheme === true ? iconDark : iconLight} />
+        <NavbarIcon
+          alt={`${name} button inactive`}
+          src={activeTheme === true ? iconDark : iconLight}
+        />
       )}
     </Container>
   );

@@ -45,7 +45,7 @@ export const CoinLink = ({ link, isLoading }) => {
     <LinkWrapper>
       <LinkContainer>
         <LinkItem href={link} target="_blank">
-          <LinkLogo src={Icons.Link} />
+          <LinkLogo alt="Coin logo" src={Icons.Link} />
         </LinkItem>
       </LinkContainer>
       <LinkItem href={link} target="_blank">
@@ -56,7 +56,7 @@ export const CoinLink = ({ link, isLoading }) => {
         onMouseEnter={handleIsSelected}
         onMouseLeave={() => setIsSelected(false)}
       >
-        <ClipBoardItem src={Icons.Copy} />
+        <ClipBoardItem alt="Copy to clipboard logo" src={Icons.Copy} />
         {isSelected && (
           <ClipBoardToolTip>
             {isCopied ? "Copied!" : "Click to Copy"}

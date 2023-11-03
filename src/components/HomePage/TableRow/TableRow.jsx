@@ -114,7 +114,7 @@ const TableRow = ({ index, coin, isLoading, colors, isMobileView }) => {
       >
         <CoinData>
           <CoinHeader>
-            <CoinIcon src={image} />
+            <CoinIcon alt="Coin Icon" src={image} />
             {name} ({symbol.toUpperCase()})
           </CoinHeader>
         </CoinData>
@@ -131,7 +131,7 @@ const TableRow = ({ index, coin, isLoading, colors, isMobileView }) => {
       <CoinData>{index}</CoinData>
       <CoinData>
         <CoinHeader>
-          <CoinIcon src={image} />
+          <CoinIcon alt="Coin Icon" src={image} />
           {name} ({symbol.toUpperCase()})
         </CoinHeader>
       </CoinData>

@@ -25,6 +25,8 @@ export const Header = styled.h1`
   }
 `;
 
+export const SubHeader = styled.h2``;
+
 export const ChartsContainer = styled.div`
   display: flex;
   position: relative;

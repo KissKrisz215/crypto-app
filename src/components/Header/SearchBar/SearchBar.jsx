@@ -98,7 +98,7 @@ const SearchBar = ({ isActive }) => {
               </DropDownHeader>
             </DropDownContainer>
           )}
-          <InputIcon src={Icons.SearchIcon} alt="" />
+          <InputIcon alt="Search icon" src={Icons.SearchIcon} alt="" />
         </SearchContainer>
       )}
     </ThemeContext.Consumer>

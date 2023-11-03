@@ -28,6 +28,7 @@ import { LoadingBar } from "../../components/LoadingAnimations";
 import { LoadingSpinner } from "../../components/LoadingAnimations";
 import { useDispatch, useSelector } from "react-redux";
 import { getData } from "../../store/coin/actions";
+import { nanoid } from "nanoid";
 
 const Coin = ({ handleChangeActive, active }) => {
   const { coinId } = useParams();
@@ -132,7 +133,7 @@ const Coin = ({ handleChangeActive, active }) => {
               <Header>Description</Header>
               <BodyContainer>
                 <DescriptionContainer>
-                  <LayerLogo src={Icons.Layer} />
+                  <LayerLogo alt="Layer Icon" src={Icons.Layer} />
                   {coin && (
                     <DescriptionText
                       isReadMore={isReadMore}
@@ -141,19 +142,19 @@ const Coin = ({ handleChangeActive, active }) => {
                       }}
                     ></DescriptionText>
                   )}
-                  {console.log(isReadMore)}
                   <ReadMoreButton onClick={() => setIsReadMore(!isReadMore)}>
                     {isReadMore === false ? "Read More" : "Read Less"}
                   </ReadMoreButton>
                 </DescriptionContainer>
                 <LinkContainer>
                   {coin &&
-                    coin.links.blockchain_site
-                      .slice(0, 3)
-                      .map((link) => <CoinLink link={link}>{link}</CoinLink>)}
+                    coin.links.blockchain_site.slice(0, 3).map((link) => (
+                      <CoinLink key={nanoid()} link={link}>
+                        {link}
+                      </CoinLink>
+                    ))}
                 </LinkContainer>
               </BodyContainer>
-              {console.log(coin)}
             </BodyWrapper>
             {coin && (
               <CurrencyConverter

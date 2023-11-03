@@ -12,7 +12,7 @@ const CoinPercentage = ({ data }) => {
   return (
     <Container>
       <Wrapper>
-        <ArrowLogo coinChange={data} src={Icons.ArrowIcon} />
+        <ArrowLogo alt="Arrow Icon" coinChange={data} src={Icons.ArrowIcon} />
         <CoinData coinChange={data}>{Math.abs(addCommas(data)) + "%"}</CoinData>
       </Wrapper>
     </Container>

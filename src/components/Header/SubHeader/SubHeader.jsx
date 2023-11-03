@@ -82,6 +82,7 @@ const SubHeader = () => {
             </SubNavItem>
             <ArrowLogo
               totalmarkettrend={totalMarketTrend > 0}
+              alt="Arrow Logo"
               src={Icons.ArrowIcon}
             />
           </Row>
@@ -102,14 +103,14 @@ const SubHeader = () => {
         </Col>
         <Col>
           <Row>
-            <CoinLogo src={Icons.BitcoinIcon} />
+            <CoinLogo alt="Bitcoin Logo" src={Icons.BitcoinIcon} />
             <SubNavItem>{bitcoinPercentage + "%"}</SubNavItem>
           </Row>
           <PercentageBar percentage={bitcoinPercentage} />
         </Col>
         <Col>
           <Row>
-            <CoinLogo src={Icons.EthereumIcon} />
+            <CoinLogo alt="Ethereum Logo" src={Icons.EthereumIcon} />
             <SubNavItem> {ethPercentage + "%"}</SubNavItem>
           </Row>
           <PercentageBar percentage={ethPercentage} />

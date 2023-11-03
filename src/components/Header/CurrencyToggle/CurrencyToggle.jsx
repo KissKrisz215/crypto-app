@@ -61,6 +61,7 @@ const CurrencyToggle = () => {
           <DropdownHeader>
             {activeCurrency.name.toUpperCase()}{" "}
             <DropdownArrow
+              alt="Dropdown arrow"
               src={Icons.ArrowIcon}
               isopen={isOpen}
             ></DropdownArrow>

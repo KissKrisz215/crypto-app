@@ -6,10 +6,10 @@ const LinksSocial = () => {
   return (
     <Container>
       <SocialLink href="https://www.github.com">
-        <SocialLogo src={Icons.GithubLogo} />
+        <SocialLogo alt="Github Logo" src={Icons.GithubLogo} />
       </SocialLink>
       <SocialLink href="https://www.linkedin.com" target="_blank">
-        <SocialLogo src={Icons.LinkedInLogo} />
+        <SocialLogo alt="Linkedin Logo" src={Icons.LinkedInLogo} />
       </SocialLink>
     </Container>
   );

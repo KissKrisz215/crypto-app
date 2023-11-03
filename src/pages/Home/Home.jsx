@@ -13,6 +13,7 @@ import {
   CoinTableWrapper,
   CoinTableContainer,
   ChartsDesktopContainer,
+  SubHeader,
 } from "./Home.styles";
 import ChartItem from "../../components/HomePage/Chart";
 import { formatCurrency, addCommas } from "../../utils";
@@ -148,7 +149,7 @@ const Home = ({ handleChangeActive }) => {
               </ChartsContainer>
             </ChartsDesktopContainer>
             <CoinTableWrapper>
-              <Header>Your overview</Header>
+              <SubHeader>Your overview</SubHeader>
               <CoinTableContainer>
                 <CoinTable
                   sortCoins={sortCoins}

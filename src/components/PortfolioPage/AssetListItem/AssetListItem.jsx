@@ -146,7 +146,7 @@ const AssetListItem = ({ coin, setDataArray }) => {
     <CoinContainer key={coin.name}>
       <CoinIconWrapper>
         <CoinIconContainer>
-          <CoinIcon src={coin.data.thumb} />
+          <CoinIcon alt="Coin icon" src={coin.data.thumb} />
         </CoinIconContainer>
         <CoinTitle>
           {coin.data.name}({coin.data.symbol})
@@ -178,6 +178,7 @@ const AssetListItem = ({ coin, setDataArray }) => {
                     <ArrowLogo
                       change={coinData.price_change > 0}
                       src={Icons.ArrowIcon}
+                      alt="Price change 24h indicator"
                     />
                     {coin && coin.currency.symbol}
                     {coinData && Math.abs(coinData.price_change)}
@@ -216,6 +217,7 @@ const AssetListItem = ({ coin, setDataArray }) => {
                   <ItemText change={coinData.value >= coin.purchasePrice}>
                     <ArrowLogo
                       change={coinData.value >= coin.purchasePrice}
+                      alt="Amount value change indicator"
                       src={Icons.ArrowIcon}
                     />
                     {coin && coin.currency.symbol}
@@ -233,6 +235,7 @@ const AssetListItem = ({ coin, setDataArray }) => {
                     <ArrowLogo
                       change={coinData.changeSincePurchase < 0 ? false : true}
                       src={Icons.ArrowIcon}
+                      alt="Amount price change since purchase indicator"
                     />
                     {coinData && coinData.changeSincePurchase}%
                   </ItemText>

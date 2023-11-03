@@ -52,7 +52,9 @@ export const CoinMarketInfo = ({ coin, isLoading }) => {
   return (
     <HeaderInfoContainer>
       <LogoWrapper>
-        <LogoContainer>{coin && <Logo src={coin.image.thumb} />}</LogoContainer>
+        <LogoContainer>
+          {coin && <Logo alt="Coin logo" src={coin.image.thumb} />}
+        </LogoContainer>
         {coin && (
           <LogoHeader>
             {coin.name}({coin.symbol.toUpperCase()})
@@ -63,7 +65,7 @@ export const CoinMarketInfo = ({ coin, isLoading }) => {
         <ClipBoardContainer>
           {coin && (
             <CoinLink href={`${coin.links.homepage[0]}`} target="_blank">
-              <ClipboardLogo src={Icons.Link} />
+              <ClipboardLogo alt="Copy to Clipboard logo" src={Icons.Link} />
             </CoinLink>
           )}
         </ClipBoardContainer>

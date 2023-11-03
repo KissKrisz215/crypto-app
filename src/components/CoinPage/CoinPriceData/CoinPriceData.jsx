@@ -102,6 +102,7 @@ const CoinPriceData = ({ activeCurrency, coin, coinData, isLoading }) => {
               <PricePercentage>
                 <ArrowLogo
                   priceChange={parseInt(coinData.price_change_percentage_24h)}
+                  alt="Coin 24h price change indicator"
                   src={Icons.ArrowIcon}
                 />
                 {coinData.price_change_percentage_24h + "%"}
@@ -120,7 +121,7 @@ const CoinPriceData = ({ activeCurrency, coin, coinData, isLoading }) => {
             </Profit>
           )}
         </ProfitContainer>
-        <LayerLogo src={Icons.Layer} />
+        <LayerLogo alt="Layer icon" src={Icons.Layer} />
       </PriceBody>
       <PriceProgressWrapper>
         <PriceProgressContainer>
@@ -134,6 +135,7 @@ const CoinPriceData = ({ activeCurrency, coin, coinData, isLoading }) => {
                     ? false
                     : true
                 }
+                alt="Coin All time low indicator"
                 src={Icons.ArrowIcon}
               />
             )}

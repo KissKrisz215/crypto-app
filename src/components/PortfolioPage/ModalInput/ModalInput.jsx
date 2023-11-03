@@ -11,7 +11,7 @@ const ModalInput = ({ title, value, change, children, name, type }) => (
       value={value}
       placeholder={title}
     />
-    <ArrowLogo src={Icons.ArrowIcon} />
+    <ArrowLogo alt="Arrow icon" src={Icons.ArrowIcon} />
     {children}
   </InputContainer>
 );

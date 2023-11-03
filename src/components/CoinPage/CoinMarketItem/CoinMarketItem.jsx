@@ -5,7 +5,7 @@ import Icons from "../../../assets/";
 const CoinMarketItem = ({ title, data, activeCurrency, currencySymbol }) => {
   return (
     <Container>
-      <PlusIcon src={Icons.Plus} />
+      <PlusIcon alt="Plus Icon" src={Icons.Plus} />
       <Title>{title}:</Title>
       <Value>
         {activeCurrency && activeCurrency.symbol}

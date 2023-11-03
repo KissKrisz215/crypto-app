@@ -91,6 +91,7 @@ const CurrencyConverter = ({ activeCurrency, activeCoin, isLoading }) => {
         </CurrencyTable>
         <ExchangeIcon
           onClick={() => setIsExchanged(!isExchanged)}
+          alt="Exchange Currencies"
           src={Icons.Exchange}
         />
         <CurrencyTable padding={"0.15rem"}>
@@ -123,6 +124,7 @@ const CurrencyConverter = ({ activeCurrency, activeCoin, isLoading }) => {
       </CurrencyTable>
       <ExchangeIcon
         onClick={() => setIsExchanged(!isExchanged)}
+        alt="Exchange Currencies"
         src={Icons.Exchange}
       />
       <CurrencyTable>

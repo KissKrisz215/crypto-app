@@ -9,6 +9,7 @@ const ThemeToggle = () => {
   return (
     <ToggleContainer>
       <ToggleButton
+        alt="Toggle Icon"
         src={Icons.ToggleIcon}
         onClick={() => dispatch(setActiveTheme())}
       />

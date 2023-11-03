@@ -43,7 +43,7 @@ const SelectRows = ({ showRows }) => {
       <SelectContainer>
         <SelectHeader>
           {showRows && showRows}
-          <ArrowLogo src={Icons.ArrowIcon} />
+          <ArrowLogo alt="Arrow Icon" src={Icons.ArrowIcon} />
         </SelectHeader>
         {isOpen && (
           <SelectDropdown>

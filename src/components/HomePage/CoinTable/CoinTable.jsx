@@ -184,13 +184,21 @@ const CoinTable = ({ sortCoins, sortBy, sortType }) => {
                   <ArrowContainer
                     onClick={() => dispatch(setCurrentPage(currentPage - 1))}
                   >
-                    <ArrowLogo rotate={"90deg"} src={Icons.ArrowIcon} />
+                    <ArrowLogo
+                      alt="Previous Page Button"
+                      rotate={"90deg"}
+                      src={Icons.ArrowIcon}
+                    />
                   </ArrowContainer>
                   {currentPage}
                   <ArrowContainer
                     onClick={() => dispatch(setCurrentPage(currentPage + 1))}
                   >
-                    <ArrowLogo rotate={"270deg"} src={Icons.ArrowIcon} />
+                    <ArrowLogo
+                      alt="Next Page Button"
+                      rotate={"270deg"}
+                      src={Icons.ArrowIcon}
+                    />
                   </ArrowContainer>
                 </SelectPageContainer>
               </NavigationText>
@@ -258,13 +266,21 @@ const CoinTable = ({ sortCoins, sortBy, sortType }) => {
                 <ArrowContainer
                   onClick={() => dispatch(setCurrentPage(currentPage - 1))}
                 >
-                  <ArrowLogo rotate={"90deg"} src={Icons.ArrowIcon} />
+                  <ArrowLogo
+                    alt="Previous Page Button"
+                    rotate={"90deg"}
+                    src={Icons.ArrowIcon}
+                  />
                 </ArrowContainer>
                 {currentPage}
                 <ArrowContainer
                   onClick={() => dispatch(setCurrentPage(currentPage + 1))}
                 >
-                  <ArrowLogo rotate={"270deg"} src={Icons.ArrowIcon} />
+                  <ArrowLogo
+                    alt="Next Page Button"
+                    rotate={"270deg"}
+                    src={Icons.ArrowIcon}
+                  />
                 </ArrowContainer>
               </SelectPageContainer>
             </NavigationText>
