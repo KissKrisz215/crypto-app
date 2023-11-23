@@ -7,7 +7,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![Product Name Screen Shot][product-screenshot]
+<img src="public/images/banner.png" />
 
 
 The Crypto App is a one-stop solution for all your cryptocurrency needs. It provides real-time market analysis, cryptocurrency prices, interactive graphs, and detailed coin information. You can also track your crypto holdings and get insights on their current prices, changes, and supply data.
@@ -57,8 +57,6 @@ to discuss what you would like to change.
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-[product-screenshot]: https://i.ibb.co/mBZ3SVX/crypto-app.png
 
 ## Contact
 
